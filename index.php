@@ -179,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
    
                                //include "i_mail.php";       //---------- Include Mail Template
                                 $string= random_strings(10);
-                                $query_pass = "INSERT INTO `tPasswordReset`(`id`, `UserId`, `resetstring`, `UpdateDate`) VALUES ('','$RefUSR','$string','$currdatetime')";
+                                $query_pass = "INSERT INTO `tPasswordReset`(`id`, `RefUSR`, `resetstring`, `UpdateDate`) VALUES ('','$RefUSR','$string','$currdatetime')";
                                 $sql_pass = mysqli_query($mysqli, $query_pass);
                                
                                    $actual_link = "https://$_SERVER[HTTP_HOST]/subscription/resetpassword.php?USRIDNO=$RefUSR&rstr=$string&ToAct=SET";
@@ -506,6 +506,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
          		   
          		    
          		}
+         		
+         		
+         		
+         		
          	});
                                            
          }

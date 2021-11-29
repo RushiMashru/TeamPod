@@ -1,30 +1,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap" rel="stylesheet">
-<?php 
-if($_POST['btntaskadd']) {
-$sTaskName= $_POST['task'];
-$ForCompany=$_POST['company'];
-$TaskDescription=$_POST['descr'];
-//$TaskMainGroup=$_POST['TaskMainGroup'];
-//$TaskSubGroup=$_POST['TaskSubGroup'];
 
-$query3="INSERT INTO `tTasks`(`TaskMainGroup`, `TaskSubGroup`, `TaskGroup`,  `TaskTitle`, `Status`, `Priority`, `CreatedBy`, `CreatedDateTime`) 
-                              VALUES ( '0',    '0',  '0', '$sTaskName',  'ACT', 'P3', '$id', '$currdatetime' ) " ;
-$sql3 = mysqli_query($mysqli, $query3);
-$sTRecRef= $mysqli->insert_id;
-
-$query4="INSERT INTO `tSchedule`(`TRecRef`, `TaskDescription`, `ForCoRecRef`,  `PrivateTask`,  `StartDate`,    `DueDate`,  `DueDays`, `RepeatSchedule`, `AssignDT`, `AssignedBy`) 
-                             VALUES ('$sTRecRef','$TaskDescription','$ForCompany', '0','$current_date','$current_date','1','', '$currdatetime','$id' ) " ;
-$sql4 = mysqli_query($mysqli, $query4);
-$NewRecID= $mysqli->insert_id;
-
-$query5="INSERT INTO `tCalendar`( `SRecRef`, `TRecRef`, `ForRefUSR` ,`cScheduleDate`, `cDueDate`) 
-                                 VALUES ('$NewRecID', '$sTRecRef' ,'$id','$current_date','$current_date' ) " ;
-$sql5 = mysqli_query($mysqli, $query5);
-    
-}
-?>
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
 
@@ -138,6 +115,8 @@ $sql5 = mysqli_query($mysqli, $query5);
       font-size: 14px;
       font-family: 'Source Sans Pro';
       margin-bottom: 25px;
+          border: none;
+          background: none;
    }
    .reset_view_div{
    font-size: 15px;
@@ -229,7 +208,7 @@ $sql5 = mysqli_query($mysqli, $query5);
    width: 100%;
    }
    #quickbox1{
-      width: 576px;
+      width: 30%;
    }
    .card {
   display: grid;
@@ -365,13 +344,12 @@ $sql5 = mysqli_query($mysqli, $query5);
 
       .wrapper .inp select {
         border: 0;
-        border: 1px solid #e0e3ff;
+        border: 1px solid #e6e6e6;
         width: 100%;
         outline: none;
         height: 51px;
         padding: 0 20px;
         border-radius: 4px;
-
         background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20256%20448%22%20enable-background%3D%22new%200%200%20256%20448%22%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E.arrow%7Bfill%3A%23424242%3B%7D%3C%2Fstyle%3E%3Cpath%20class%3D%22arrow%22%20d%3D%22M255.9%20168c0-4.2-1.6-7.9-4.8-11.2-3.2-3.2-6.9-4.8-11.2-4.8H16c-4.2%200-7.9%201.6-11.2%204.8S0%20163.8%200%20168c0%204.4%201.6%208.2%204.8%2011.4l112%20112c3.1%203.1%206.8%204.6%2011.2%204.6%204.4%200%208.2-1.5%2011.4-4.6l112-112c3-3.2%204.5-7%204.5-11.4z%22%2F%3E%3C%2Fsvg%3E%0A);
         background-position: right 10px center;
         background-repeat: no-repeat;
@@ -384,19 +362,6 @@ $sql5 = mysqli_query($mysqli, $query5);
         -moz-appearance: none;
         -webkit-appearance: none;
         appearance: none;
-
-            background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20256%20448%22%20enable-background%3D%22new%200%200%20256%20448%22%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E.arrow%7Bfill%3A%23424242%3B%7D%3C%2Fstyle%3E%3Cpath%20class%3D%22arrow%22%20d%3D%22M255.9%20168c0-4.2-1.6-7.9-4.8-11.2-3.2-3.2-6.9-4.8-11.2-4.8H16c-4.2%200-7.9%201.6-11.2%204.8S0%20163.8%200%20168c0%204.4%201.6%208.2%204.8%2011.4l112%20112c3.1%203.1%206.8%204.6%2011.2%204.6%204.4%200%208.2-1.5%2011.4-4.6l112-112c3-3.2%204.5-7%204.5-11.4z%22%2F%3E%3C%2Fsvg%3E%0A);
-    background-position: right 10px center;
-    background-repeat: no-repeat;
-    background-size: auto 50%;
-    border-radius: 2px;
-    /* border: none; */
-    /* color: #ffffff; */
-    padding: 10px 30px 10px 10px;
-    outline: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none;
       }
       .wrapper .inp select:focus {
         border: 1px solid #e0e3ff;
@@ -504,8 +469,7 @@ $sql5 = mysqli_query($mysqli, $query5);
         font-size: 14px;
       }
 
-      /* line-end */
-      /* icon-wrapper-start */
+     
 
       .wrapper .icon-wrapper {
         display: flex;
@@ -557,7 +521,7 @@ $sql5 = mysqli_query($mysqli, $query5);
       }
       input#task_name {
     border: 0;
-    border: 1px solid #e0e3ff;
+    border: 1px solid #e6e6e6;
     width: 100%;
     outline: none;
     height: 51px;
@@ -580,7 +544,7 @@ $sql5 = mysqli_query($mysqli, $query5);
       textarea {
     border: 0;
     resize: vertical;
-    border: 1px solid #e0e3ff;
+    border: 1px solid #e6e6e6;
     width: 100%;
     outline: none;
     height: 200px;
@@ -662,7 +626,9 @@ button.fr.btn-save {
                      <div class="inp" style="margin-top: 20px;">
                         <label class="description" for="description"> Description</label>
 
+
                         <textarea name="descr" id="description" rows="15" placeholder="Please Provide Task Detail"></textarea>
+
 
                      </div>
                   </div>
@@ -764,7 +730,7 @@ button.fr.btn-save {
    </div>
    <div class="col-md-6" style="margin-top: 10px;">
     <form method="post">
-          <button type="button" name="btnFilter" onclick="sendfilterdata()" class="fr btn-save">Save</button>
+          <button type="button" name="btnFilter" onclick="sendfilterdata()" class="fr btn-save">Filters</button>
           <input type="hidden" name="AddNewBtnClick">
           <input type="hidden" name="ViewListForFD">
           <input type="hidden" name="ForCompany">
@@ -780,7 +746,7 @@ button.fr.btn-save {
 <div class="contanier_row">
     <div class="col-md-4 field_filter">
       <div class="reset_view_div" >
-         <a href="javascript:void()" onclick="resetbox()" class="resetview">Reset all</a>
+         <button onclick="resetbox()" type="button" class="resetview">Reset all</button>
       </div>
       <ul class="field_list">
          <li>
@@ -814,14 +780,17 @@ button.fr.btn-save {
             </button>
          </li>
          <li>
-         <button class="li_button" type="button" id="view_li" onclick="changecontentpart('view_li')"><span class="fl">View Completed<span id="select_view_li"></span></span><div class="li_button_div" id="view_li_round"></button>
+         <div class="checkbox_div">
+              <input type="checkbox" class="subbox" id="ViewCompleted" name="ViewCompleted[]"  onchange="countchecked('ViewCompleted','view_li')" value="YES">
+              <label for="ViewCompleted">&nbsp;&nbsp;View Completed &nbsp;</label>
+          </div>
          </li>
       </ul>
     </div>
     <div class="col-md-9 fieks_content">
       <div id="com_li_div" class="div_1" >
       <div class="reset_view_div" >
-      <a href="javascript:void()" onclick="selectallbox('companybox','Company','com_li')" class="resetview">Select all</a>
+      <button type="button" onclick="selectallbox('companybox','Company','com_li')" class="resetview">Select all</button>
       </div>
       
       <?php  $i=0; 
@@ -843,7 +812,7 @@ button.fr.btn-save {
       </div>
       <div id="main_li_div" class="hide div_1">
       <div class="reset_view_div" >
-      <a href="javascript:void()" onclick="selectallbox('mainbox','Main','main_li')" class="resetview">Select all</a>
+      <button type="button" onclick="selectallbox('mainbox','Main','main_li')" class="resetview">Select all</button>
       </div>
       <div>
       <?php  
@@ -867,11 +836,11 @@ button.fr.btn-save {
       </div>
       <div id="sub_li_div" class="hide div_1">
       <div class="reset_view_div" >
-      <a href="javascript:void()" onclick="selectallbox('subbox','Sub','sub_li')" class="resetview">Select all</a>
+      <button type="button"  onclick="selectallbox('subbox','Sub','sub_li')" class="resetview">Select all</button>
       </div>
-      <div>
+      <div id="subtask_checkbox_div">
       <?php  
-         $SubGroupsOfMain_arr=getSubGroupOfMain($MainGroup);
+       /*  $SubGroupsOfMain_arr=getSubGroupOfMain($MainGroup);
          $maxtasksubgrouptitle = sizeof($SubGroupsOfMain_arr);
          $i=0; 
          while($i<$maxtasksubgrouptitle)
@@ -887,12 +856,12 @@ button.fr.btn-save {
       <input type="checkbox" class="subbox" id="subtask-<?=$i?>" onchange="countchecked('Sub','sub_li')" name="Sub[]" value="<?php echo $valueof; ?>">
       <label for="subtask-<?=$i?>"> <?php echo $SubGroupsOfMain_arr[$i][1] ?></label>
       </div>
-      <?php  }  $i++; } ?>
+      <?php  }  $i++; }*/ ?>
       </div>
       </div>
       <div id="assign_li_div" class="hide div_1">
       <div class="reset_view_div" >
-      <a href="javascript:void()" onclick="selectallbox('assignbox','ForUSR','assign_li')" class="resetview">Select all</a>
+      <button type="button"  onclick="selectallbox('assignbox','ForUSR','assign_li')" class="resetview">Select all</button>
       </div>
       <div>
         <?php   $i=0;while($i<$maxusercodename)
@@ -902,16 +871,12 @@ button.fr.btn-save {
           if ($ForRefUSR == $valueof) {  ?>
             <div class="checkbox_div">
       <input type="checkbox" class="assignbox" id="assignto-<?=$i?>" onchange="countchecked('ForUSR','assign_li')" name="ForUSR[]" value="<?php echo $valueof; ?>" checked>
-
-      <input type="checkbox" class="assignbox" id="assignto-<?=$i?>" onchange="countchecked('assignbox','assign_li')" name="ForUSR[]" value="<?php echo $valueof; ?>" checked>
       <label for="assignto-<?=$i?>"> <?php echo $UserCodeName_arr[$i][1] ?></label>
       </div>
      
       <?php } else{ ?>    
       <div class="checkbox_div">
       <input type="checkbox" class="assignbox" id="assignto-<?=$i?>" name="ForUSR[]" onchange="countchecked('ForUSR','assign_li')" value="<?php echo $valueof; ?>">
-
-      <input type="checkbox" class="assignbox" id="assignto-<?=$i?>" name="ForUSR[]" onchange="countchecked('assignbox','assign_li')" value="<?php echo $valueof; ?>">
       <label for="assignto-<?=$i?>"> <?php echo $UserCodeName_arr[$i][1] ?></label>
       </div>
       <?php  }  $i++; } ?>
@@ -919,7 +884,7 @@ button.fr.btn-save {
       </div>
       <div id="tag_li_div" class="hide div_1">
       <div class="reset_view_div" >
-      <a href="javascript:void()" onclick="selectallbox('tagbox','Tag','tag_li')" class="resetview">Reset all</a>
+      <button type="button"  onclick="selectallbox('tagbox','Tag','tag_li')" class="resetview">Select all</button>
       </div>
       <div>
        <?php  $i=0; 
@@ -943,7 +908,7 @@ button.fr.btn-save {
       </div>
       <div id="view_li_div" class="hide div_1">
       <div class="reset_view_div" >
-      <a href="javascript:void()" onclick="selectallbox('completebox','ViewCompleted','view_li')" class="resetview">Reset all</a>
+    <button type="button"  onclick="selectallbox('completebox','ViewCompleted','view_li')" class="resetview">Select all</button>
       </div>
       <div>
             <div class="checkbox_div">
@@ -979,16 +944,73 @@ button.fr.btn-save {
          if($('[name="'+selectname+'[]"]:checked').length==0){
             $("#select_"+applyename).html("");
          }
+
+         if(selectname=="Main"){
+            var selected = new Array();
+            $('[name="'+selectname+'[]"]:checked').each(function () {
+                selected.push(this.value);
+            });
+            if(selected.length>0){
+              $.ajax({  
+                  type: "POST",  
+                  url: "filtersubtax.php",  
+                  data: { ids:selected.toString()},
+                  success: function(response)
+                  {                         
+                      var str = JSON.parse(response);
+                      var txt = "";
+                      for(var i=0;i<str.length;i++){
+                          if(str[i][0]!=null){
+                            var name = 'sub'+','+'sub_li';
+                            txt = txt+'<div class="checkbox_div"><input type="checkbox" class="subbox" onchange="countchecked(\'' + 'Sub' + '\',\'' + 'sub_li' + '\')" id="subtask-'+i+'" name="Sub[]" value="'+str[i][0]+'"><label for="subtask-'+i+'"> '+str[i][1]+'</label></div>';
+                          }
+                          
+                      }  
+                      $("#subtask_checkbox_div").html(txt);
+                  }
+                });
+            }else{
+                    $("#subtask_checkbox_div").html("");
+            }
+         }
          
 
    }
 
    function countchecked(selectname,applyename){
-       if($('[name="'+selectname+'[]"]:checked').length!=0){
+        if($('[name="'+selectname+'[]"]:checked').length!=0){
             $("#select_"+applyename).html("("+$('[name="'+selectname+'[]"]:checked').length+")");
          }
          if($('[name="'+selectname+'[]"]:checked').length==0){
             $("#select_"+applyename).html("");
+         }
+
+         if(selectname=="Main"){
+            var selected = new Array();
+            $('[name="'+selectname+'[]"]:checked').each(function () {
+                selected.push(this.value);
+            });
+            if(selected.length>0){
+              $.ajax({  
+                  type: "POST",  
+                  url: "filtersubtax.php",  
+                  data: { ids:selected.toString()},
+                  success: function(response)
+                  {                         
+                      var str = JSON.parse(response);
+                      var txt = "";
+                      for(var i=0;i<str.length;i++){
+                          if(str[i][0]!=null){
+                            txt = txt+'<div class="checkbox_div"><input type="checkbox" class="subbox" onchange="countchecked(\'' + 'Sub' + '\',\'' + 'sub_li' + '\')" id="subtask-'+i+'" name="Sub[]" value="'+str[i][0]+'"><label for="subtask-'+i+'"> '+str[i][1]+'</label></div>';
+                          }
+                          
+                      }  
+                      $("#subtask_checkbox_div").html(txt);
+                  }
+                });
+            }else{
+                    $("#subtask_checkbox_div").html("");
+            }
          }
    }
    
@@ -1013,10 +1035,14 @@ button.fr.btn-save {
        $("#select_sub_li").html("");
        $("#select_assign_li").html("");
        $("#select_tag_li").html("");
-       $("#select_view_li").html("");
+       $("#subtask_checkbox_div").html("");
    }
 
-  
+   function sendfilterdata(){
+
+   }
+
+
     function submitquickbox() {
       var  x = $("#company_quickbox").val();
       var  y = $("#task_name").val();
@@ -1034,14 +1060,17 @@ button.fr.btn-save {
       }
       
        if(msg==0){
-            $.ajax({
-                method:"post",
-                data : { company:x,task:y,descr:z},
-                success: function( data ) {
-                    alert("task add successfully");
-                    window.location.reload();
-                }
-            });
+           $.ajax({  
+            type: "POST",  
+            url: "ptaskload.php",  
+            data: { company:x,task:y,descr:z,cat:"quicktask"},
+            success: function(response)
+            {   
+                 
+                     alert('Task added Successfully!');
+                     location.reload();
+            }
+          });
        }
     }
 

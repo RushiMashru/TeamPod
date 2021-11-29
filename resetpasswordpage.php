@@ -14,7 +14,7 @@ $SuccessMessage='';
     $Pswd=$_POST["NewPswd"];
     $AddNewBtnClick=$_POST['AddNewBtnClick'];
 
-$query10= "SELECT UserId, resetstring FROM `tPasswordReset` where UserId='$id' ";
+$query10= "SELECT RefUSR, resetstring FROM `tPasswordReset` where RefUSR='$id' ";
 $sql10 = mysqli_query($mysqli, $query10);
 $row10 = mysqli_fetch_array($sql10);
 $resetstring = $row10["resetstring"];
