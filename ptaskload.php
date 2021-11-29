@@ -711,6 +711,9 @@ $ForCompany=$_POST['company'];
 $TaskDescription=$_POST['descr'];
 //$TaskMainGroup=$_POST['TaskMainGroup'];
 //$TaskSubGroup=$_POST['TaskSubGroup'];
+date_default_timezone_set('Europe/London'); // CDT
+$current_date = date('Y-m-d');
+$currdatetime = date('Y-m-d H:i:s');
 
 $query3="INSERT INTO `tTasks`(`TaskMainGroup`, `TaskSubGroup`, `TaskGroup`,  `TaskTitle`, `Status`, `Priority`, `CreatedBy`, `CreatedDateTime`) 
                               VALUES ( '0',    '0',  '0', '$sTaskName',  'ACT', 'P3', '$id', '$currdatetime' ) " ;

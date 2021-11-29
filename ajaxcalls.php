@@ -159,20 +159,20 @@ if($_POST['cat'] =="resetpswd") {
             
             ';
             
-            $query31="select `UserID`,`resetstring` from `tPasswordReset` where `UserID`='$UserID' " ;
+            $query31="select `RefUSR`,`resetstring` from `tPasswordReset` where `RefUSR`='$UserID' " ;
 	    	$sql31 = mysqli_query($mysqli, $query31);
 	    	$row31 = mysqli_fetch_array($sql31);
             $resetstring = $row31["resetstring"];
             
             if($resetstring=='')
                 {
-                    $query33="INSERT INTO `tPasswordReset`(`UserID`,`resetstring`,`UpdateDate`) VALUES ('$UserID', '$string','$currdatetime') " ;
+                    $query33="INSERT INTO `tPasswordReset`(`RefUSR`,`resetstring`,`UpdateDate`) VALUES ('$UserID', '$string','$currdatetime') " ;
         	    	$sql33 = mysqli_query($mysqli, $query33);
                 }
                 
             else
                 {
-                   $query33="UPDATE `tPasswordReset` set `resetstring`='$string',`UpdateDate`='$currdatetime'  where `UserID`='$UserID' " ;
+                   $query33="UPDATE `tPasswordReset` set `resetstring`='$string',`UpdateDate`='$currdatetime'  where `RefUSR`='$UserID' " ;
         	    	$sql33 = mysqli_query($mysqli, $query33); 
                     
                 }
