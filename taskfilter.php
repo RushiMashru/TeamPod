@@ -161,47 +161,74 @@
    background: red;
    margin-top: 5px;
    }
-   input[type=checkbox] + label {
-   display: block;
-   margin: 0.2em;
-   cursor: pointer;
-   padding: 0.2em;
-   float: left;
-   }
-   input[type=checkbox] {
-   display: none;
-   }
-   input[type=checkbox] + label:before {
-   content: "\2714";
-   border: 0.1em solid #f7d991;
-   border-radius: 0.2em;
-   display: inline-block;
-   width: 24px;
-   height: 24px;
-   padding-left: 0.2em;
-   padding-bottom: 0.3em;
-   margin-right: 10px;
-   vertical-align: bottom;
-   color: transparent;
-   transition: .2s;
-   }
-   input[type=checkbox] + label:active:before {
-   transform: scale(0);
-   }
-   input[type=checkbox]:checked + label:before {
-   background-color: #f7d991;
-   border-color: #f7d991;
-   color: #e74c3c;
-   }
-   input[type=checkbox]:disabled + label:before {
-   transform: scale(1);
-   border-color: #aaa;
-   }
-   input[type=checkbox]:checked:disabled + label:before {
-   transform: scale(1);
-   background-color: #bfb;
-   border-color: #bfb;
-   }
+   .new {
+  padding: 50px;
+}
+
+.form-group {
+  display: inline-flex;
+  margin-bottom: 15px;
+  margin-left: 25px;
+   width: 100%;
+}
+
+.form-group input {
+  padding: 0;
+  height: initial;
+  width: initial;
+  margin-bottom: 0;
+  display: none;
+  cursor: pointer;
+}
+
+.form-group label {
+  position: relative;
+  cursor: pointer;
+}
+
+.form-group input:checked + label:before {
+   content: '';
+    -webkit-appearance: none;
+    background-color: #f7d991;
+    border: 2px solid #f7d991;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 5%), inset 0px -15px 10px -12px rgb(0 0 0 / 5%);
+    padding: 10px;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.form-group  label:before {
+   content: '';
+    -webkit-appearance: none;
+    background-color: white;
+    border: 2px solid #f7d991;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 5%), inset 0px -15px 10px -12px rgb(0 0 0 / 5%);
+    padding: 10px;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+
+.form-group input:checked + label:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 4px;
+    left: 8px;
+    width: 8px;
+    height: 14px;
+    padding: -1px;
+    border: 1px solid #e74c3c;
+    border-width: 0 3px 3px 0;
+    transform: rotate(
+41deg);
+}
    .checkbox_div{
    float: left;
    margin-left: 25px;
@@ -777,7 +804,7 @@ button.fr.btn-save {
             </button>
          </li>
          <li>
-         <div class="checkbox_div">
+         <div class="form-group">
               <input type="checkbox" class="subbox" id="ViewCompleted" name="ViewCompleted[]"  onchange="countchecked('ViewCompleted','view_li')" value="YES">
               <label for="ViewCompleted">&nbsp;&nbsp;View Completed &nbsp;</label>
           </div>
@@ -789,19 +816,19 @@ button.fr.btn-save {
       <div class="reset_view_div" >
       <button type="button" onclick="selectallbox('companybox','Company','com_li')" class="resetview">Select all</button>
       </div>
-      
+     
       <?php  $i=0; 
          while($i<$maxcompanycode)
          {   
              $valueof= $AllCompanyCode_arr[$i][0] ;
              
              if ($ForCompany == $valueof) {  ?>
-      <div class="checkbox_div">
+      <div class="form-group ">
       <input type="checkbox" class="companybox" id="company-<?=$i?>" name="Company[]" value="<?php echo $valueof; ?>" onchange="countchecked('Company','com_li')" checked>
       <label for="company-<?=$i?>"> <?php echo $AllCompanyCode_arr[$i][2] ?></label>
       </div>
       <?php } else{ ?>    
-      <div class="checkbox_div">
+      <div class="form-group ">
       <input type="checkbox" class="companybox" id="company-<?=$i?>" name="Company[]" value="<?php echo $valueof; ?>" onchange="countchecked('Company','com_li')" >
       <label for="company-<?=$i?>"> <?php echo $AllCompanyCode_arr[$i][2] ?></label>
       </div>
@@ -819,12 +846,12 @@ button.fr.btn-save {
          {   
              $valueof= $AllTaskMainGroups_arr[$i][0] ;
              if ($MainGroup == $valueof) {  ?>
-      <div class="checkbox_div">
+      <div class="form-group">
       <input type="checkbox" class="mainbox" onchange="countchecked('Main','main_li')" id="maintask-<?=$i?>" name="Main[]" value="<?php echo $valueof; ?>" checked>
       <label for="maintask-<?=$i?>"> <?php echo $AllTaskMainGroups_arr[$i][1] ?></label>
       </div>
       <?php } else{ ?>    
-      <div class="checkbox_div">
+      <div class="form-group">
       <input type="checkbox" class="mainbox" id="maintask-<?=$i?>" onchange="countchecked('Main','main_li')" name="Main[]" value="<?php echo $valueof; ?>">
       <label for="maintask-<?=$i?>"> <?php echo $AllTaskMainGroups_arr[$i][1] ?></label>
       </div>
@@ -866,13 +893,13 @@ button.fr.btn-save {
           $valueof= $UserCodeName_arr[$i][0] ;
           
           if ($ForRefUSR == $valueof) {  ?>
-            <div class="checkbox_div">
+            <div class="form-group">
       <input type="checkbox" class="assignbox" id="assignto-<?=$i?>" onchange="countchecked('ForUSR','assign_li')" name="ForUSR[]" value="<?php echo $valueof; ?>" checked>
       <label for="assignto-<?=$i?>"> <?php echo $UserCodeName_arr[$i][1] ?></label>
       </div>
      
       <?php } else{ ?>    
-      <div class="checkbox_div">
+      <div class="form-group">
       <input type="checkbox" class="assignbox" id="assignto-<?=$i?>" name="ForUSR[]" onchange="countchecked('ForUSR','assign_li')" value="<?php echo $valueof; ?>">
       <label for="assignto-<?=$i?>"> <?php echo $UserCodeName_arr[$i][1] ?></label>
       </div>
@@ -890,13 +917,13 @@ button.fr.btn-save {
           $valueof= $AllTasksTagList_arr[$i][0] ;
           
           if ($ForTaskTag == $valueof) {  ?>
-            <div class="checkbox_div">
+            <div class="form-group">
               <input type="checkbox" class="tagbox" id="tags-<?=$i?>" name="Tag[]" onchange="countchecked('Tag','tag_li')" value="<?php echo $valueof; ?>" checked>
               <label for="tags-<?=$i?>"> <?php echo $AllTasksTagList_arr[$i][0] ?></label>
             </div>
       
       <?php } else{ ?>    
-      <div class="checkbox_div">
+      <div class="form-group">
               <input type="checkbox" class="tagbox" id="tags-<?=$i?>" name="Tag[]" onchange="countchecked('Tag','tag_li')" value="<?php echo $valueof; ?>">
               <label for="tags-<?=$i?>"> <?php echo $AllTasksTagList_arr[$i][0] ?></label>
             </div>
@@ -908,7 +935,7 @@ button.fr.btn-save {
     <button type="button"  onclick="selectallbox('completebox','ViewCompleted','view_li')" class="resetview">Select all</button>
       </div>
       <div>
-            <div class="checkbox_div">
+            <div class="form-group">
               <input type="checkbox" class="subbox" id="ViewCompleted" name="ViewCompleted[]"  onchange="countchecked('ViewCompleted','view_li')" value="YES">
               <label for="ViewCompleted">&nbsp;&nbsp;View Completed &nbsp;</label>
           </div>
@@ -959,7 +986,7 @@ button.fr.btn-save {
                       for(var i=0;i<str.length;i++){
                           if(str[i][0]!=null){
                             var name = 'sub'+','+'sub_li';
-                            txt = txt+'<div class="checkbox_div"><input type="checkbox" class="subbox" onchange="countchecked(\'' + 'Sub' + '\',\'' + 'sub_li' + '\')" id="subtask-'+i+'" name="Sub[]" value="'+str[i][0]+'"><label for="subtask-'+i+'"> '+str[i][1]+'</label></div>';
+                            txt = txt+'<div class="form-group"><input type="checkbox" class="subbox" onchange="countchecked(\'' + 'Sub' + '\',\'' + 'sub_li' + '\')" id="subtask-'+i+'" name="Sub[]" value="'+str[i][0]+'"><label for="subtask-'+i+'"> '+str[i][1]+'</label></div>';
                           }
                           
                       }  
@@ -998,7 +1025,7 @@ button.fr.btn-save {
                       var txt = "";
                       for(var i=0;i<str.length;i++){
                           if(str[i][0]!=null){
-                            txt = txt+'<div class="checkbox_div"><input type="checkbox" class="subbox" onchange="countchecked(\'' + 'Sub' + '\',\'' + 'sub_li' + '\')" id="subtask-'+i+'" name="Sub[]" value="'+str[i][0]+'"><label for="subtask-'+i+'"> '+str[i][1]+'</label></div>';
+                            txt = txt+'<div class="form-group"><input type="checkbox" class="subbox" onchange="countchecked(\'' + 'Sub' + '\',\'' + 'sub_li' + '\')" id="subtask-'+i+'" name="Sub[]" value="'+str[i][0]+'"><label for="subtask-'+i+'"> '+str[i][1]+'</label></div>';
                           }
                           
                       }  
