@@ -317,14 +317,13 @@
       .wrapper {
         padding: 25px 14px;
       }
-      /* title-start */
+     
       .wrapper .title h2 {
         text-align: center;
         font-size: 40px;
         margin-bottom: 22px;
       }
-      /* title-end */
-      /* p-one-start */
+     
       .wrapper .p-one p {
         color: #95959d;
         padding: 0 10px;
@@ -332,8 +331,7 @@
         font-size: 14px;
         margin-bottom: 50px;
       }
-      /* p-one-end */
-      /* inp-email-start */
+      
       .wrapper .inp {
         position: relative;
       }
@@ -355,8 +353,7 @@
         background-repeat: no-repeat;
         background-size: auto 50%;
         border-radius: 2px;
-        /* border: none; */
-        /* color: #ffffff; */
+        
         padding: 10px 30px 10px 10px;
         outline: none;
         -moz-appearance: none;
