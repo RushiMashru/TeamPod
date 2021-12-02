@@ -920,7 +920,7 @@ button.btn.btn-outline-secondary.border-left-0 {
                   <div class="col-md-5 mb-30">
                      <div class="inp">
                         <label class="email" for="DueDate">End Date</label>
-                        <input type="text" name="DueDate" id="DueDate" value="" >
+                        <input type="text" name="DueDate" id="DueDate" value="" placeholder="YY-MM-DD" >
                         <script type="text/javascript">                           
                             $('#DueDate').datepicker({
                                 uiLibrary: 'bootstrap4'
