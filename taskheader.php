@@ -117,8 +117,9 @@
            });
          }
          
-         
+        
          var complex = <?php echo json_encode($AllTasksTagList); ?>;
+         if(complex!=null&&complex.length>0){
                  data=complex;
                  $(function() {
                          $(".sTaskTag").autocomplete({
@@ -139,6 +140,8 @@
                                  }
                          });
                  });
+         }
+                 
          
         function inviteCheckEmail()
         {
