@@ -11,7 +11,7 @@ if(isset($_COOKIE["id"]))  { $id=$_COOKIE["id"]; }
 
 if($_POST['cat'] =="loadusers") {
 ?>
-<script src="multiselect.min.js"></script>
+<!-- <script src="multiselect.min.js"></script> -->
 <?php
 $ForCompany = $_POST['company'];
 $UserCodeName_arr = array(); 
@@ -30,7 +30,8 @@ $UserCodeName_arr = array();
         $i++;
     }
 ?>
-    <select class="total_fields forminput" onChange ="checkedvalues()" name="ForRefUSR" id="ForRefUSR" multiple>
+<label class="email" for="ForRefUSR"> Assign To</label>
+    <select  onChange ="checkedvalues()" name="ForRefUSR" id="ForRefUSR" multiple>
         <?php  $i=0; 
         $maxusercodename = sizeof($UserCodeName_arr);
         while($i<$maxusercodename)
