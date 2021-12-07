@@ -146,7 +146,7 @@ include "dbhands.php";
                             $i=0;
                             for ($s=0;$s<=sizeof($AllTaskSubGroups_arr);$s++)
                             {
-                                if($AllTaskSubGroups_arr[$s][2]==$mgid)
+                                if($AllTaskSubGroups_arr[$s][2]==$mgid&&$SubGroupsOfMain_arr[$i][0]!="")
                                 {
                                     $SubGroupsOfMain_arr[$i][0]=$AllTaskSubGroups_arr[$s][0];
                                     $SubGroupsOfMain_arr[$i][1]=$AllTaskSubGroups_arr[$s][1];

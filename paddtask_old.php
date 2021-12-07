@@ -40,6 +40,7 @@ $AllTasksNameList = array();
 	<!--Load Script and Stylesheet -->
 	<script type="text/javascript" src="jquery.simple-dtpicker.js"></script>
 	<link type="text/css" href="jquery.simple-dtpicker.css" rel="stylesheet" />
+    <link type="text/css" href="multiselect.css" rel="stylesheet" />
 	<!---->
 	
             <!-- --------------- START Auto Complete Text from Array -->
