@@ -805,7 +805,7 @@ button.fr.btn-save {
          </li>
          <li>
          <div class="form-group">
-              <input type="checkbox" class="subbox" id="ViewCompleted" name="ViewCompleted[]"  onchange="countchecked('ViewCompleted','view_li')" value="YES">
+              <input type="checkbox" id="ViewCompleted" name="ViewCompleted[]"  onchange="countchecked('ViewCompleted','view_li')" value="YES">
               <label for="ViewCompleted">&nbsp;&nbsp;View Completed &nbsp;</label>
           </div>
          </li>

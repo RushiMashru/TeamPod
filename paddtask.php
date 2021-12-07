@@ -128,7 +128,7 @@
                else
                  { $("#DivSelectDay").css("display","none"); }
                if ( this.value == '')
-                   { $("#DivSelectRepeat").css("display","flex"); }
+                   { $("#DivSelectRepeat").css("display","none"); }
                else
                    { $("#DivSelectRepeat").show(); }
                if ( this.value == 'Daily') { document.getElementById('LblTextNext').innerHTML = 'DAYs' ;}
@@ -137,6 +137,7 @@
                if ( this.value == 'Yearly') { document.getElementById('LblTextNext').innerHTML = 'YEARs' ;}
                  
              });
+              
          });       
          
          
@@ -909,10 +910,11 @@ button.btn.btn-outline-secondary.border-left-0 {
                   <div class="col-md-6 fl mb-30">
                      <div class="inp">
                         <label class="email" for="StartDate">Start Date</label>
-                        <input type="text"  name="StartDate" id="StartDate" onChange=SetWeekdays() value="" placeholder="YY-MM-DD" >
+                        <input type="text"  name="StartDate" id="StartDate" onChange=SetWeekdays() value="" placeholder="DD-MM-YYYY" >
                         <script type="text/javascript">                           
                             $('#StartDate').datepicker({
-                                uiLibrary: 'bootstrap4'
+                                uiLibrary: 'bootstrap4',
+                                dateFormat: 'dd-mm-yyyy'
                             });    
                         </script>
                      </div>
@@ -920,10 +922,11 @@ button.btn.btn-outline-secondary.border-left-0 {
                   <div class="col-md-5 mb-30">
                      <div class="inp">
                         <label class="email" for="DueDate">End Date</label>
-                        <input type="text" name="DueDate" id="DueDate" value="" placeholder="YY-MM-DD" >
+                        <input type="text" name="DueDate" id="DueDate" value="" placeholder="DD-MM-YYYY" >
                         <script type="text/javascript">                           
                             $('#DueDate').datepicker({
-                                uiLibrary: 'bootstrap4'
+                                uiLibrary: 'bootstrap4',
+                                dateFormat: 'dd-mm-yyyy'
                             });    
                         </script>
                      </div>
@@ -1019,7 +1022,13 @@ button.btn.btn-outline-secondary.border-left-0 {
                       <div class="inp input-container">
                         <label class="email" for="EndByDate">End By:</label>
                         <input type="radio" name="radioNoOfTimes" id="radioNoOfTimes" value="EndBy">
-                        <input type="text" name="EndByDate" id="EndByDate">
+                        <input type="text" name="EndByDate" id="EndByDate" placeholder="DD-MM-YYYY">
+                         <script type="text/javascript">                           
+                            $('#EndByDate').datepicker({
+                                uiLibrary: 'bootstrap4',
+                                dateFormat: 'dd-mm-yyyy'
+                            });    
+                        </script>
                      </div>
                   </div>
                    <div class="col-md-3" style="margin-left: 15px;">
