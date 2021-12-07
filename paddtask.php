@@ -45,9 +45,9 @@
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap" rel="stylesheet">
       <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-
-        <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
-    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+      <link type="text/css" href="multiselect.css?v=23454" rel="stylesheet" />
+      <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+      <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
       <script>
          var complex = <?php echo json_encode($AllTasksNameList); ?>;
          data=complex;
@@ -845,15 +845,15 @@ button.btn.btn-outline-secondary.border-left-0 {
                      </div>
                   </div>
                </div>
-               <div class="col-md-12">
-                  <div class="col-md-6 fl mb-30">
+               <div class="col-md-12" style="display:flex;">
+                  <div class="col-md-6 fl mb-30" style="margin-right: 27px;">
                      <div class="inp">
                         <label class="email" for="sTaskName">Task Title</label>
                         <input type="text" name="sTaskName" id="sTaskName" value="<?php echo $sTaskName; ?>">
                         <input type=hidden name="sTRecRef" id="sTRecRef" value="<?php echo $sTRecRef; ?>" />
                      </div>
                   </div>
-                  <div class="col-md-5 mb-30">
+                  <div class="col-md-5 mb-30" >
                      <div class="inp">
                         <label class="email" for="MainGroup">Main Group</label>
                         <select  name="MainGroup" id="MainGroup" onchange="loadsubgrp()">

@@ -30,16 +30,17 @@ $UserCodeName_arr = array();
         $i++;
     }
 ?>
+<script type="text/javascript" src="multiselect.min.js"></script>
 <label class="email" for="ForRefUSR"> Assign To</label>
-    <select  onChange ="checkedvalues()" name="ForRefUSR" id="ForRefUSR" multiple>
+    <select  onChange ="checkedvalues()" name="ForRefUSR" id="ForRefUSR" multiple="">
         <?php  $i=0; 
         $maxusercodename = sizeof($UserCodeName_arr);
         while($i<$maxusercodename)
         {   
-            $valueof= $UserCodeName_arr[$i][0] ; ?>
+            $valueof= $UserCodeName_arr[$i][0] ; if($UserCodeName_arr[$i][1]!=""){?>
                 <option value="<?php echo $valueof ?>"> <?php echo $UserCodeName_arr[$i][1] ?> </option>
         <?php  $i++; 
-        } ?>
+        } }?>
     </select>
     <script>
     	document.multiselect('#ForRefUSR')
