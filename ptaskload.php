@@ -56,7 +56,8 @@ $UserCodeName_arr = array();
 if($_POST['cat'] =="loadsubgrp") {
 $MainGroup = $_POST['group'];
 ?>
-<select class="total_fields forminput" name="SubGroup" id="SubGroup" >
+<label class="email" for="SubGroup">Sub Group</label>  
+<select  name="SubGroup" id="SubGroup" >
                 <option value="">----- Select -----</option>
                     <?php  
                     $SubGroupsOfMain_arr=getSubGroupOfMain($MainGroup);

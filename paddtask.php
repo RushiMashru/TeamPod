@@ -856,7 +856,7 @@ button.btn.btn-outline-secondary.border-left-0 {
                   <div class="col-md-5 mb-30" >
                      <div class="inp">
                         <label class="email" for="MainGroup">Main Group</label>
-                        <select  name="MainGroup" id="MainGroup" onchange="loadsubgrp()">
+                        <select  name="MainGroup" id="MainGroup" onchange="loadsubgrp()" >
                            <option value="">-- Select a Main Group --</option>
                            <?php  
                               $maxtaskmaingrouptitle = sizeof($AllTaskMainGroups_arr);
@@ -873,23 +873,20 @@ button.btn.btn-outline-secondary.border-left-0 {
                </div>
                <div class="col-md-12">
                   <div class="col-md-6 fl mb-30">
-                     <div class="inp">
-                        <label class="email" for="SubGroup">Sub Group</label>
-                        <div id="subgroup">
-                            <select name="SubGroup" id="SubGroup">
-                           <option value="">-- Select a Sub Group --</option>
-                        </select>
-                        </div>
-                        
-                     </div>
-                  </div>
-                  <div class="col-md-5 mb-30">
-                     <div class="inp">
+                     <div class="inp" >
                         <label class="email" for="priority"> Priority</label>
                         <select name="priority" id="priority">
                            <option value="P3" selected>P3 - Low</option>
                            <option value="P2">P2 - Medium</option>
                            <option value="P1">P1 - High</option>
+                        </select>
+                     </div>
+                  </div>
+                  <div class="col-md-5 mb-30">
+                     <div class="inp" id="subgroup">                        
+                        <label class="email" for="SubGroup">Sub Group</label>                        
+                        <select name="SubGroup" id="SubGroup">
+                           <option value="">-- Select a Sub Group --</option>
                         </select>
                      </div>
                   </div>

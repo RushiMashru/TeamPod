@@ -450,6 +450,7 @@
          		data: dataString,
          		success: function(response)
          		{
+                    console.log(response);
          			$("#subgroup").html(response);
          		}
          		
