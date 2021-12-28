@@ -219,17 +219,16 @@
          		data: dataString,
          		success: function(response)
          		{   
-         		    
-         		   // fortagid = "tasktags" + rowid;
-         		   // document.getElementById(fortagid).innerHTML =response;
-         		     var fordiv='tab-4'+rowid;
-                    var activeclass = 'clockstarticon4'+rowid;
+         		    /*
+         		    fortagid = "tasktags" + rowid;
+         		    document.getElementById(fortagid).innerHTML =response;
+         		    document.getElementById(forid).value ="";
+         		    var fordiv='divedittags-'+rowid;
                      document.getElementById(fordiv).style.display = "none";
-                     $('#'+activeclass).removeClass('active'); 
                      $(".successmsg").html('Tag added Successfully!').fadeIn(500);
          			$(".successmsg").html('Tag added Successfully!').fadeOut(2000);
-         			
-         			//location.reload();
+         			*/
+         			location.reload();
          		    
          		}
          		
@@ -286,10 +285,8 @@
          		success: function(response)
          		{   
          		    document.getElementById(forid).value ="";
-         		    var fordiv='tab-1'+rowid;
-                    var activeclass = 'clockstarticon1'+rowid;
+         		    var fordiv='divstarttime-'+rowid;
                      document.getElementById(fordiv).style.display = "none";
-                     $('#'+activeclass).removeClass('active');                     
                      $(".successmsg").html('Note added Successfully!').fadeIn(500);
          			$(".successmsg").html('Note added Successfully!').fadeOut(2000);
          		    
@@ -336,10 +333,8 @@
          		success: function(response)
          		{   
          		    document.getElementById(forid).value ="";
-         		     var fordiv='tab-6'+rowid;
-                    var activeclass = 'clockstarticon6'+rowid;
+         		    var fordiv='divnewnote-'+rowid;
                      document.getElementById(fordiv).style.display = "none";
-                     $('#'+activeclass).removeClass('active'); 
                      $(".successmsg").html('Note added Successfully!').fadeIn(500);
          			$(".successmsg").html('Note added Successfully!').fadeOut(2000);
          		    
@@ -393,11 +388,8 @@
          		{   
          		    document.getElementById(forid).value ="";
          		    document.getElementById("noteupTimeTaken"+rowid+ "-" + srowid).value ="";
-         		    var fordiv='sub-tab-4'+rowid+srowid;
-                  
+         		    var fordiv='divsubnewnote-'+rowid+ "-" + srowid;
                      document.getElementById(fordiv).style.display = "none";
-                     var activeclass = 'subaddattach'+rowid+'-'+srowid;
-                     $('#'+activeclass).removeClass('active');
                      $(".successmsg").html('Note added Successfully!').fadeIn(500);
          			$(".successmsg").html('Note added Successfully!').fadeOut(2000);
          		    
@@ -438,7 +430,7 @@
          		{   
          		    
          		    var fordiv='divnewuser-'+rowid;
-                    
+                     document.getElementById(fordiv).style.display = "none";
                      //$(".successmsg").html('Reassigned Successfully!').fadeIn(500);
          			//$(".successmsg").html('Reassigned Successfully!').fadeOut(2000);
          		    alert('Reassigned Successfully!');
@@ -515,11 +507,7 @@
          		{   
          		    
          		    var fordiv='divnewuser-'+rowid;
-                    // document.getElementById(fordiv).style.display = "none";
-                      var fordiv='tab-9'+rowid;
-                    var activeclass = 'clockstarticon9'+rowid;
                      document.getElementById(fordiv).style.display = "none";
-                     $('#'+activeclass).removeClass('active'); 
                      //$(".successmsg").html('Reassigned Successfully!').fadeIn(500);
          			//$(".successmsg").html('Reassigned Successfully!').fadeOut(2000);
          		    alert('Reassigned Successfully!');
@@ -564,13 +552,10 @@
          		success: function(response)
          		{   
          		    
-         		    var fordiv='sub-tab-6'+rowid+srowid;
-                  
+         		    var fordiv='divsubnewuser-'+rowid+'-'+srowid;
                      document.getElementById(fordiv).style.display = "none";
-                     var activeclass = 'clockstarticon8'+rowid+'-'+srowid;
-                     $('#'+activeclass).removeClass('active');
          		    alert('Reassigned Successfully!');
-         		   // location.reload();
+         		    location.reload();
          		}
          		
          	});
@@ -637,12 +622,16 @@
          		success: function(response)
          		{   
          		    document.getElementById(forid).value ="";
-         		    var fordiv='tab-2'+rowid;
+         		    var fordiv='divendtime-'+rowid;
                      document.getElementById(fordiv).style.display = "none";
                      document.getElementById("ntaskid"+rowid).value ="";
                      document.getElementById("notid"+rowid).value ="";
-                     var activeclass = 'clockstarticon2'+rowid;
-                     $('#'+activeclass).removeClass('active');   
+                     var fordiv='clockstarticon'+rowid;
+                     document.getElementById(fordiv).style.display = "none";
+                     var fordiv='endtimeicon'+rowid;
+                     document.getElementById(fordiv).style.display = "none";
+                     var fordiv='starttimeicon'+rowid;
+                     document.getElementById(fordiv).style.display = "inline";
                      $(".successmsg").html('Note added Successfully!').fadeIn(500);
          			$(".successmsg").html('Note added Successfully!').fadeOut(2000);
          		    
@@ -680,13 +669,16 @@
          		success: function(response)
          		{   
          		    document.getElementById(forid).value ="";
-         		     
+         		    var fordiv='divsubendtime-'+rowid+"-"+srowid;
+                     document.getElementById(fordiv).style.display = "none";
                      document.getElementById("ntaskid"+rowid+"-"+srowid).value ="";
                      document.getElementById("notid"+rowid+"-"+srowid).value ="";
-                     var fordiv='sub-tab-2'+rowid+srowid;
+                     var fordiv='clockstarticon'+rowid+"-"+srowid;
                      document.getElementById(fordiv).style.display = "none";
-                     var activeclass = 'endtimeicon'+rowid+'-'+srowid;
-                     $('#'+activeclass).removeClass('active');  
+                     var fordiv='endtimeicon'+rowid+"-"+srowid;
+                     document.getElementById(fordiv).style.display = "none";
+                     var fordiv='starttimeicon'+rowid+"-"+srowid;
+                     document.getElementById(fordiv).style.display = "inline";
                      $(".successmsg").html('Note added Successfully!').fadeIn(500);
          			$(".successmsg").html('Note added Successfully!').fadeOut(2000);
          		    
@@ -725,13 +717,11 @@
          		{   
          		    document.getElementById(oldmaingroupid).value =maingroup;
          		    document.getElementById(oldsubgroupid).value =subgroup;
-         		   // groupdetails = "groupdetails"+rowid;
-         		    //document.getElementById(groupdetails).innerHTML =response;
-         		    var fordiv='tab-3'+rowid;
-                    var activeclass = 'clockstarticon3'+rowid;
-                    document.getElementById(fordiv).style.display = "none";
-                    $('#'+activeclass).removeClass('active');  
-                    $(".successmsg").html('Regrouped Successfully!').fadeIn(500);
+         		    groupdetails = "groupdetails"+rowid;
+         		    document.getElementById(groupdetails).innerHTML =response;
+         		    var fordiv='diveditgroup-'+rowid;
+                     document.getElementById(fordiv).style.display = "none";
+                     $(".successmsg").html('Regrouped Successfully!').fadeIn(500);
          			$(".successmsg").html('Regrouped Successfully!').fadeOut(2000);
          		}
          		
@@ -782,10 +772,8 @@
          		{   
          		    document.getElementById(sDocNoteid).value ="";
          		    document.getElementById(AttachDocid).value ="";
-         		     var fordiv='tab-5'+rowid;
-                    var activeclass = 'clockstarticon5'+rowid;
+         		    var fordiv='divaddattach-'+rowid;
                      document.getElementById(fordiv).style.display = "none";
-                     $('#'+activeclass).removeClass('active');
                      $(".successmsg").html(response).fadeIn(500);
          			$(".successmsg").html(response).fadeOut(2000);
          			//alert(response);
@@ -843,11 +831,8 @@
          		{   
          		    document.getElementById(sDocNoteid).value ="";
          		    document.getElementById(AttachDocid).value ="";
-         		   var fordiv='sub-tab-3'+rowid+srowid;
-
+         		    var fordiv='divsubaddattach-'+rowid+'-'+srowid;
                      document.getElementById(fordiv).style.display = "none";
-                     var activeclass = 'subaddattach'+rowid+'-'+srowid;
-                     $('#'+activeclass).removeClass('active'); 
                      $(".successmsg").html(response).fadeIn(500);
          			$(".successmsg").html(response).fadeOut(2000);
          			//alert(response);
@@ -910,7 +895,6 @@
          		data: dataString,
          		success: function(response)
          		{   
-
                     location.reload();
          		}
          		
@@ -1373,8 +1357,23 @@
              }
              }
           
-          
-            
+             var fordiv='divsubnewuser-'+tdid+'-'+stdid;
+             document.getElementById(fordiv).style.display = "none";
+             var fordiv='divsubnewnote-'+tdid+'-'+stdid;
+             document.getElementById(fordiv).style.display = "none";
+             var fordiv='divsubcomplete-'+tdid+'-'+stdid;
+             document.getElementById(fordiv).style.display = "none";
+             var fordiv='divsubstarttime-'+tdid+'-'+stdid;
+             document.getElementById(fordiv).style.display = "none";
+             var fordiv='divsubendtime-'+tdid+'-'+stdid;
+             document.getElementById(fordiv).style.display = "none";
+             var fordiv='divsubaddattach-'+tdid+'-'+stdid;
+             document.getElementById(fordiv).style.display = "none";
+             
+             if (divid !="divsubstarttime") {
+         	var fordiv=divid+'-'+tdid+'-'+stdid;
+             document.getElementById(fordiv).style.display = "block";
+             } 
              
              if (divid == "divsubstarttime") {
                  var fordiv='clockstarticon'+tdid+'-'+stdid;;

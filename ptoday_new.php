@@ -3,7 +3,7 @@
 
 <?php
 error_reporting (E_ALL ^ E_NOTICE);
-include("taskheader.php");
+include("taskheader_new.php");
 
 /*
  * ................. FOR ptoday.php/PALLITEMS.php change following in same code ..............
@@ -391,7 +391,7 @@ function ShowList(tday)
     <input type=hidden name=ViewListForFD id=ViewListForFD value="<?php echo $ViewListForFD;?>" />
 <?php    if ($urlRecEdit=='') { 
 
-include "taskfilter.php";
+include "ptaskdetails_new.php";
 ?>
 
 <div class="maindiv" id="wrapper" style="margin-left:16%;width:84%;margin-top:10px"><div id="floatleft" style="width:100%;float:left">
@@ -588,7 +588,7 @@ include "taskfilter.php";
               
             </div>
 
-            <div id="TD" class="tabcontent">
+            <div id="TD" class="tabcontent" style="display: block;">
             <?php if ($ViewListForFD=='TD' || $ViewListForFD=='') { echo $outoday; } ?> 
             </div>
 

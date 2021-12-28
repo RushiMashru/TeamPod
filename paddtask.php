@@ -306,7 +306,7 @@
       aspect-ratio: 1 / 1.5;
       background: #fff;
       border-radius: 24px;
-      overflow: hidden;
+      overflow: auto;
       margin-top: 18px;
 
       box-shadow: 0 1px 2px 0px rgb(0 0 0 / 20%), 0 2px 4px 0px rgb(0 0 0 / 20%), 0 4px 8px 0px rgb(0 0 0 / 20%), 0 8px 16px 0px rgb(0 0 0 / 7%), 0 16px 32px 0px rgb(0 0 0 / 13%), 0 32px 48px 0px rgb(0 0 0 / 20%);
@@ -352,7 +352,7 @@
       font-size: 1.5em;
       }
       .card-content {
-      display: grid;
+    
       grid-template-rows: repeat(3, 1fr);
       }
       .card-content,
@@ -642,7 +642,7 @@
       border: 1px solid #e6e6e6;
       width: 100%;
       outline: none;
-      height: 200px;
+      height: 150px;
       padding: 8px 20px;
       border-radius: 4px;
       color: #333333;
@@ -894,7 +894,7 @@ button.btn.btn-outline-secondary.border-left-0 {
                <div class="col-md-12">
                   <div class="inp mb-30" style="display: table;width: 100%;">
                      <label class="description" for="TaskDescription" style="top: -8px;"> Description</label>
-                     <textarea name="TaskDescription" id="TaskDescription" rows="15" placeholder="Please Provide Task Detail"></textarea>
+                     <textarea name="TaskDescription" id="TaskDescription" rows="5" placeholder="Please Provide Task Detail"></textarea>
                   </div>
                </div>
                <div class="col-md-12">

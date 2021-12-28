@@ -255,6 +255,9 @@
          .tab button:active {
          background-color: #ccc;
          }*/
+         .multiselect-wrapper{
+            width: 100%;
+         }
          #Nav_AddTask {  background: #eee;  background-size: 70px 38px;  border: 2px solid #5DADE2; width: 70px; height: 42px;}
          #Nav_AddTask:hover {  background: #999;  background-size: 70px 40px;}
       </style>
@@ -266,6 +269,7 @@
       <!--Load Script and Stylesheet -->
      <!--  <script type="text/javascript" src="jquery.simple-dtpicker.js"></script> -->
       <link type="text/css" href="jquery.simple-dtpicker.css" rel="stylesheet" />
+      <link type="text/css" href="multiselect.css?v=23454" rel="stylesheet" />
       <!---->
       <script>
          $(function() {
@@ -858,6 +862,12 @@
   }
 }
 
+function changeexpend(id){
+    
+    $("#expendeddiv"+id).slideToggle();
+       // $(this).toggleClass('active-icon');
+}
+
 function removeUpload() {
   $('.file-upload-input').replaceWith($('.file-upload-input').clone());
   $('.file-upload-content').hide();
@@ -869,10 +879,10 @@ $('.image-upload-wrap').bind('dragover', function () {
   $('.image-upload-wrap').bind('dragleave', function () {
     $('.image-upload-wrap').removeClass('image-dropping');
 });
-  $(".icon").click(function(){
+/*  $(".icon").click(function(){
   $(".Collapsed.tabcontent").slideToggle();
   $(this).toggleClass('active-icon');
-});
+});*/
   function openCity(evt, cityName) {
   var i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("tabcontent");
@@ -885,6 +895,22 @@ $('.image-upload-wrap').bind('dragover', function () {
   }
   document.getElementById(cityName).style.display = "block";
   evt.currentTarget.className += " active";
+}
+
+function openCity1(evt, cityName,mid,subid) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+  $("#expendeddiv"+mid).slideToggle();
+ // $("#sdv-"+mid+'-'+subid).css('display','block');
 }
       </script>
    </body>
