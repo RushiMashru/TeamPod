@@ -19,8 +19,10 @@
                     
                     $query21 = "SELECT * FROM `tTaskNotes` t1 WHERE `TRecRef` ='$TRecRef' AND `Stage`='STARTTIME' AND cRecRef='$cRecRef' AND not EXISTS (
                         SELECT * FROM `tTaskNotes` t2 WHERE `TRecRef` ='$TRecRef' AND `Stage`='ENDTIME' AND cRecRef='$cRecRef' AND `NotesDT` > t1.`NotesDT`)";
+                        //echo $query21;exit;
                     $sql21 = mysqli_query($mysqli, $query21);
                     $row21=mysqli_fetch_array($sql21);
+                   // echo '<pre>';print_r($row21);exit;
                     $NRecRef=$row21['NRecRef'];
                     $startdisplay="inline";$clockdisplay="none"; $enddisplay="none";
                     $taskid='';
@@ -33,7 +35,7 @@
                   <img src="images/Copy of Completed Bookmark.svg" class="tab-img-1">
                   <div class="tab-text-1">
                      <div class="tab-text-left">
-                        <h1># Company</h1>
+                        <h1># '.$CoShortCode.'</h1>
                         <p><img src="images/lock.svg">Task
                         <p>
                      </div>
@@ -45,7 +47,7 @@
                   </div>
                   <div class="tab-text-1 tab-text-2">
                      <div class="tab-text-left">
-                        <p>Main Group - Sub Group</p>
+                        <p>'.$TaskMainGroupTitle.' - '. $TaskSubGroupTitle.'</p>
                      </div>
                      <div class="tab-text-right">
                         <p>'.$showdate.'</p>
@@ -181,7 +183,7 @@
                                  <img src="images/tab-11.png">
                               </div>
                               <div class="name-box">
-                                 P2: Sub Task
+                                '.$Prioritysub.': Sub Task
                               </div>
                            </div>
                      <p> Description. '.$Descrsub.'
