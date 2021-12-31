@@ -366,8 +366,8 @@
                   $outall.='</div>
                   <div class="tab-text-6">
                      <div id="tab-1'.$celnodv.'" class="tabcontent">
-                        <input type="hidden" class=noteid id=notid'.$celnodv.' value='.$NRecRef.'>
-                        <input type="hidden" class=ntaskid id=ntaskid'.$celnodv.' value='.$taskid.'>
+                        <input type="hidden" class="noteid" id="notid'.$celnodv.'" value="'.$NRecRef.'">
+                        <input type="hidden" class="ntaskid" id="ntaskid'.$celnodv.'" value="'.$taskid.'">
                         <div class="text-box">
                            <textarea type="text"  id=StartNote'.$celnodv.' name=StartNote'.$celnodv.' placeholder="Start Notes*"></textarea>
                            <div class="btn-sec">
@@ -391,7 +391,8 @@
                           <div class="text-box">
                             <div class="select-box" >
                                 <img src="images/drop-down-arrow.svg" class="img-down">
-                                <select name="eMainGroup'.$celnodv.'" id="eMainGroup'.$celnodv.'"  onchange="loadsubgrp1('.$celnodv.')">';
+                                <select name="eMainGroup'.$celnodv.'" id="eMainGroup'.$celnodv.'"  onchange="loadsubgrp1('.$celnodv.')"><option value="">Main Group</option>';
+
                                     $maxtaskmaingrouptitle = sizeof($AllTaskMainGroups_arr);
                                         $i=0; 
                                         while($i<$maxtaskmaingrouptitle)
@@ -407,7 +408,7 @@
                             <div class="select-box">
                             <input type=hidden id="SubGroup'.$celnodv.'" value='.$eSubGroup.'>
                                 <img src="images/drop-down-arrow.svg" class="img-down">
-                                <select name="eSubGroup'.$celnodv.'" id="eSubGroup'.$celnodv.'">';
+                                <select name="eSubGroup'.$celnodv.'" id="eSubGroup'.$celnodv.'"><option value="">Sub Group</option>';
                                     if ($eMainGroup!="0") {
                                         $SubGroupsOfMain_arr=getSubGroupOfMain($eMainGroup);
                                         if ($SubGroupsOfMain_arr!="") {
