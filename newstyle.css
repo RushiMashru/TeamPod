@@ -321,12 +321,19 @@ html, body {
     position: relative;
     background-color: #f2f2f2;
     color: #000;
-    height: 70px;
+    height: 97px;
     line-height: 70px;
 }
 .file-upload-image {
   margin: auto;
   padding: 20px;
+}
+textarea{
+    resize: vertical;
+}
+
+span.multiselect-text {
+    color: black !important;
 }
 
 .remove-image {
