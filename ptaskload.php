@@ -5,6 +5,9 @@ include "../focinc/dbhands.php";
 include "../focinc/i_envirovar.php";
 include "i_functions.php"; 
 if(isset($_COOKIE["id"]))  { $id=$_COOKIE["id"]; }
+date_default_timezone_set('Europe/London'); // CDT
+$current_date = date('Y-m-d');
+$currdatetime = date('Y-m-d H:i:s');
 ?>
 
 <?php
@@ -465,8 +468,10 @@ if($_POST['cat'] == "addstartnote") {
     $noteid=$_POST['noteid'];
     
      $query4="UPDATE `tTaskNotes` SET `Notes`='$NewNote' WHERE NRecRef = '$noteid'" ;
+     
      $sql4 = mysqli_query($mysqli, $query4);
 }
+
 
 if($_POST['cat'] == "starttime") {
     $ForTaskid=$_POST['ForTaskid'];
@@ -557,7 +562,8 @@ if($_POST['cat'] == "regroup") {
 }
 
 if($_POST['cat'] == "addfile") {
-    $target_path = "../uploads/SupportingDoc/";
+ //echo '<pre>';print_r($_FILES);exit;
+    $target_path = "SupportingDoc/";
     $ForTaskid=$_POST['ForTaskid'];
     $sDocNote = $_POST['note'];
     $AttachDoc = $_POST['attachfile'];
@@ -566,9 +572,9 @@ if($_POST['cat'] == "addfile") {
     $path_parts = pathinfo($_FILES['attachfile']["name"]);		//--- store file name in array to get extension
     $fullfile= $_FILES['attachfile']["name"];
     
-    $newfilename=$currdatetime.'_'.$fullfile ;	//--- set new file name  User+Type.extension
-                    
+    $newfilename=rand().'_'.$fullfile ;	
     if(move_uploaded_file($_FILES['attachfile']['tmp_name'], $target_path.$newfilename)) {
+       // echo "hey";exit;
     $query64="INSERT INTO `tTaskNotes`(`TRecRef`, `cRecRef`,  `Stage`,  `Notes`, `TimeTaken`,  `NotesDT`, `NotesBy`) 
             VALUES ('$ForTaskid','$ForCalid','FILEUPLOAD','$sDocNote','00:00:00','$currdatetime','$id' ) " ;
     $sql64 = mysqli_query($mysqli, $query64);
@@ -602,7 +608,7 @@ if($_POST['cat'] == "completetask") {
 
 
 if($_POST['cat'] == "addsubfile") {
-    $target_path = "../uploads/SupportingDoc/";
+    $target_path = "SupportingDoc/";
     $ForTaskid=$_POST['ForTaskid'];
     $ForSTaskid=$_POST['ForSTaskid'];
     $sDocNote = $_POST['note'];
@@ -612,7 +618,7 @@ if($_POST['cat'] == "addsubfile") {
     $path_parts = pathinfo($_FILES['attachfile']["name"]);		//--- store file name in array to get extension
     $fullfile= $_FILES['attachfile']["name"];
     
-    $newfilename=$currdatetime.'_'.$fullfile ;	//--- set new file name  User+Type.extension
+    $newfilename=rand().'_'.$fullfile ;	//--- set new file name  User+Type.extension
                     
     if(move_uploaded_file($_FILES['attachfile']['tmp_name'], $target_path.$newfilename)) {
     $query64="INSERT INTO `tTaskNotes`(`TRecRef`, `cRecRef`,  `STRecRef`, `Stage`,  `Notes`, `TimeTaken`,  `NotesDT`, `NotesBy`) 
@@ -714,9 +720,8 @@ $ForCompany=$_POST['company'];
 $TaskDescription=$_POST['descr'];
 //$TaskMainGroup=$_POST['TaskMainGroup'];
 //$TaskSubGroup=$_POST['TaskSubGroup'];
-date_default_timezone_set('Europe/London'); // CDT
-$current_date = date('Y-m-d');
-$currdatetime = date('Y-m-d H:i:s');
+
+
 
 $query3="INSERT INTO `tTasks`(`TaskMainGroup`, `TaskSubGroup`, `TaskGroup`,  `TaskTitle`, `Status`, `Priority`, `CreatedBy`, `CreatedDateTime`) 
                               VALUES ( '0',    '0',  '0', '$sTaskName',  'ACT', 'P3', '$id', '$currdatetime' ) " ;

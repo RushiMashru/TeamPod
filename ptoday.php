@@ -463,7 +463,8 @@
                                  }
                                  $ForUserFullName.=', ' .$FullName;
                                  if($ForRefUSRC==$ForRefUSR) {$color="#ccc";} else { $color="#fff";};
-                                 $initials.="<span style='background:$color;color:#000;border-radius:50%;padding:5px;border:1px solid #000' ><a href='#' title='$FullName'>".substr($FirstName,0,1).substr($LastName,0,1)."</a></span>&nbsp;&nbsp;";
+                                 $initials = substr($FirstName,0,1).substr($LastName,0,1);
+                                 //                                $initials.="<span style='background:$color;color:#000;border-radius:50%;padding:5px;border:1px solid #000' ><a href='#' title='$FullName'>".substr($FirstName,0,1).substr($LastName,0,1)."</a></span>&nbsp;&nbsp;";
                                  $assigneduser[$x]=$ForRefUSR;
                                  $x++;
                                  }
