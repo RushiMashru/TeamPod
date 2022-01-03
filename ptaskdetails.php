@@ -36,7 +36,7 @@
                   <div class="tab-text-1">
                      <div class="tab-text-left">
                         <h1># '.$CoShortCode.'</h1>
-                        <p><img src="images/lock.svg">Task
+                        <p><img src="images/Lock.svg">Task
                         <p>
                      </div>
                      <div class="tab-text-right">
@@ -60,8 +60,8 @@
                      </div>
                   </div>
                   <div class="tab-text-4">
-                     <div class="img-box">
-                        '.$CoShortCode.'
+                     <div class="img-box" style="background: #ffe199;color: black;">
+                        '.$initials.'
                      </div>
                      
                   </div>
@@ -70,9 +70,9 @@
                         <h3><img src="images/Plus.svg" onclick=popup("popUpDiv","addsubtask","$cRecRef")> Sub task</h3>
                      </div>
                      <div class="tab-text-right">
-                        <div class="tab">
-
-                           <button class="tablinks" type="button" id=clockstarticon1'.$celnodv.' onclick="openCity(event, \''."tab-1".$celnodv.'\')"><img src="images/Copy of Clock.svg"></button>
+                        <div class="tab">';
+if ($cStage!="Completed") {
+                           $outall.='<button class="tablinks" type="button" id=clockstarticon1'.$celnodv.' onclick="openCity(event, \''."tab-1".$celnodv.'\')"><img src="images/Copy of Clock.svg"></button>
                            <button class="tablinks" type="button" id=clockstarticon2'.$celnodv.' onclick="openCity(event, \''."tab-2".$celnodv.'\')"><img src="images/Hourglass Start.svg"></button>
                            <button class="tablinks" type="button" id=clockstarticon3'.$celnodv.' onclick="openCity(event, \''."tab-3".$celnodv.'\')"><img src="images/Users.svg"></button>
                            <button class="tablinks" type="button" id=clockstarticon4'.$celnodv.' onclick="openCity(event, \''."tab-4".$celnodv.'\')"><img src="images/Tags.svg"></button>
@@ -80,8 +80,9 @@
                            <button class="tablinks" type="button" id=clockstarticon6'.$celnodv.' onclick="openCity(event, \''."tab-6".$celnodv.'\')"><img src="images/Notes.svg"></button>
                            <button class="tablinks" type="button" id=clockstarticon7'.$celnodv.' onclick="openCity(event, \''."tab-7".$celnodv.'\')"><img src="images/Copy of Calendar_Default.svg"></button>
                            <button class="tablinks" type="button" id=clockstarticon8'.$celnodv.' onclick="openCity(event, \''."tab-8".$celnodv.'\')"><img src="images/Copy of By User.svg"></button>
-                           <button class="tablinks" type="button" id=clockstarticon9'.$celnodv.' onclick="openCity(event, \''."tab-9".$celnodv.'\')"><img src="images/Task_Completed.svg"></button>
-                        </div>
+                           <button class="tablinks" type="button" id=clockstarticon9'.$celnodv.' onclick="openCity(event, \''."tab-9".$celnodv.'\')"><img src="images/Task_Completed.svg"></button>';
+}
+                        $outall.='</div>
                      </div>
                   </div>
                   <div class="Collapsed tabcontent" id="expendeddiv'.$celnodv.'">';
@@ -179,10 +180,9 @@
                
                 
                  $outall.=' <hr><div class="tab-text-4" id=sdv-'.$celnodv.'-'.$scelnodv.'>
-                              <div class="img-box">
-                                 <img src="images/tab-11.png">
-                              </div>
-                              <div class="name-box">
+                              <div class="img-box" style="background: #ffe199;    color: black;">
+                                 '.substr($sFirstName,0,1).substr($sLastName,0,1).'</div>
+                              <div class="name-box" >
                                 '.$Prioritysub.': Sub Task
                               </div>
                            </div>
