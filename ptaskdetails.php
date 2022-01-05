@@ -36,7 +36,7 @@
                   <div class="tab-text-1">
                      <div class="tab-text-left">
                         <h1># '.$CoShortCode.'</h1>
-                        <p><img src="images/Lock.svg">Task
+                        <p><img src="images/Lock.svg">'.$TaskTitle.'
                         <p>
                      </div>
                      <div class="tab-text-right">
@@ -50,12 +50,12 @@
                         <p>'.$TaskMainGroupTitle.' - '. $TaskSubGroupTitle.'</p>
                      </div>
                      <div class="tab-text-right">
-                        <p>'.$showdate.'</p>
+                        <p>'.date('d-m-Y',strtotime($showdate)).'</p>
                      </div>
                   </div>
                   <div class="tab-text-2 tab-text-3 ">
                      <div class="tab-text-left">
-                        <p>'.$TaskDescr.'
+                        <p>Description. '.$TaskDescr.'
                         </p>
                      </div>
                   </div>
