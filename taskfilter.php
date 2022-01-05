@@ -598,7 +598,9 @@ button.fr.btn-save {
       /* down-end */
 
 </style>
+
 <div class="maindiv" id="wrapper" style="margin:15px 0 0 16%;width:84%">
+
 <div>
    <input type="text" id="myInput" onkeyup="fnTypeFilterRow()" style="background-color: #fff;float:left;width:40%;border-radius:25px" placeholder="Search by Task or Maingroup or Subgroup " title="Type in task name" class="form-control  total_fields" />
 </div>
@@ -610,7 +612,7 @@ button.fr.btn-save {
    <img style="border:none;background:#eee;float:right;cursor: pointer;margin:0px 40px 0px 0px;" alt="" src="images/Filters.svg" onclick="openfilter()" />
 </div>
 <br clear='all'/>
-<div class=sidenav1 id=quickbox1>
+<div class=sidenav1 id=quickbox1 style="z-index: 2;">
   
       <div class="row shadow p-3 bg-white rounded" style="width: 576px;height: 48px;">
          <div class="col-md-6" style="margin-top: 5px;">
@@ -744,7 +746,7 @@ button.fr.btn-save {
    <br clear="all"/><br clear="all"/>
    <input type=submit name="btnFilter"  value="Filter" style="margin-left:20px;height:32px;width:100px" class='btn btn-default' />
    </div> --> 
- <div class=sidenav1 id=sidenav1>
+ <div class=sidenav1 id=sidenav1 style="z-index: 2;">
 <div class="row shadow p-3 bg-white rounded" style="height: 48px;">
    <div class="col-md-6" style="margin-top: 10px;">
       <a onclick="closefilter()" class="fl times_a"><i class="fas fa-times"></i></a> 
@@ -945,6 +947,8 @@ button.fr.btn-save {
       </div>
    </div>
 </div> 
+</div>
+</div>
 <script type="text/javascript">
    function changecontentpart(val){
        $(".li_button").removeClass("active");
