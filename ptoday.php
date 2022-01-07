@@ -368,7 +368,7 @@
          <input type=hidden name=AddNewBtnClick id=AddNewBtnClick value="" />
          <input type=hidden name=ViewListForFD id=ViewListForFD value="<?php echo $ViewListForFD;?>" />
          <?php    if ($urlRecEdit=='') { 
-            include "taskfilter.php";
+              include "taskfilter.php";
             ?>
          <div class="maindiv" id="wrapper" style="margin-left:16%;width:84%;">
             <div id="floatleft" style="width:100%;float:left;z-index: -1;">
@@ -400,7 +400,7 @@
                      
                      $sql301 = mysqli_query($mysqli, $query301);    
                      $existCount301 = mysqli_num_rows($sql301);
-                     //echo '<br>QUERY---'.$existCount301.'-----'.$query301;
+                   //  echo '<br>QUERY---'.$existCount301.'-----'.$query301;exit;
                      if ($existCount301>0){
                          while($row301=mysqli_fetch_array($sql301))
                              {
@@ -409,6 +409,7 @@
                                  $csqlDueDate=$row301['cDueDate'];
                                  if (($TRecRef !== $TRecRefold) or ($TRecRef == $TRecRefold && $csqlScheduleDateold !== $csqlScheduleDate && $csqlDueDate !==$csqlDueDateold)) 
                                 {
+                                   // echo "1";exit;
                                  $taskowner = $row301['CreatedBy'];
                                  $cRecRef=$row301['cRecRef'];
                                  $sRecRef=$row301['SRecRef'];
@@ -517,21 +518,26 @@
                                  
                                  //  ($ForRefUSR==$AssignedBy && $AssignedBy!=$id)   //---- This is private task
                                  
-                                 if ($PrivateTask==1 && $AssignedBy!=$id) {   //---- This is private task 
+                                 if ($PrivateTask==1 && $AssignedBy!=$id) { 
+                                   //---- This is private task 
+
                                  }
                                  else {
                                      /*  id="dv-<?php echo $celnodv;?>" onmouseover="mouseOverDV(<?php echo $celnodv;?>)" onmouseout="mouseOutDV(<?php echo $celnodv;?>)"> */
+
                   $outall = "<input type=hidden id=EditTaskRef".$celnodv."     name=EditTaskRef".$celnodv." value=".$TRecRef." > ";
                   include "ptaskdetails.php";
                   $outall.= "
                </div>
                ";
+               //echo $outall;exit;
                $celnodv++;
-               //echo '<br>csqlScheduleDate'.$csqlScheduleDate.'='.strtotime($csqlScheduleDate).'------DateToday='.$DateToday.'='.strtotime($DateToday).'------';
+              // echo '<br>csqlScheduleDate'.$csqlScheduleDate.'='.strtotime($csqlScheduleDate).'------DateToday='.$DateToday.'='.strtotime($DateToday).'------'.$csqlDueDate;
+              // exit;
                //if (strtotime($csqlScheduleDate)<strtotime($DateToday))  {$outover.=$outall; $OverDueCount++;}
                //if (strtotime($csqlScheduleDate)==strtotime($DateToday)) {$outoday.=$outall; $TodaysCount++;}
                if (strtotime($csqlScheduleDate)<strtotime($DateToday) && strtotime($csqlDueDate)<strtotime($DateToday))  {$outover.=$outall; $OverDueCount++;}
-               if (strtotime($csqlScheduleDate)==strtotime($DateToday) || ( strtotime($csqlScheduleDate)<strtotime($DateToday) && strtotime($csqlDueDate)>=strtotime($DateToday)  ) ) {$outoday.=$outall; $TodaysCount++;}
+               if (strtotime($csqlScheduleDate)==strtotime($DateToday) || ( strtotime($csqlScheduleDate)<strtotime($DateToday) && strtotime($csqlDueDate)<=strtotime($DateToday)  ) ) {$outoday.=$outall; $TodaysCount++;}
                if (strtotime($csqlScheduleDate)==strtotime($DateTomorrow)) {$outomorrow.=$outall; $TomorrowCount++;}
                }   //------ end if private task
                $TRecRefold = $TRecRef;
@@ -544,8 +550,8 @@
                ?>
                <input type="hidden" name="CountCells" value="<?php echo $celnodv;?>"/>
                <div class="tab">
-                  <button class="tablinks active-tab" id="odtasks" onclick="ShowList('OD')">Over due tasks (<?php echo $OverDueCount; ?>)&nbsp</button>
-                  <button class="tablinks" id="tdtasks" onclick="ShowList('TD')">Today's tasks (<?php echo $TodaysCount; ?>) &nbsp &nbsp</button>
+                  <button class="tablinks " id="odtasks" onclick="ShowList('OD')">Over due tasks (<?php echo $OverDueCount; ?>)&nbsp</button>
+                  <button class="tablinks active-tab" id="tdtasks" onclick="ShowList('TD')">Today's tasks (<?php echo $TodaysCount; ?>) &nbsp &nbsp</button>
                   <button class="tablinks" id="tmtasks" onclick="ShowList('TM')">&nbsp Tomorrow's tasks (<?php echo $TomorrowCount; ?>)</button>
                </div>
                <div id="OD" class="tabcontent1">
