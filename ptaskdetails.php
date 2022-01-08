@@ -31,13 +31,23 @@
                     $outall.= "<input type=hidden id=EditCalendarRef".$celnodv." name=EditCalendarRef".$celnodv." value=".$cRecRef." > ";
                     $outall.= "<input type=hidden id=EditScheduleRef".$celnodv." name=EditScheduleRef".$celnodv." value=".$sRecRef." > ";
                     $outall.= '<div class="maintab-box" id=dv-'.$celnodv.'>
-               <div class="tabsub-box">
-                  <img src="images/Copy of Completed Bookmark.svg" class="tab-img-1">
-                  <div class="tab-text-1">
+               <div class="tabsub-box">';
+               if($Priority=='P1'){
+                  $outall.= '<img src="images/P1.svg" class="tab-img-1">';
+               }
+               if($Priority=='P2'){
+                   $outall.= '<img src="images/P2.svg" class="tab-img-1">';
+               }
+               if($Priority=='P3'){
+                   $outall.= '<img src="images/P3.svg" class="tab-img-1">';
+               }
+                 
+                  $outall.= '<div class="tab-text-1">
                      <div class="tab-text-left">
                         <h1># '.$CoShortCode.'</h1>
-                        <p><img src="images/Lock.svg">Task
-                        <p>
+                        <p>';
+                        if ($PrivateTask==1) { $outall.= "<img src='images/Lock.svg'>".$TaskTitle; }
+                        $outall.='<p>
                      </div>
                      <div class="tab-text-right">
                         <div class="icon" onclick="changeexpend('.$celnodv.')">
@@ -50,12 +60,12 @@
                         <p>'.$TaskMainGroupTitle.' - '. $TaskSubGroupTitle.'</p>
                      </div>
                      <div class="tab-text-right">
-                        <p>'.$showdate.'</p>
+                        <p>'.date('d-m-Y',strtotime($showdate)).'</p>
                      </div>
                   </div>
                   <div class="tab-text-2 tab-text-3 ">
                      <div class="tab-text-left">
-                        <p>'.$TaskDescr.'
+                        <p>Description. '.$TaskDescr.'
                         </p>
                      </div>
                   </div>
