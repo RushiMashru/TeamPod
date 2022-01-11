@@ -46,8 +46,8 @@
                      <div class="tab-text-left">
                         <h1># '.$CoShortCode.'</h1>
                         <p>';
-                        if ($PrivateTask==1) { $outall.= "<img src='images/Lock.svg'>".$TaskTitle; }
-                        $outall.='<p>
+                        if ($PrivateTask==1) { $outall.= "<img src='images/Lock.svg'>"; }
+                        $outall.=$TaskTitle.'<p>
                      </div>
                      <div class="tab-text-right">
                         <div class="icon" onclick="changeexpend('.$celnodv.')">
@@ -77,7 +77,7 @@
                   </div>
                   <div class="tab-text-1 tab-text-5">
                      <div class="tab-text-left">
-                        <h3><img src="images/Plus.svg" onclick=popup("popUpDiv","addsubtask","$cRecRef")> Sub task</h3>
+                        <h3><img src="images/Plus.svg" onclick=popup("popUpDiv","addsubtask",'.$cRecRef.')> Sub task</h3>
                      </div>
                      <div class="tab-text-right">
                         <div class="tab">';

@@ -65,6 +65,7 @@
       <link rel="stylesheet" type="text/css" href="newstyle.css">
       </link>
       <script src="multiselect.min.js"></script>
+            <link type="text/css" href="multiselect.css?v=23454" rel="stylesheet" />
       <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
    </head>
    <body style="text-align: center;">
@@ -1013,7 +1014,7 @@
          priority      = document.getElementById("priority").value;
          ForCalendarid = document.getElementById("calendaridsub").value;
          var dataString = "ForTaskid=" + taskid + "&taskdescr=" + subdescr + "&priority=" + priority + "&ForCalendarid=" + ForCalendarid + "&subname=" + subname + "&selected=" + selected + "&cat=addsubtask" ;
-         
+         //alert(dataString);
          $.ajax({  
          		type: "POST",  
          		url: "ptaskload.php",  
@@ -1021,8 +1022,8 @@
          		success: function(response)
          		{   
          		    //console.log(response);
-         		    popup('popUpDiv');
-                     //alert('Task updated Successfully!');
+         		    //popup('popUpDiv');
+                     alert('Task updated Successfully!');
                      location.reload();
          		}
          		
@@ -1432,6 +1433,10 @@
          		}
          		
          	});
+             blanket_size(windowname,page);
+           window_pos(windowname);
+           toggle('blanket');
+           toggle(windowname);
             }
          	
          	if (page == 'addtask') {
@@ -1446,6 +1451,10 @@
          		}
          		
          	});
+             blanket_size(windowname,page);
+           window_pos(windowname);
+           toggle('blanket');
+           toggle(windowname);
             }
             
             if (page == 'addsubtask') {
@@ -1456,7 +1465,9 @@
          		data: dataString,
          		success: function(response)
          		{   
-         		    $(".popup").html(response).show();
+                    document.getElementById("subtaskbox").style.display = "block";
+         		    $("#subtaskbox").html(response);
+
          		}
          		
          	});
@@ -1479,7 +1490,10 @@
          		}
          		
          	});
-         	
+         	 blanket_size(windowname,page);
+           window_pos(windowname);
+           toggle('blanket');
+           toggle(windowname);
             }
             if (page == 'subtasknotes') {
              fortid = "EditTaskRef"+rowid;
@@ -1500,7 +1514,10 @@
          		}
          		
          	});
-         	
+         	 blanket_size(windowname,page);
+           window_pos(windowname);
+           toggle('blanket');
+           toggle(windowname);
             }
             
             if (page == 'calendar') {
@@ -1518,13 +1535,13 @@
          		}
          		
          	});
-         	
-            }
-            
-           blanket_size(windowname,page);
+         	 blanket_size(windowname,page);
            window_pos(windowname);
            toggle('blanket');
-           toggle(windowname);	
+           toggle(windowname);
+            }
+            
+          	
          	
          }
          function toggle(div_id) {
@@ -1610,8 +1627,17 @@
              document.getElementById("sidenav1").style.display = "block";
          }
 
+          function subbox(id) {
+             document.getElementById("subtaskbox").style.display = "block";
+             $("#task_id").html(id);
+         }
+
          function quickboxclosefilter() {
              document.getElementById("quickbox1").style.display = "none";
+         }
+
+         function subtaskclosefilter() {
+             document.getElementById("subtaskbox").style.display = "none";
          }
          function quickboxfilter() {
              document.getElementById("quickbox1").style.display = "block";

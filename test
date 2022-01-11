@@ -1,0 +1,16 @@
+**) As we discussed most of the data are static please make them dynamic... we have all the required column names you need to bind those column value variables. 
+1) Note Icon: The note filed is going blank in DB =>working
+2) Upload Icon: 
+    1) Actual Upload is not working... =>done
+    2) When we select some file and then cancel it then next time it is not allowing to 
+        upload. =>done
+    3) browse to upload should be in center of gray area... =>done
+3) End Task Note: End note is not getting saved only. Showing some 500 internal error in ptaskload.php =>done
+4) The text-area present in all the icons are overflowing. Restrict horizonal expand property. =>done
+5) Users Icon (second last): The selected name is comping in white color which is not visible, please make it blod-black =>done
+6) Assign group (3rd icon): Currently by default it is showing first items in both drop-down. But these drop down should show "Main Group" and "Sub Group" by default if no value is selected. =>done
+7) Sub Task Related Functionality is completely not working...I checked in DB there are couple of task which has sub task but UI design wise it is not showing it. (Refer Design) => done
+8) Lock.svg icon not loading please use the lock.svg icon which was shred in google drive =>done
+
+
+
