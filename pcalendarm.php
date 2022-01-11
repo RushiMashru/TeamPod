@@ -42,7 +42,7 @@ $nMonth=date ("d-m-Y", strtotime("+1 Month", strtotime($StartOfMonth)));
 //echo '<br>Previous-W= '.$pweek.' next-W= '.$nweek;
 
 //--------------- show calender header
-$south.="<table class='table-list' >
+$south.="<table class='table-list' style='margin-top: -10px;'>
         <tr><td style='text-align:center;background-color:#ffe199;font-weight:bold;' colspan='50' >
         <a href=pcalendarm.php?CM=$pMonth target=_self><pre style='display: inline-block;
         width: 10px;font-weight:bold;'>&lt;</pre></a>
@@ -248,17 +248,16 @@ else
 <!-- <meta http-equiv="refresh" content="50"></meta>     -->
 
 <link rel="shortcut icon" type="image/png" href="images/icontask.png"/>
-<link rel="stylesheet" type="text/css" href="cssjs/newstyle.css"></link>
+<!-- <link rel="stylesheet" type="text/css" href="cssjs/newstyle.css"></link> -->
 <link rel="stylesheet" type="text/css" href="css/pcalendarw.css"></link>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <!--  start Mask  Date Validation   -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<script src="sysdm/jquery.inputmask.bundle.min.js"></script>
 
 <script>
 $(document).ready(function(){
-    $(":input").inputmask();
+   // $(":input").inputmask();
 });
 </script>
 <!--  End Mask Date Validation    -->
@@ -270,7 +269,7 @@ $(document).ready(function(){
 <body>
 
         
-    <form action="" name="TaskMgmt" id="TaskMgmt" method="post" enctype="multipart/form-data" target="_self" >    
+    <form action="" name="TaskMgmt" id="TaskMgmt" method="post" enctype="multipart/form-data" target="_self" style="margin-top:70px;" >    
     
         <!-- Main TAB menu Header START -->
 
@@ -281,12 +280,12 @@ $(document).ready(function(){
       <i class="fa fa-search" style="font-size: 14px; margin-left: -23px;"></i>
     </form>
   </div>
-          <span>  <div class="button"  onclick="window.location.href='pcalendarw.php'" >Weekly</div>
+          <span style="margin-left: 400px;">  <div class="button"  onclick="window.location.href='pcalendarw.php'" >Weekly</div>
            <div class="button" onclick="window.location.href='pcalendarm.php'">Monthly</div>
-            <img src="images/Filters.svg"  onclick="openfilter()" style="height: 25px;" >
+            <img src="images/Filters.svg"  onclick="openfilter()" style="border: none; float: right; cursor: pointer; margin: 0px 0px 0px 6px;" >
          
             <div class=sidenav1 id=sidenav1>
-           <label style="width:100px;float:left;font-size: 18px;"> Filter by:</label> <i class="fa fa-close" onclick="window.location.href='pcalendarw.php'"></i> <a onclick="closefilter()"><img style="border:none;background:#eee;float:right;margin-right:10px" alt="" src="../focinc/images/close.jpg" /></a><br/><br/>
+           <label style="width:100px;float:left;font-size: 18px;"> Filter by:</label> <i class="fa fa-close" onclick="window.location.href='pcalendarw.php'"></i> <a onclick="closefilter()"><img style="border:none;background:#eee;float:right;margin-right:10px" alt="" src="" /></a><br/><br/>
             <select class="total_fields forminput" name="ForCompany" style="width:200px;" >
                         <?php  $i=0; 
                         while($i<$maxcompanycode)

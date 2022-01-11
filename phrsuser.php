@@ -93,19 +93,8 @@ if ($FromDate=='' && $ToDate=='')
         <!-- pagination links -->
         <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
  	
-<!--  start Mask  Date Validation   -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<script src="cssjs/jquery.inputmask.bundle.min.js"></script>
-<script>
-$(document).ready(function(){
-    $(":input").inputmask();
-});
-</script>
-<!--  End Mask Date Validation    -->
-<script type="text/javascript" src="jquery.simple-dtpicker.js"></script>
- <link type="text/css" href="jquery.simple-dtpicker.css" rel="stylesheet" />
-  <link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/ui-darkness/jquery-ui.min.css" rel="stylesheet">
- <!-- DO NOT USE, As it is already used in Date Validation <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>  -->
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -119,7 +108,7 @@ $(document).ready(function(){
 
 <body>
 
-<div class="row">
+<div class="row" style="margin-top:75px;">
     
 <div class="tab">
   <button class="tablinks active" id="defaultOpen" onclick="openCity(event, 'By User')"><img src="images/ByUser.svg" height="30" style="vertical-align:middle;margin: -4px 1px 0px 0px;/* width: 28px; */">By User</button>
@@ -136,7 +125,7 @@ By Company</button>
 <div id="By User" class="tabcontent active">
 <div class="maindiv" id="wrapper" >
       <div id="floatleft" >
-      <main class="card">
+      <main class="card" style="margin-top:-91px;">
       <form action="" name="TaskMgmt" id="TaskMgmt" method="post" enctype="multipart/form-data" target="_self" >  
 
          <input type=hidden name="AddNewBtnClick" id="AddNewBtnClick" value="" />
@@ -173,25 +162,15 @@ By Company</button>
                   <div class="col-md-6 fl mb-30">
                      <div class="inp">
                         <label class="email" for="FromDate">Start Date</label>
-                        <input type="text"  name="FromDate" id="FromDate" onChange=SetWeekdays() value="" placeholder="MM-DD-YYYY" autocomplete="off">
-                        <script type="text/javascript">                           
-                            $('#FromDate').datepicker({
-                                uiLibrary: 'bootstrap4',
-                                dateFormat: 'mm-dd-yyyy'
-                            });    
-                        </script>
+                        <input type="text"  name="FromDate" id="FromDate" value="" placeholder="DD/MM/YYYY" autocomplete="off">
+                     
                      </div>
                   </div>
                   <div class="col-md-5 mb-30">
                      <div class="inp">
                         <label class="email" for="DueDate">ToDate</label>
-                        <input type="text" name="ToDate" id="ToDate" value="" placeholder="MM-DD-YYYY" autocomplete="off">
-                        <script type="text/javascript">                           
-                            $('#ToDate').datepicker({
-                                uiLibrary: 'bootstrap4',
-                                dateFormat: 'mm-dd-yyyy'
-                            });    
-                        </script>
+                        <input type="text" name="ToDate" id="ToDate" value="" placeholder="DD/MM/YYYY" autocomplete="off">
+                       
                      </div>
                   </div>
                </div>
@@ -240,8 +219,17 @@ By Company</button>
         {
         $uRefUSR=$row11['RefUSR'];
         $uFullName=$row11['FirstName'].' '.$row11['LastName'];
+
+
       
-       
+        $query12="SELECT SEC_TO_TIME( SUM( TIME_TO_SEC( `TimeTaken` ) ) ) AS UTIMETAKE FROM `tTaskNotes` 
+        WHERE NotesBy='$uRefUSR' AND  (DATE(NotesDT) BETWEEN '$sqlFromDate' AND '$sqlToDate' ) "; 
+        $sql12 = mysqli_query($mysqli, $query12);
+        //echo $query12;
+        while($row12=mysqli_fetch_array($sql12))						//------------------- Store Practice ID & Full Name from database to AllPractice_arr ------
+        {
+            $userTotalHours=$row12['UTIMETAKE'];
+        }         
 
         echo "<tr>
         <td>
@@ -249,22 +237,7 @@ By Company</button>
         </td>
         ";
 
-           $query12="SELECT SEC_TO_TIME( SUM( TIME_TO_SEC( `TimeTaken` ) ) ) AS UTIMETAKE FROM `tTaskNotes` 
-                     WHERE NotesBy='$uRefUSR' AND  (DATE(NotesDT) BETWEEN '$sqlFromDate' AND '$sqlToDate' ) "; 
-           $sql12 = mysqli_query($mysqli, $query12);
-           //echo $query12;
-           while($row12=mysqli_fetch_array($sql12))						//------------------- Store Practice ID & Full Name from database to AllPractice_arr ------
-               {
-                   $userTotalHours=$row12['UTIMETAKE'];
-               }         
-
-
-
-           echo "<td >$userTotalHours</td>
-           
-           </tr>";
-
-           if ($ForRefUSR==$uRefUSR) {
+        if ($ForRefUSR==$uRefUSR) {
             $query12="SELECT t1.TRecRef, t1.TaskTitle, t2.ForCoRecRef, $CriteriaTaskSUM, t4.Notes 
                       FROM tTasks AS t1, tSchedule AS t2, tCalendar AS t3, tTaskNotes AS t4 
                       WHERE t1.TRecRef=t2.TRecRef AND t2.SRecRef=t3.SRecRef AND t3.cRecRef=t4.cRecRef $CriteriaTask
@@ -304,6 +277,15 @@ By Company</button>
                     
                }   //------ end while $row11
 
+         
+        echo "<td ></td>";
+
+
+         echo "<td >$userTotalHours</td>
+           
+           </tr>";
+
+           
                echo "</tbody>";  
               
                echo "</table>";  
@@ -327,7 +309,7 @@ By Company</button>
 <div id="By Company" class="tabcontent">
 <div class="maindiv" id="wrapper" >
       <div id="floatleft" >
-      <main class="card">
+      <main class="card" style="margin-top:-91px;">
       <form action="" name="TaskMgmt" id="TaskMgmt" method="post" enctype="multipart/form-data" target="_self" >  
 
          <input type=hidden name="AddNewBtnClick" id="AddNewBtnClick" value="" />
@@ -364,25 +346,15 @@ By Company</button>
                   <div class="col-md-6 fl mb-30">
                      <div class="inp">
                         <label class="email" for="FromDate">Start Date</label>
-                        <input type="text"  name="FromDate" id="FromDate1" onChange=SetWeekdays() value="" placeholder="MM-DD-YYYY" autocomplete="off">
-                        <script type="text/javascript">                           
-                            $('#FromDate1').datepicker({
-                                uiLibrary: 'bootstrap4',
-                                dateFormat: 'mm-dd-yyyy'
-                            });    
-                        </script>
+                        <input type="text"  name="FromDate" id="FromDate1" value="" placeholder="DD/MM/YYYY" autocomplete="off">
+                       
                      </div>
                   </div>
                   <div class="col-md-5 mb-30">
                      <div class="inp">
                         <label class="email" for="DueDate">ToDate</label>
-                        <input type="text" name="ToDate" id="ToDate1" value="" placeholder="MM-DD-YYYY" autocomplete="off">
-                        <script type="text/javascript">                           
-                            $('#ToDate1').datepicker({
-                                uiLibrary: 'bootstrap4',
-                                dateFormat: 'mm-dd-yyyy'
-                            });    
-                        </script>
+                        <input type="text" name="ToDate" id="ToDate1" value="" placeholder="DD/MM/YYYY" autocomplete="off">
+                       
                      </div>
                   </div>
                </div>
@@ -435,6 +407,15 @@ By Company</button>
         $uRefUSR=$row11['RefUSR'];
         $uFullName=$row11['Company'];
   
+        $query12="SELECT SEC_TO_TIME( SUM( TIME_TO_SEC( `TimeTaken` ) ) ) AS UTIMETAKE FROM `tTaskNotes` 
+        WHERE NotesBy='$uRefUSR' AND  (DATE(NotesDT) BETWEEN '$sqlFromDate' AND '$sqlToDate' ) "; 
+$sql12 = mysqli_query($mysqli, $query12);
+//echo $query12;
+while($row12=mysqli_fetch_array($sql12))						//------------------- Store Practice ID & Full Name from database to AllPractice_arr ------
+  {
+      $userTotalHours=$row12['UTIMETAKE'];
+  }         
+
 
         echo "<tr>
         <td>
@@ -442,16 +423,9 @@ By Company</button>
         </td>
         ";
 
-           $query12="SELECT SEC_TO_TIME( SUM( TIME_TO_SEC( `TimeTaken` ) ) ) AS UTIMETAKE FROM `tTaskNotes` 
-                     WHERE NotesBy='$uRefUSR' AND  (DATE(NotesDT) BETWEEN '$sqlFromDate' AND '$sqlToDate' ) "; 
-           $sql12 = mysqli_query($mysqli, $query12);
-           //echo $query12;
-           while($row12=mysqli_fetch_array($sql12))						//------------------- Store Practice ID & Full Name from database to AllPractice_arr ------
-               {
-                   $userTotalHours=$row12['UTIMETAKE'];
-               }         
-
-
+         
+         echo "<td ></td>";
+         echo "<td ></td>";
 
            echo "<td >$userTotalHours</td>
            
@@ -589,7 +563,61 @@ document.getElementById("defaultOpen").click();
 
 <! -- tab end -->
 
+<!--- user script start-->
+<script>
+$(document).ready(function(){
+    var FromDate;
+    var ToDate;
+    //$(":input").inputmask();
+    $("#FromDate").datepicker({
+                     dateFormat: 'dd/mm/yy'
+                    });
+    $("#ToDate").datepicker({
+        dateFormat: 'dd/mm/yy'
+    });
 
+    $('#FromDate').change(function(){
+        startDate=$(this).datepicker('getDate');
 
+        $('#ToDate').datepicker('option','minDate',startDate);
+    });
+
+    $('#ToDate').change(function(){
+        endDate=$(this).datepicker('getDate');
+
+        $('#FromDate').datepicker('option','maxDate',endDate);
+    });
+});
+</script>
+<!--- user script end-->
+
+<!--- company script start-->
+
+<script>
+$(document).ready(function(){
+    var FromDate;
+    var ToDate;
+    //$(":input").inputmask();
+    $("#FromDate1").datepicker({
+                     dateFormat: 'dd/mm/yy'
+                    });
+    $("#ToDate1").datepicker({
+        dateFormat: 'dd/mm/yy'
+    });
+
+    $('#FromDate1').change(function(){
+        startDate=$(this).datepicker('getDate');
+
+        $('#ToDate1').datepicker('option','minDate',startDate);
+    });
+
+    $('#ToDate1').change(function(){
+        endDate=$(this).datepicker('getDate');
+
+        $('#FromDate1').datepicker('option','maxDate',endDate);
+    });
+});
+</script>
+<!--- company script start-->
 </body>
 </html>    
