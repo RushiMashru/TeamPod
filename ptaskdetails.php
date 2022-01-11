@@ -192,8 +192,17 @@ if ($cStage!="Completed") {
                  $outall.=' <hr><div class="tab-text-4" id=sdv-'.$celnodv.'-'.$scelnodv.'>
                               <div class="img-box" style="background: #ffe199;    color: black;">
                                  '.substr($sFirstName,0,1).substr($sLastName,0,1).'</div>
-                              <div class="name-box" >
-                                '.$Prioritysub.': Sub Task
+                              <div class="name-box" >';
+
+                                if($Prioritysub=='P1'){
+                  $outall.= '<img src="images/P1.svg" class="tab-img-1">';
+               }
+               if($Prioritysub=='P2'){
+                   $outall.= '<img src="images/P2.svg" class="tab-img-1">';
+               }
+               if($Prioritysub=='P3'){
+                   $outall.= '<img src="images/P3.svg" class="tab-img-1">';
+               }$outall.=': Sub Task
                               </div>
                            </div>
                      <p> Description. '.$Descrsub.'

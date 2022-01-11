@@ -260,6 +260,31 @@
          }
          #Nav_AddTask {  background: #eee;  background-size: 70px 38px;  border: 2px solid #5DADE2; width: 70px; height: 42px;}
          #Nav_AddTask:hover {  background: #999;  background-size: 70px 40px;}
+          .current {
+  color: green;
+}
+
+#pagin li {
+  display: inline-block;
+}
+
+.prev {
+  cursor: pointer;
+}
+
+.next {
+  cursor: pointer;
+}
+
+.last{
+  cursor:pointer;
+  margin-left:5px;
+}
+
+.first{
+  cursor:pointer;
+  margin-right:5px;
+}
       </style>
       <link rel="shortcut icon" type="image/png" href="images/icontask.png"/>
       <link rel="stylesheet" type="text/css" href="newstyle.css?v=vcb54">
@@ -558,12 +583,15 @@
                   <?php if ($ViewListForFD=='OD') { echo $outover; } ?>
                </div>
                <div id="TD" class="tabcontent1" >
-                  
+                  <ul id="pagin">
+         
+</ul>
                   <div class="main-tab">
            
            <?php if ($ViewListForFD=='TD' || $ViewListForFD=='') { echo $outoday; } ?> 
            
          </div>
+         
                </div>
                <div id="TM" class="tabcontent1">
                   <?php if ($ViewListForFD=='TM') { echo $outomorrow; } ?>
@@ -591,7 +619,6 @@
          <!-- wrapper & center -->
          
       </form>
-
       <script type="text/javascript">
           
           function readURL(input) {
@@ -668,5 +695,78 @@ function openCity1(evt, cityName,mid,subid) {
  // $("#sdv-"+mid+'-'+subid).css('display','block');
 }
       </script>
+      <script type="text/javascript">
+  pageSize = 20;
+incremSlide = 5;
+startPage = 0;
+numberPage = 0;
+
+var pageCount =  $(".maintab-box").length / pageSize;
+var totalSlidepPage = Math.floor(pageCount / incremSlide);
+    
+for(var i = 0 ; i<pageCount;i++){
+    $("#pagin").append('<li><a href="#">'+(i+1)+'</a></li> ');
+    if(i>pageSize){
+       $("#pagin li").eq(i).hide();
+    }
+}
+
+var prev = $("<li/>").addClass("prev").html("Prev").click(function(){
+   startPage-=5;
+   incremSlide-=5;
+   numberPage--;
+   slide();
+});
+
+prev.hide();
+
+var next = $("<li/>").addClass("next").html("Next").click(function(){
+   startPage+=5;
+   incremSlide+=5;
+   numberPage++;
+   slide();
+});
+
+$("#pagin").prepend(prev).append(next);
+
+$("#pagin li").first().find("a").addClass("current");
+
+slide = function(sens){
+   $("#pagin li").hide();
+   
+   for(t=startPage;t<incremSlide;t++){
+     $("#pagin li").eq(t+1).show();
+   }
+   if(startPage == 0){
+     next.show();
+     prev.hide();
+   }else if(numberPage == totalSlidepPage ){
+     next.hide();
+     prev.show();
+   }else{
+     next.show();
+     prev.show();
+   }
+   
+    
+}
+
+showPage = function(page) {
+    $(".maintab-box").hide();
+    $(".maintab-box").each(function(n) {
+        if (n >= pageSize * (page - 1) && n < pageSize * page)
+            $(this).show();
+    });        
+}
+    
+showPage(1);
+$("#pagin li a").eq(0).addClass("current");
+
+$("#pagin li a").click(function() {
+   $("#pagin li a").removeClass("current");
+   $(this).addClass("current");
+   showPage(parseInt($(this).text()));
+});
+</script>
    </body>
 </html>
