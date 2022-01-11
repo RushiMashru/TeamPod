@@ -9,7 +9,8 @@ date_default_timezone_set('Europe/London'); // CDT
 $current_date = date('Y-m-d');
 $currdatetime = date('Y-m-d H:i:s');
 ?>
-
+<script type="text/javascript" src="multiselect.min.js"></script>
+ <link type="text/css" href="multiselect.css?v=23454" rel="stylesheet" />
 <?php
 
 if($_POST['cat'] =="loadusers") {
@@ -33,7 +34,7 @@ $UserCodeName_arr = array();
         $i++;
     }
 ?>
-<script type="text/javascript" src="multiselect.min.js"></script>
+
 <label class="email" for="ForRefUSR"> Assign To</label>
     <select  onChange ="checkedvalues()" name="ForRefUSR" id="ForRefUSR" multiple="">
         <?php  $i=0; 
@@ -748,7 +749,7 @@ if($_POST['cat'] == "subtaskpopup") {
 
   echo "<input type=hidden id=taskidsub value='$ForTaskid' />";
   echo "<input type=hidden id=calendaridsub value='$ForCalendarid' />";
-  echo "<span style='font-size:16px;font-weight:bold'>Task#$ForTaskid</span><br clear='all'><br clear='all'>";      
+ // echo "<span style='font-size:16px;font-weight:bold'>Task#$ForTaskid</span><br clear='all'><br clear='all'>";      
   $assigneduser=array();
     $x=0;
     $query3011 = "SELECT ForRefUSR from tCalendar where TRecRef='$ForTaskid' and (cScheduleDate,cDueDate)=(select cScheduleDate,cDueDate from tCalendar where cRecRef='$ForCalendarid') and Status='A' ";
@@ -771,44 +772,92 @@ if($_POST['cat'] == "subtaskpopup") {
         $x++;
     }
 ?>
-<br/>
-           
-    <div class="labelcust">Sub Task: </div>
-    <input type=text class="total_fields forminput" name="sTaskName" id="sTaskName" value="" /><br clear="all"/>  <br clear="all"/>
-    <div class="labelcust">Assign to:</div>
-    <?php 
-    $i=0;$maxassigneduser=sizeof($assigneduser);$multiple="";
-    echo "<input type=hidden id=usermultiple value='$maxassigneduser' />";
-    if ($maxassigneduser > 1) { 
-        $multiple = "multiple"; 
-    } 
-    echo "<select name=selNewUser".$celnodv." style='width:200px;float:left;margin-left:5px' id=ForRefUSRSTsk class='total_fields' $multiple>";
-            while($i<$maxassigneduser)
-            {   
-                echo "<option value=".$assigneduser[$i][0]." $selected> ".$assigneduser[$i][1]."</option>";
-                $i++; 
-            }
-    echo "</select>";
-    ?>
-    <script>
-        document.multiselect('#ForRefUSRSTsk')
-        .setCheckBoxClick('checkboxAll', function(target, args) {  })
-        .setCheckBoxClick('1', function(target, args) {   });
-        document.getElementById("ForRefUSRSTsk_itemList").style.width ="300px";
-    </script>
-    <br clear='all'><br clear='all'>
-    <div class="labelcust">Description:</div> 
-    <textarea name=TaskDescription class="total_fields forminput" id=TaskDescription style="vertical-align: top;height:60px;border-radius:4px" rows=3  placeholder='Please provide task detail'></textarea>
-    <br clear="all"/><br clear="all"/>
-    <div class="labelcust">Priority:</div>
-      <select class="forminput total_fields" name="priority" id="priority" style='float:left;padding:3px;border-radius:3px;width:120px;margin-left:5px'>
-                <option value="P3" >P3 - Low</option>
-                <option value="P2" >P2 - Medium</option>
-                <option value="P1" >P1 - High</option>
-       </select>
-    
-    <input type=button name="btnSave"  value="Save" style="margin:40px 50px;font-weight:bold;width:100px" class='btn' onclick="addsubtask()" />
-     <br clear="all"/>  <br clear="all"/><br clear="all"/>  <br clear="all"/>       
+<style type="text/css">
+  
+input#sTaskName {
+    border: 0;
+    border: 1px solid #e6e6e6;
+    width: 100%;
+    outline: none;
+    height: 51px;
+    padding: 0 20px;
+    border-radius: 4px;
+    color: #333333;
+    font-size: 16px;
+    font-family: 'Source Sans Pro';
+    font-weight: normal;
+}
+.mb-30{
+    margin-bottom: 30px;
+}
+</style>
+        <div class="row shadow p-3 bg-white rounded" style="width: 576px;height: 48px;">
+         <div class="col-md-6" style="margin-top: 5px;">
+            <a onclick="subtaskclosefilter()" class="fl times_a"><i class="fas fa-times"></i></a> 
+            <label class="fl filter_label" > 
+            Task#<span id="task_id"><?=$_POST['ForCalendarid']?></span>
+            </label>
+         </div>
+         <div class="col-md-6" style="margin-top: 5px;">
+            <button type="button" onclick="addsubtask()"  name="btntaskadd"  class="fr btn-save">Save</button>
+         </div>
+      </div>
+      <div class="contanier_row">
+         <div class="quick_content">
+            <main class="card">
+               <article class="card-content">
+                  <div class="wrapper">
+                     <div class="inp mb-30" style="margin-top: 20px;">
+                        <label class="task_name" for="sTaskName"> Task Name*</label>
+                        <input type="text" name="sTaskName" id="sTaskName"  >
+                     </div>
+                     <div class="inp mb-30"  id="userselect">
+                        <label class="email" for="ForRefUSR"> Assign To</label>
+                        <?php 
+                            $i=0;$maxassigneduser=sizeof($assigneduser);$multiple="";
+                            echo "<input type=hidden id=usermultiple value='$maxassigneduser' />";
+                            if ($maxassigneduser > 1) { 
+                                $multiple = "multiple"; 
+                            } 
+                            echo "<select name=selNewUser".$celnodv."  id=ForRefUSRSTsk class='total_fields' $multiple>";
+                                    while($i<$maxassigneduser)
+                                    {   
+                                        echo "<option value=".$assigneduser[$i][0]." $selected> ".$assigneduser[$i][1]."</option>";
+                                        $i++; 
+                                    }
+                            echo "</select>";
+                            ?>
+                            <script>
+                                document.multiselect('#ForRefUSRSTsk')
+                                .setCheckBoxClick('checkboxAll', function(target, args) {  })
+                                .setCheckBoxClick('1', function(target, args) {   });
+                                document.getElementById("ForRefUSRSTsk_itemList").style.width ="300px";
+                            </script>
+                     </div>
+                   
+                    <div class="col-md-12">
+                      <div class="inp mb-30" style="display: table;width: 100%;">
+                         <label class="description" for="TaskDescription" style="top: -8px;"> Description</label>
+                         <textarea name="TaskDescription" id="TaskDescription" rows="5" placeholder="Please Provide Task Detail"></textarea>
+                      </div>
+                   </div>
+                   <div class="inp" >
+                        <label class="email" for="priority"> Priority</label>
+                        <select name="priority" id="priority">
+                           <option value="P3" selected>P3 - Low</option>
+                           <option value="P2">P2 - Medium</option>
+                           <option value="P1">P1 - High</option>
+                        </select>
+                     </div>
+                  </div>
+               </article>
+               <footer class="card-footer">
+                  
+               </footer>
+            </main>
+         </div>
+      </div>    
+       
 <?php
 }
 
