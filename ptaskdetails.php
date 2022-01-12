@@ -202,7 +202,7 @@ if ($cStage!="Completed") {
                }
                if($Prioritysub=='P3'){
                    $outall.= '<img src="images/P3.svg" class="tab-img-1">';
-               }$outall.=': Sub Task
+               }$outall.=$TaskTitlesub.' 
                               </div>
                            </div>
                      <p> Description. '.$Descrsub.'
@@ -214,7 +214,7 @@ if ($cStage!="Completed") {
                            <div class="tab-text-right">
                         <div class="tab">';
                         if ($usertask=='Y' && $Stagesub !="Completed") {
-                           $outall.='<span id=clockstarticon".$celnodv."-".$scelnodv." style="display:$subclockdisplay"><img src="../focinc/images/iconclockgif.gif" height=20 title="Clock Started" /></span><button class="tablinks" type="button" id=starttimeicon'.$celnodv.'-'.$scelnodv.' onclick="openCity1(event, \''."sub-tab-1".$celnodv.$scelnodv.'\','.$celnodv.','.$scelnodv.')"></button>
+                           $outall.='<span id=clockstarticon".$celnodv."-".$scelnodv." style="display:$subclockdisplay"><img src="images/Copy of Clock.svg""  title="Clock Started" /></span><button class="tablinks" type="button" id=starttimeicon'.$celnodv.'-'.$scelnodv.' onclick="openCity1(event, \''."sub-tab-1".$celnodv.$scelnodv.'\','.$celnodv.','.$scelnodv.')"></button>
                            <button class="tablinks" type="button" id=endtimeicon'.$celnodv.'-'.$scelnodv.'  onclick="openCity1(event, \''."sub-tab-2".$celnodv.$scelnodv.'\','.$celnodv.','.$scelnodv.')"><img src="images/Hourglass Start.svg"></button>                          
                            <button class="tablinks" type="button" id=subaddattach'.$celnodv.'-'.$scelnodv.'  onclick="openCity1(event, \''."sub-tab-3".$celnodv.$scelnodv.'\','.$celnodv.','.$scelnodv.')"><img src="images/Copy of Cloud_Upload.svg"></button>
                            <button class="tablinks" type="button" id=clockstarticon6'.$celnodv.'-'.$scelnodv.' onclick="openCity1(event, \''."sub-tab-4".$celnodv.$scelnodv.'\','.$celnodv.','.$scelnodv.')"><img src="images/Notes.svg"></button>

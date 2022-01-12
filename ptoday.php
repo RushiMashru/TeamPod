@@ -285,6 +285,14 @@
   cursor:pointer;
   margin-right:5px;
 }
+ul#pagin {
+    margin-bottom: 15px;
+}
+.current {
+    color: #e74c3c;
+    background: #ffe199;
+    padding: 9px;
+}
       </style>
       <link rel="shortcut icon" type="image/png" href="images/icontask.png"/>
       <link rel="stylesheet" type="text/css" href="newstyle.css?v=vcb54">
@@ -294,7 +302,7 @@
       <!--Load Script and Stylesheet -->
      <!--  <script type="text/javascript" src="jquery.simple-dtpicker.js"></script> -->
       <link type="text/css" href="jquery.simple-dtpicker.css" rel="stylesheet" />
-      <link type="text/css" href="multiselect.css?v=23454" rel="stylesheet" />
+      <link type="text/css" href="multiselect.css?v=4534" rel="stylesheet" />
       <!---->
       <script>
          $(function() {
@@ -575,9 +583,9 @@
                ?>
                <input type="hidden" name="CountCells" value="<?php echo $celnodv;?>"/>
                <div class="tab">
-                  <button class="tablinks " id="odtasks" onclick="ShowList('OD')">Over due tasks (<?php echo $OverDueCount; ?>)&nbsp</button>
-                  <button class="tablinks active-tab" id="tdtasks" onclick="ShowList('TD')">Today's tasks (<?php echo $TodaysCount; ?>) &nbsp &nbsp</button>
-                  <button class="tablinks" id="tmtasks" onclick="ShowList('TM')">&nbsp Tomorrow's tasks (<?php echo $TomorrowCount; ?>)</button>
+                  <button class="tablinks " id="odtasks" onclick="ShowList('OD')"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbspOver due tasks (<?php echo $OverDueCount; ?>)&nbsp</button>
+                  <button class="tablinks active-tab" id="tdtasks" onclick="ShowList('TD')"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbspToday's tasks (<?php echo $TodaysCount; ?>) &nbsp &nbsp</button>
+                  <button class="tablinks" id="tmtasks" onclick="ShowList('TM')"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbspTomorrow's tasks (<?php echo $TomorrowCount; ?>)</button>
                </div>
                <div id="OD" class="tabcontent1">
                   <?php if ($ViewListForFD=='OD') { echo $outover; } ?>
