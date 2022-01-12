@@ -19,7 +19,7 @@
 
 .multiselect-wrapper .multiselect-list {
 	z-index: 1;
-	position: absolute;
+	position: relative;
 	display: none;
 	background-color: white;
 	border: 1px solid grey;
