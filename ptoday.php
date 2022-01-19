@@ -260,38 +260,62 @@
          }
          #Nav_AddTask {  background: #eee;  background-size: 70px 38px;  border: 2px solid #5DADE2; width: 70px; height: 42px;}
          #Nav_AddTask:hover {  background: #999;  background-size: 70px 40px;}
-          .current {
-  color: green;
+          .list-wrapper {
+    padding: 15px;
+    overflow: hidden;
 }
 
-#pagin li {
-  display: inline-block;
+.list-item {
+    border: 1px solid #EEE;
+    background: #FFF;
+    margin-bottom: 10px;
+    padding: 10px;
+    box-shadow: 0px 0px 10px 0px #EEE;
 }
 
-.prev {
-  cursor: pointer;
+.list-item h4 {
+    color: #FF7182;
+    font-size: 18px;
+    margin: 0 0 5px;    
 }
 
-.next {
-  cursor: pointer;
+.list-item p {
+    margin: 0;
 }
 
-.last{
-  cursor:pointer;
-  margin-left:5px;
+.simple-pagination ul {
+    margin: 0 0 20px;
+    padding: 0;
+    list-style: none;
+    text-align: center;
 }
 
-.first{
-  cursor:pointer;
-  margin-right:5px;
+.simple-pagination li {
+    display: inline-block;
+    margin-right: 5px;
 }
-ul#pagin {
-    margin-bottom: 15px;
+
+.simple-pagination li a,
+.simple-pagination li span {
+    color: #666;
+    padding: 2px 10px;
+    text-decoration: none;
+    border: 1px solid #e74c3c;
+    background-color: #FFF;
 }
-.current {
-    color: #e74c3c;
-    background: #ffe199;
-    padding: 9px;
+
+.simple-pagination .current {
+        color: #e74c3c;
+    background-color: #f4e5c1;
+    border-color: #e74c3c;
+}
+
+.simple-pagination .prev.current,
+.simple-pagination .next.current {
+    background: #f4e5c1;
+}
+.active{
+        border: 2px solid #e74c3c !important;
 }
       </style>
       <link rel="shortcut icon" type="image/png" href="images/icontask.png"/>
@@ -430,10 +454,12 @@ ul#pagin {
                                  WHERE t1.TRecRef=t2.TRecRef AND t2.SRecRef=t3.SRecRef $FCCriteria $FUCriteria $FTMGCriteria $FTSGCriteria $FCMPCriteria $FTTagCriteria 
                                  AND ( DATE(t3.cScheduleDate) BETWEEN '$DateStart' AND '$DateTomorrow' ) AND t3.Status='A'
                                  ORDER BY t3.cScheduleDate,t1.TRecRef LIMIT 200";
+
+                                 $query301 = "SELECT t1.*,t2.*,t3.* FROM `tTasks` AS t1, `tSchedule` AS t2, `tCalendar` AS t3 WHERE t1.TRecRef=t2.TRecRef AND t2.SRecRef=t3.SRecRef ORDER BY t3.cScheduleDate,t1.TRecRef LIMIT 200";
                      
                      $sql301 = mysqli_query($mysqli, $query301);    
                      $existCount301 = mysqli_num_rows($sql301);
-                   //  echo '<br>QUERY---'.$existCount301.'-----'.$query301;exit;
+                    // echo '<br>QUERY---'.$existCount301.'-----'.$query301;exit;
                      if ($existCount301>0){
                          while($row301=mysqli_fetch_array($sql301))
                              {
@@ -591,9 +617,7 @@ ul#pagin {
                   <?php if ($ViewListForFD=='OD') { echo $outover; } ?>
                </div>
                <div id="TD" class="tabcontent1" >
-                  <ul id="pagin">
-         
-</ul>
+                  <div id="pagination-container"></div>
                   <div class="main-tab">
            
            <?php if ($ViewListForFD=='TD' || $ViewListForFD=='') { echo $outoday; } ?> 
@@ -627,6 +651,8 @@ ul#pagin {
          <!-- wrapper & center -->
          
       </form>
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/jquery.simplePagination.js'></script>
+
       <script type="text/javascript">
           
           function readURL(input) {
@@ -704,77 +730,23 @@ function openCity1(evt, cityName,mid,subid) {
 }
       </script>
       <script type="text/javascript">
-  pageSize = 20;
-incremSlide = 5;
-startPage = 0;
-numberPage = 0;
+  var items = $(".maintab-box");
+    var numItems = items.length;
+    var perPage = 20;
 
-var pageCount =  $(".maintab-box").length / pageSize;
-var totalSlidepPage = Math.floor(pageCount / incremSlide);
-    
-for(var i = 0 ; i<pageCount;i++){
-    $("#pagin").append('<li><a href="#">'+(i+1)+'</a></li> ');
-    if(i>pageSize){
-       $("#pagin li").eq(i).hide();
-    }
-}
+    items.slice(perPage).hide();
 
-var prev = $("<li/>").addClass("prev").html("Prev").click(function(){
-   startPage-=5;
-   incremSlide-=5;
-   numberPage--;
-   slide();
-});
-
-prev.hide();
-
-var next = $("<li/>").addClass("next").html("Next").click(function(){
-   startPage+=5;
-   incremSlide+=5;
-   numberPage++;
-   slide();
-});
-
-$("#pagin").prepend(prev).append(next);
-
-$("#pagin li").first().find("a").addClass("current");
-
-slide = function(sens){
-   $("#pagin li").hide();
-   
-   for(t=startPage;t<incremSlide;t++){
-     $("#pagin li").eq(t+1).show();
-   }
-   if(startPage == 0){
-     next.show();
-     prev.hide();
-   }else if(numberPage == totalSlidepPage ){
-     next.hide();
-     prev.show();
-   }else{
-     next.show();
-     prev.show();
-   }
-   
-    
-}
-
-showPage = function(page) {
-    $(".maintab-box").hide();
-    $(".maintab-box").each(function(n) {
-        if (n >= pageSize * (page - 1) && n < pageSize * page)
-            $(this).show();
-    });        
-}
-    
-showPage(1);
-$("#pagin li a").eq(0).addClass("current");
-
-$("#pagin li a").click(function() {
-   $("#pagin li a").removeClass("current");
-   $(this).addClass("current");
-   showPage(parseInt($(this).text()));
-});
+    $('#pagination-container').pagination({
+        items: numItems,
+        itemsOnPage: perPage,
+        prevText: "&laquo;",
+        nextText: "&raquo;",
+        onPageClick: function (pageNumber) {
+            var showFrom = perPage * (pageNumber - 1);
+            var showTo = showFrom + perPage;
+            items.hide().slice(showFrom, showTo).show();
+        }
+    });
 </script>
    </body>
 </html>
