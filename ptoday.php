@@ -412,8 +412,26 @@
       <script>
          function ShowList(tday)
          {
-             document.getElementById("ViewListForFD").value=tday;
-             document.getElementById("TaskMgmt").submit(); 
+            // document.getElementById("ViewListForFD").value=tday;
+             //document.getElementById("TaskMgmt").submit(); 
+             $("#odtasks").removeClass('active-tab');
+             $("#tdtasks").removeClass('active-tab');
+             $("#tmtasks").removeClass('active-tab');
+             $("#OD").css('display','none');
+             $("#TD").css('display','none');
+             $("#TM").css('display','none');
+             if(tday=='OD'){
+                    $("#odtasks").addClass('active-tab');
+                    $("#OD").css('display','block');
+             }
+             if(tday=='TD'){
+                    $("#tdtasks").addClass('active-tab');
+                    $("#TD").css('display','block');
+             }
+             if(tday=='TM'){
+                    $("#tmtasks").addClass('active-tab');
+                    $("#TM").css('display','block');
+             }
          }
          
          
@@ -455,7 +473,7 @@
                                  AND ( DATE(t3.cScheduleDate) BETWEEN '$DateStart' AND '$DateTomorrow' ) AND t3.Status='A'
                                  ORDER BY t3.cScheduleDate,t1.TRecRef LIMIT 200";
 
-                                 $query301 = "SELECT t1.*,t2.*,t3.* FROM `tTasks` AS t1, `tSchedule` AS t2, `tCalendar` AS t3 WHERE t1.TRecRef=t2.TRecRef AND t2.SRecRef=t3.SRecRef ORDER BY t3.cScheduleDate,t1.TRecRef LIMIT 200";
+                              //   $query301 = "SELECT t1.*,t2.*,t3.* FROM `tTasks` AS t1, `tSchedule` AS t2, `tCalendar` AS t3 WHERE t1.TRecRef=t2.TRecRef AND t2.SRecRef=t3.SRecRef ORDER BY t3.cScheduleDate,t1.TRecRef LIMIT 200";
                      
                      $sql301 = mysqli_query($mysqli, $query301);    
                      $existCount301 = mysqli_num_rows($sql301);
@@ -595,10 +613,11 @@
               // exit;
                //if (strtotime($csqlScheduleDate)<strtotime($DateToday))  {$outover.=$outall; $OverDueCount++;}
                //if (strtotime($csqlScheduleDate)==strtotime($DateToday)) {$outoday.=$outall; $TodaysCount++;}
-               if (strtotime($csqlScheduleDate)<strtotime($DateToday) && strtotime($csqlDueDate)<strtotime($DateToday))  {$outover.=$outall; $OverDueCount++;}
-               if (strtotime($csqlScheduleDate)==strtotime($DateToday) || ( strtotime($csqlScheduleDate)<strtotime($DateToday) && strtotime($csqlDueDate)<=strtotime($DateToday)  ) ) {$outoday.=$outall; $TodaysCount++;}
-               if (strtotime($csqlScheduleDate)==strtotime($DateTomorrow)) {$outomorrow.=$outall; $TomorrowCount++;}
-               }   //------ end if private task
+                if (strtotime($csqlScheduleDate)<strtotime($DateToday) && strtotime($csqlDueDate)<strtotime($DateToday))  {$outover.=$outall; $OverDueCount++;}
+                    if (strtotime($csqlScheduleDate)==strtotime($DateToday) || ( strtotime($csqlScheduleDate)<strtotime($DateToday) && strtotime($csqlDueDate)>=strtotime($DateToday)  ) ) {$outoday.=$outall; $TodaysCount++;}
+                    if (strtotime($csqlScheduleDate)==strtotime($DateTomorrow)) {$outomorrow.=$outall; $TomorrowCount++;}
+                    
+                    }   //------ end if private task
                $TRecRefold = $TRecRef;
                $csqlScheduleDateold=$row301['cScheduleDate'];
                $csqlDueDateold=$row301['cDueDate'];
@@ -609,24 +628,36 @@
                ?>
                <input type="hidden" name="CountCells" value="<?php echo $celnodv;?>"/>
                <div class="tab">
-                  <button class="tablinks " id="odtasks" onclick="ShowList('OD')"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbspOver due tasks (<?php echo $OverDueCount; ?>)&nbsp</button>
-                  <button class="tablinks active-tab" id="tdtasks" onclick="ShowList('TD')"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbspToday's tasks (<?php echo $TodaysCount; ?>) &nbsp &nbsp</button>
-                  <button class="tablinks" id="tmtasks" onclick="ShowList('TM')"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbspTomorrow's tasks (<?php echo $TomorrowCount; ?>)</button>
+                  <button class="tablinks " type="button" id="odtasks" onclick="ShowList('OD')"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbspOver due tasks (<?php echo $OverDueCount; ?>)&nbsp</button>
+                  <button class="tablinks active-tab" type="button" id="tdtasks" onclick="ShowList('TD')"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbspToday's tasks (<?php echo $TodaysCount; ?>) &nbsp &nbsp</button>
+                  <button class="tablinks" id="tmtasks" type="button" onclick="ShowList('TM')"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbspTomorrow's tasks (<?php echo $TomorrowCount; ?>)</button>
                </div>
-               <div id="OD" class="tabcontent1">
-                  <?php if ($ViewListForFD=='OD') { echo $outover; } ?>
-               </div>
+               <div id="OD" class="tabcontent1" style="display: none;">
+                
+                         
+                             <div id="pagination-container2"></div>
+                                <div class="main-tab OD">
+                                      <?php echo $outover; ?>
+                                </div>
+                       
+                    </div>
                <div id="TD" class="tabcontent1" >
-                  <div id="pagination-container"></div>
-                  <div class="main-tab">
+                  <div id="pagination-container1"></div>
+                  <div class="main-tab TD">
            
            <?php if ($ViewListForFD=='TD' || $ViewListForFD=='') { echo $outoday; } ?> 
            
          </div>
          
                </div>
-               <div id="TM" class="tabcontent1">
-                  <?php if ($ViewListForFD=='TM') { echo $outomorrow; } ?>
+               <div id="TM" class="tabcontent1 TM" style="display: none;">
+                 
+                  
+                             <div id="pagination-container3"></div>
+                                <div class="main-tab">
+                                      <?php echo $outomorrow; ?>
+                                </div>
+                        
                </div>
                <!--  <table cellpadding=4 cellspacing=0 width=100% border=0><tr style="cursor: pointer;" onclick="ShowList('OD')" >
                   <td width="100%"><div class=BLUbkgBLUborder style='width:100%'><h4>OVER DUE TASKS &nbsp;&nbsp;&nbsp;&nbsp;</h4></div></td>
@@ -730,13 +761,13 @@ function openCity1(evt, cityName,mid,subid) {
 }
       </script>
       <script type="text/javascript">
-  var items = $(".maintab-box");
+  var items = $(".OD .maintab-box");
     var numItems = items.length;
     var perPage = 20;
 
     items.slice(perPage).hide();
 
-    $('#pagination-container').pagination({
+    $('#pagination-container2').pagination({
         items: numItems,
         itemsOnPage: perPage,
         prevText: "&laquo;",
@@ -748,5 +779,8 @@ function openCity1(evt, cityName,mid,subid) {
         }
     });
 </script>
+
+
+
    </body>
 </html>

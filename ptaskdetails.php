@@ -202,7 +202,7 @@ if ($cStage!="Completed") {
                }
                if($Prioritysub=='P3'){
                    $outall.= '<img src="images/P3.svg" class="tab-img-1">';
-               }$outall.=$TaskTitlesub.' 
+               }$outall.='<p>'.$TaskTitlesub.'</p>
                               </div>
                            </div>
                      <p> Description. '.$Descrsub.'
