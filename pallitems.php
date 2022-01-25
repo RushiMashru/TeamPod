@@ -205,7 +205,7 @@ $AllTasksNameList = array();
 
    
 <link rel="shortcut icon" type="image/png" href="../focinc/images/icontask.png"/>
-<link rel="stylesheet" type="text/css" href="cssjs/newstyle.css"></link>
+<link rel="stylesheet" type="text/css" href="newstyle.css"></link>
     
 	<!--Requirement jQuery-->
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
@@ -237,7 +237,65 @@ function ShowList(tday)
 }
 
 </script>
+<style type="text/css">
+     .list-wrapper {
+    padding: 15px;
+    overflow: hidden;
+}
 
+.list-item {
+    border: 1px solid #EEE;
+    background: #FFF;
+    margin-bottom: 10px;
+    padding: 10px;
+    box-shadow: 0px 0px 10px 0px #EEE;
+}
+
+.list-item h4 {
+    color: #FF7182;
+    font-size: 18px;
+    margin: 0 0 5px;    
+}
+
+.list-item p {
+    margin: 0;
+}
+
+.simple-pagination ul {
+    margin: 0 0 20px;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+}
+
+.simple-pagination li {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.simple-pagination li a,
+.simple-pagination li span {
+    color: #666;
+    padding: 2px 10px;
+    text-decoration: none;
+    border: 1px solid #e74c3c;
+    background-color: #FFF;
+}
+
+.simple-pagination .current {
+        color: #e74c3c;
+    background-color: #f4e5c1;
+    border-color: #e74c3c;
+}
+
+.simple-pagination .prev.current,
+.simple-pagination .next.current {
+    background: #f4e5c1;
+}
+.active{
+        border: 2px solid #e74c3c !important;
+}
+</style>
 </head>
 
 <body>
@@ -345,7 +403,7 @@ function ShowList(tday)
                     }
                     $ForUserFullName.=', ' .$FullName;
                     if($ForRefUSRC==$ForRefUSR) {$color="#ccc";} else { $color="#fff";};
-                    $initials.="<span style='background:$color;color:#000;border-radius:50%;padding:5px;border:1px solid #000' ><a href='#' title='$FullName'>".substr($FirstName,0,1).substr($LastName,0,1)."</a></span>&nbsp;&nbsp;";
+                    $initials.="<span style='background:#ffe199;color:#000;border-radius:50%;padding: 7px;margin-left: 7px;;border:1px solid #000' ><a href='#' title='$FullName' style='color:white !improtant'>".substr($FirstName,0,1).substr($LastName,0,1)."</a></span>&nbsp;&nbsp;";
                     $assigneduser[$x]=$ForRefUSR;
                     $x++;
                     }
@@ -440,7 +498,10 @@ function ShowList(tday)
             <td width="100%"><div class=BLUbkgBLUborder style='width:100%'><h4>ALL TASKS</h4></div></td>
             <td align=center><div class=BLUbkgBLUborder style='width:90px;'><h4><?php echo $AllCount; ?></h4></div></td>
             </tr></table>
+             <div id="pagination-container"></div>
+                  <div class="main-tab">
                 <?php if ($ViewListForFD=='TD' || $ViewListForFD=='') { echo $outall; } ?>
+            </div>
                 
                 
     <?php
@@ -454,6 +515,102 @@ function ShowList(tday)
 #Nav_AddTask {  background: url(../focinc/images/iconf-addA.png);  background-size: 70px 38px;  border: 2px solid #5DADE2; width: 70px; height: 42px;}
 #Nav_AddTask:hover {  background: url(../focinc/images/iconf-addB.png);  background-size: 70px 40px;}
 </style>
+ <script src='https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/jquery.simplePagination.js'></script>
 
+      <script type="text/javascript">
+          
+          function readURL(input) {
+  if (input.files && input.files[0]) {
+
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      $('.image-upload-wrap').hide();
+
+      $('.file-upload-image').attr('src', e.target.result);
+      $('.file-upload-content').show();
+
+      $('.image-title').html(input.files[0].name);
+    };
+
+    reader.readAsDataURL(input.files[0]);
+
+  } else {
+    removeUpload();
+  }
+}
+
+function changeexpend(id){
+    
+    $("#expendeddiv"+id).slideToggle();
+       // $(this).toggleClass('active-icon');
+}
+
+function removeUpload() {
+  //$('.file-upload-input').replaceWith($('.file-upload-input').clone());
+  $('.file-upload-content').hide();
+  $('.image-upload-wrap').show();
+  $('.file-upload-image').attr('src', "");
+}
+$('.image-upload-wrap').bind('dragover', function () {
+    
+    $('.image-upload-wrap').addClass('image-dropping');
+  });
+  $('.image-upload-wrap').bind('dragleave', function () {
+    $('.image-upload-wrap').removeClass('image-dropping');
+});
+/*  $(".icon").click(function(){
+  $(".Collapsed.tabcontent").slideToggle();
+  $(this).toggleClass('active-icon');
+});*/
+  function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+function openCity1(evt, cityName,mid,subid) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+  $("#expendeddiv"+mid).slideToggle();
+ // $("#sdv-"+mid+'-'+subid).css('display','block');
+}
+      </script>
+      <script type="text/javascript">
+  var items = $(".maintab-box");
+    var numItems = items.length;
+    var perPage = 20;
+
+    items.slice(perPage).hide();
+
+    $('#pagination-container').pagination({
+        items: numItems,
+        itemsOnPage: perPage,
+        prevText: "&laquo;",
+        nextText: "&raquo;",
+        onPageClick: function (pageNumber) {
+            var showFrom = perPage * (pageNumber - 1);
+            var showTo = showFrom + perPage;
+            items.hide().slice(showFrom, showTo).show();
+        }
+    });
+</script>
 </body>
 </html>    
