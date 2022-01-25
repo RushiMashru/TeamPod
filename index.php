@@ -5,7 +5,7 @@
    error_reporting (E_ALL ^ E_NOTICE);
    
    include "dbhands.php";
-   include "newheader.php";
+   //include "newheader.php";
    
    //include "i_envirovar.php";
    
@@ -98,8 +98,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
                                $query7 = "SELECT `RefUSR`, `UserID`, `EmailID`, `Status` FROM `tUser`
                                           WHERE `UserID`='$UserEmail' && `usrPass`='$pswrd'";
                            
-                               echo "<script> alert ('Please update your company name');</script>";
-                               echo '<script> document.location="SAusermgmt.php";  </script>';
+                              // echo "<script> alert ('Please update your company name');</script>";
+                               echo '<script> document.location="ptoday.php";  </script>';
                            }
                            else
                            {
@@ -561,12 +561,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
          </script>
    </head>
    <body>
-       <div class=container style="width:100%;height:88%">
+       <div class=container style="width:100%;height:100%">
         <img src='images/signinbgimage.png' style="width:100%;height:100%;">
         <div class=top-right style="width:30%;position: absolute; top: 50%; left: 70%; transform: translate(-20%, -50%);background-color: #FFFFFF; opacity: 0.8; ;border-radius:4px;padding: 20px 20px 20px 20px;">
           <form action="" name="UserForm" method="post" onkeypress="return event.keyCode != 13;">
             <label style="font-size:32px;color:#333333;font-nweight: 600;line-height: 44px;">
-            Sign in to TeamPod
+            Sign in to <img src="../assets/img/logo.png" alt="" class="img-fluid">
             </label>
             <br>
             <label style="font-size:20px;color:#595959;font-weight: normal;line-height: 27px;">
@@ -586,6 +586,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
             <br></br>
             <div style="width:100%;text-align:center">
             <a style="color:#005A9E;" class="homelink" onclick="popup('popUpDiv','resetpswd','')">Forgot your password?</a> 
+            </div>
+            <div style="width:100%;text-align:center ; margin-top:15px;">
+            <a  href="https://teampod.co.uk/"  style="color:#005A9E;" class="homelink" >
+            Back to Home
+            </a> 
             </div>
             <br></br>
             </form>

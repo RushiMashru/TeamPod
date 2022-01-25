@@ -81,6 +81,7 @@
                <span style="vertical-align: middle;"><label class="lbl"><?php echo $loginame; ?></label>&nbsp;&nbsp;</span>
                <a class="topicons" href='SAusermgmt.php' target='_self' title="Personal Profile"><img src="images/Profile.svg" height="40" style="vertical-align:middle;margin:10px 16px 0px 0px;" />  </a>
                <a class="topicons" onclick="popup('popUpDiv','invite_friends','')" title="Invite Friends"><img src="images/Email.svg" height="40" style="vertical-align:middle;margin:10px 16px 0px 0px;" />  </a>
+               <a class="topicons" href='SAgroupmain.php' target='_self' title="Configuration"><img src="images/setting.png" height="40" style="vertical-align:middle;margin:10px 16px 0px 0px;" />  </a>
                <a class="topicons" href='https://teampod.co.uk/TeamPod/index.php'  title="Signout"><img src="images/Logout.svg" height="40" style="vertical-align:middle;margin:10px 40px 0px 0px;" /></a>  
             </div>
          </div>

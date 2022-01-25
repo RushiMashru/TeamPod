@@ -429,7 +429,7 @@ p.popup { font-size: 15px; margin: 0px; text-align: left;}
 }
 
 .floatleft{
-  float:left;
+  float:center;
   text-align:center;
   display:inline-block;
   padding: 5px;
@@ -682,7 +682,7 @@ a:hover {
 .sidenav1 {
   font-family: "Lato", sans-serif;    
   height: 100%;
-  width: 250px;
+  width: 360px;
   position: fixed;
   top: 67px;
   right: 0;

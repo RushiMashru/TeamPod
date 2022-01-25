@@ -48,6 +48,11 @@
       <link type="text/css" href="multiselect.css?v=23454" rel="stylesheet" />
       <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
       <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+
+      <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+
       <script>
          var complex = <?php echo json_encode($AllTasksNameList); ?>;
          data=complex;
@@ -773,10 +778,10 @@
     width: 42%;
 }
 input#StartDate{
-    border-right: none;
+    border-right: display;
 }
 input#DueDate{
-    border-right: none;
+    border-right: display;
 }
 button.btn.btn-outline-secondary.border-left-0 {
     position: absolute;
@@ -906,26 +911,17 @@ button.btn.btn-outline-secondary.border-left-0 {
                <div class="col-md-12 mb-30">
                   <div class="col-md-6 fl mb-30">
                      <div class="inp">
-                        <label class="email" for="StartDate">Start Date</label>
-                        <input type="text"  name="StartDate" id="StartDate" onChange=SetWeekdays() value="" placeholder="DD-MM-YYYY" >
-                        <script type="text/javascript">                           
-                            $('#StartDate').datepicker({
-                                uiLibrary: 'bootstrap4',
-                                dateFormat: 'dd-mm-yyyy'
-                            });    
-                        </script>
+                     <label class="email" for="StartDate">Start Date</label>
+                        <input type="text"  name="StartDate" id="StartDate" onChange=SetWeekdays() value="" placeholder="DD/MM/YYYY" autocomplete="off">
+                      
                      </div>
                   </div>
                   <div class="col-md-5 mb-30">
                      <div class="inp">
                         <label class="email" for="DueDate">End Date</label>
-                        <input type="text" name="DueDate" id="DueDate" value="" placeholder="DD-MM-YYYY" >
-                        <script type="text/javascript">                           
-                            $('#DueDate').datepicker({
-                                uiLibrary: 'bootstrap4',
-                                dateFormat: 'dd-mm-yyyy'
-                            });    
-                        </script>
+                        <input type="text" name="DueDate" id="DueDate" value="" placeholder="DD/MM/YYYY" autocomplete="off">
+                       
+                     
                      </div>
                   </div>
                </div>
@@ -1050,5 +1046,32 @@ button.btn.btn-outline-secondary.border-left-0 {
       </main>
       </div>
       </div>
+      <!--- Date script start-->
+<script>
+$(document).ready(function(){
+    var StartDate;
+    var DueDate;
+    //$(":input").inputmask();
+    $("#StartDate").datepicker({
+                     dateFormat: 'dd/mm/yy'
+                    });
+    $("#DueDate").datepicker({
+        dateFormat: 'dd/mm/yy'
+    });
+
+    $('#StartDate').change(function(){
+        startDate=$(this).datepicker('getDate');
+
+        $('#DueDate').datepicker('option','minDate',startDate);
+    });
+
+    $('#DueDate').change(function(){
+        endDate=$(this).datepicker('getDate');
+
+        $('#StartDate').datepicker('option','maxDate',endDate);
+    });
+});
+</script>
+<!--- Date script end-->
    </body>
 </html>

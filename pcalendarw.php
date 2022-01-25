@@ -42,12 +42,18 @@ $nweek=date ("d-m-Y", strtotime("+1 week", strtotime($StartOfWeek)));
 //echo '<br>Previous-W= '.$pweek.' next-W= '.$nweek;
 
 //--------------- show calender header
-$south.="<table class=table-list style='margin-left:16%;width:83%'>
-        <tr><td style='text-align:center;background-color:#5DADE2;' colspan='9' >
-        <a href=pcalendarw.php?CM=$pweek style='color:white;font-size:15px;text-decoration: none;' target=_self class='btn btn-default'>  <font size=4 color=#000000>&nbsp;&nbsp;<b><< Prev   </b>&nbsp;&nbsp;</font>  </a>
-        <font size=4 color=#FFFFFF><b> $StartOfWeek &nbsp;&nbsp;&nbsp;&nbsp; $EndOfWeek </b></font>
-        <a href=pcalendarw.php?CM=$nweek style='color:white;font-size:15px;text-decoration: none;' target=_self class='btn btn-sub'>  <font size=4 color=#000000>&nbsp;&nbsp;<b>   Next >></b>&nbsp;&nbsp;</font>  </a>
-        </td></tr>";   
+$south.="<table class='table-list' style='margin-top: -10px;'>
+        <tr><td style='text-align:center;background-color:#ffe199;font-weight:bold;' colspan='9' >
+        <a href=pcalendarw.php?CM=$pweek target=_self><pre style='display: inline-block;
+        width: 10px;font-weight:bold;'>&lt;</pre></a>
+        <span>$StartOfWeek &nbsp;&nbsp;&nbsp;&nbsp; $EndOfWeek</span>
+        <a href=pcalendarw.php?CM=$nweek target=_self> <pre style='display: inline-block;
+        width: 10px;font-weight:bold;'>&gt;</pre>
+        </td></tr> ";  
+             
+
+
+        
 //---------------End of header
 
 $south.="<tr><td bgcolor='#FFFFFF' align=center><b>Name</b></td><td>Over Due</td>";
@@ -86,7 +92,7 @@ if ($ForTaskTag!='') {$FTTagCriteria.=" AND t3.cRecRef IN ( SELECT cRecRef FROM 
         {
         $sRefUSR=$row101['RefUSR'];
         $sFullName=$row101['FirstName'].' '.$row101['LastName'];
-        $sout.="<tr style='outline: 2px solid #5DADE2;' ><td ><b>$sFullName</b></td>";
+        $sout.="<tr style='outline: 2px solid #ffe199;' ><td ><b>$sFullName</b></td>";
 
         $showdate=$StartOfWeek;
 
@@ -125,7 +131,7 @@ if ($ForTaskTag!='') {$FTTagCriteria.=" AND t3.cRecRef IN ( SELECT cRecRef FROM 
                     //echo '<br>ForDate='.$TaskForDate;
                     $TodayCellColor='#ffffff';
                     $checkTaskDateSTR=strtotime($TaskForDate);
-                    if ($checkTodayDateSTR==$checkTaskDateSTR) { $TodayCellColor='#5DADE2';}
+                    if ($checkTodayDateSTR==$checkTaskDateSTR) { $TodayCellColor='#ffe199';}
                     $tTaskRefPrvDay = substr($tTaskRefPrvDay,2);
                     if ($tTaskRefPrvDay!="") {$taskcriteriaprvday = " AND t2.TRecRef NOT IN ($tTaskRefPrvDay)";}
                     $sout.="<td valign=top style='background-color:$TodayCellColor;line-height:1.2;width:11%'>";
@@ -242,39 +248,16 @@ else
 <!-- <meta http-equiv="refresh" content="50"></meta>     -->
 
 <link rel="shortcut icon" type="image/png" href="images/icontask.png"/>
-<link rel="stylesheet" type="text/css" href="cssjs/newstyle.css"></link>
-    
-<style>
-/********************************* TABLE **********************************/
-
-.table-list table {
-    border:none;
-    cellspacing:1px;
-    align:left;
-}
-.table-list td {
-    padding:5px;
-    font-size:13px;
-    align:left;
-}
-
-.table-list tr:hover {background-color: #f5f5f5}
-.table-list tr:nth-child(even) {background-color: #f2f2f2}
-.table-list tr:nth-child(odd) {background-color: #ffffff}
-.table-list th {
-    background-color: #555555;
-    color: white;
-    padding:5px;
-}    
-</style>
+<!-- <link rel="stylesheet" type="text/css" href="cssjs/newstyle.css"></link> -->
+<link rel="stylesheet" type="text/css" href="css/pcalendarw.css"></link>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <!--  start Mask  Date Validation   -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<script src="sysdm/jquery.inputmask.bundle.min.js"></script>
 
 <script>
 $(document).ready(function(){
-    $(":input").inputmask();
+   // $(":input").inputmask();
 });
 </script>
 <!--  End Mask Date Validation    -->
@@ -286,19 +269,23 @@ $(document).ready(function(){
 <body>
 
         
-    <form action="" name="TaskMgmt" id="TaskMgmt" method="post" enctype="multipart/form-data" target="_self" >    
+    <form action="" name="TaskMgmt" id="TaskMgmt" method="post" enctype="multipart/form-data" target="_self" style="margin-top: 70px;">    
     
         <!-- Main TAB menu Header START -->
-        <div class="maindiv" id="wrapper" style="margin:56px 0 0 16%;width:84%;float:left; overflow-x:auto">
-            <div class="divmenu" onclick="window.location.href='pcalendarw.php'" style='background-color:#5DADE2;'  >
-                <b>Weekly</b>
-            </div>
-            <div class="divmenu" onclick="window.location.href='pcalendarm.php'" >
-                <b>Monthly</b>
-            </div>
-            <input type=button name="btnFilter"  onclick="openfilter()" style='float:right;margin-right:20px' value="Filter" class='btn btn-default' />
+
+        <div class="calendar-header">
+        <div class="search-container">
+    <form action="/action_page.php">
+      <input type="text" placeholder="Search.." name="search" style=" border-radius: 18px;">
+      <i class="fa fa-search" style="font-size: 14px; margin-left: -23px;"></i>
+    </form>
+  </div>
+          <span style="margin-left: 400px;">  <div class="button"  onclick="window.location.href='pcalendarw.php'" >Weekly</div>
+           <div class="button" onclick="window.location.href='pcalendarm.php'">Monthly</div>
+            <img src="images/Filters.svg"  onclick="openfilter()"  style="border: none; float: right; cursor: pointer; margin: 0px 0px 0px 6px;" >
+         
             <div class=sidenav1 id=sidenav1>
-           <label style="width:100px;float:left"> Filter by:</label> <a onclick="closefilter()"><img style="border:none;background:#eee;float:right;margin-right:10px" alt="" src="../focinc/images/close.jpg" /></a><br/><br/>
+           <label style="width:100px;float:left;font-size: 18px;"> Filter by:</label> <i class="fa fa-close" onclick="window.location.href='pcalendarw.php'"></i> <a onclick="closefilter()"><img style="border:none;background:#eee;float:right;margin-right:10px" alt="" /></a><br/><br/>
             <select class="total_fields forminput" name="ForCompany" style="width:200px;" >
                         <?php  $i=0; 
                         while($i<$maxcompanycode)
@@ -344,8 +331,12 @@ $(document).ready(function(){
             </div>
         </div>
         </div>
-        <!-- Main TAB menu Header END -->
+        </span>
+        </div>
 
+    
+        <!-- Main TAB menu Header END -->
+<br>
         
 <?php echo $sout ?>
 
@@ -353,5 +344,6 @@ $(document).ready(function(){
     </form>
 
 <br/><br/> <br/><br/> 
+
 </body>
 </html>    
