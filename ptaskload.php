@@ -520,26 +520,32 @@ if($_POST['cat'] == "addendnote") {
     
 }
 
-if($_POST['cat'] == "addsubendnote") {
-    $NewNote=$_POST['note'];
-    $noteid=$_POST['noteid'];
-    $ForTaskid=$_POST['ForTaskid'];
-    $ForSTaskid=$_POST['ForSTaskid'];
-    $ForCalid=$_POST['ForCalid'];
+if($_GET['cat'] == "addsubendnote") {
+    $NewNote=$_GET['note'];
+    $noteid=$_GET['noteid'];
+    $ForTaskid=$_GET['ForTaskid'];
+    $ForSTaskid=$_GET['ForSTaskid'];
+    $ForCalid=$_GET['ForCalid'];
     
     $query11="SELECT `NotesDT` FROM `tTaskNotes` WHERE NRecRef = '$noteid'";
     $sql11 = mysqli_query($mysqli, $query11);
+    $starttime = "";
     while($row11=mysqli_fetch_array($sql11))
     {
         $starttime=new DateTime($row11['NotesDT']);
     }
     //$expiry_time = new DateTime($row['fromdb']);
     $current_date = new DateTime();
-    $diff = $starttime->diff($current_date);
-    $timetaken = $diff->format('%H:%I:%S');
+    if($starttime==""){
+       // $diff = $starttime->diff($currdatetime);
+       // $timetaken = $diff->format('%H:%I:%S');
+    }
+    $timetaken = "00:00:00";
+    
     
     $query4="INSERT INTO `tTaskNotes`(`TRecRef`, `cRecRef` , `STRecRef`, `Stage`,  `Notes`, `TimeTaken`,  `NotesDT`, `NotesBy`) 
                                                 VALUES ('$ForTaskid','$ForCalid','$ForSTaskid','SUBENDTIME','$NewNote','$timetaken','$currdatetime','$id' ) " ;
+                                               // echo $query4;exit;
     $sql4 = mysqli_query($mysqli, $query4);
     
 }
@@ -831,7 +837,7 @@ input#sTaskName {
                                 document.multiselect('#ForRefUSRSTsk')
                                 .setCheckBoxClick('checkboxAll', function(target, args) {  })
                                 .setCheckBoxClick('1', function(target, args) {   });
-                                document.getElementById("ForRefUSRSTsk_itemList").style.width ="300px";
+                                document.getElementById("#ForRefUSRSTsk").style.width ="300px";
                             </script>
                      </div>
                    

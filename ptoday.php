@@ -314,7 +314,7 @@
 .simple-pagination .next.current {
     background: #f4e5c1;
 }
-.active{
+.simple-pagination ul li.active{
         border: 2px solid #e74c3c !important;
 }
       </style>
@@ -654,7 +654,7 @@
                  
                   
                              <div id="pagination-container3"></div>
-                                <div class="main-tab">
+                                <div class="TM main-tab">
                                       <?php echo $outomorrow; ?>
                                 </div>
                         
@@ -779,6 +779,10 @@ function openCity1(evt, cityName,mid,subid) {
         }
     });
 </script>
+
+
+
+
 
 
 
