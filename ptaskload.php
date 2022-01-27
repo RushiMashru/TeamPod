@@ -832,12 +832,18 @@ input#sTaskName {
                                         $i++; 
                                     }
                             echo "</select>";
+                             if ($maxassigneduser > 1) { 
                             ?>
                             <script>
-                                document.multiselect('#ForRefUSRSTsk')
-                                .setCheckBoxClick('checkboxAll', function(target, args) {  })
-                                .setCheckBoxClick('1', function(target, args) {   });
-                                document.getElementById("#ForRefUSRSTsk").style.width ="300px";
+                                
+                                 document.multiselect('#ForRefUSRSTsk')
+                           .setCheckBoxClick("checkboxAll", function(target, args) {
+                               console.log("Checkbox 'Select All' was clicked and got value ", args.checked);
+                           })
+                           .setCheckBoxClick("1", function(target, args) {
+                               console.log("Checkbox for item with value '1' was clicked and got value ", args.checked);
+                           });
+                       <?php }?>
                             </script>
                      </div>
                    
