@@ -314,7 +314,7 @@
 .simple-pagination .next.current {
     background: #f4e5c1;
 }
-.active{
+.simple-pagination ul li.active{
         border: 2px solid #e74c3c !important;
 }
       </style>
@@ -412,7 +412,7 @@
       <script>
          function ShowList(tday)
          {
-            // document.getElementById("ViewListForFD").value=tday;
+             document.getElementById("ViewListForFD").value=tday;
              //document.getElementById("TaskMgmt").submit(); 
              $("#odtasks").removeClass('active-tab');
              $("#tdtasks").removeClass('active-tab');
@@ -602,22 +602,24 @@
                                  else {
                                      /*  id="dv-<?php echo $celnodv;?>" onmouseover="mouseOverDV(<?php echo $celnodv;?>)" onmouseout="mouseOutDV(<?php echo $celnodv;?>)"> */
 
-                  $outall = "<input type=hidden id=EditTaskRef".$celnodv."     name=EditTaskRef".$celnodv." value=".$TRecRef." > ";
-                  include "ptaskdetails.php";
-                  $outall.= "
-               </div>
-               ";
+                 
                //echo $outall;exit;
                $celnodv++;
               // echo '<br>csqlScheduleDate'.$csqlScheduleDate.'='.strtotime($csqlScheduleDate).'------DateToday='.$DateToday.'='.strtotime($DateToday).'------'.$csqlDueDate;
               // exit;
                //if (strtotime($csqlScheduleDate)<strtotime($DateToday))  {$outover.=$outall; $OverDueCount++;}
                //if (strtotime($csqlScheduleDate)==strtotime($DateToday)) {$outoday.=$outall; $TodaysCount++;}
-                if (strtotime($csqlScheduleDate)<strtotime($DateToday) && strtotime($csqlDueDate)<strtotime($DateToday))  {$outover.=$outall; $OverDueCount++;}
-                    if (strtotime($csqlScheduleDate)==strtotime($DateToday) || ( strtotime($csqlScheduleDate)<strtotime($DateToday) && strtotime($csqlDueDate)>=strtotime($DateToday)  ) ) {$outoday.=$outall; $TodaysCount++;}
-                    if (strtotime($csqlScheduleDate)==strtotime($DateTomorrow)) {$outomorrow.=$outall; $TomorrowCount++;}
+               $tasktype="";
+                if (strtotime($csqlScheduleDate)<strtotime($DateToday) && strtotime($csqlDueDate)<strtotime($DateToday))  {$outover.=$outall; $OverDueCount++;$tasktype='t1';}
+                    if (strtotime($csqlScheduleDate)==strtotime($DateToday) || ( strtotime($csqlScheduleDate)<strtotime($DateToday) && strtotime($csqlDueDate)>=strtotime($DateToday)  ) ) {$outoday.=$outall; $TodaysCount++;$tasktype='t2';}
+                    if (strtotime($csqlScheduleDate)==strtotime($DateTomorrow)) {$outomorrow.=$outall; $TomorrowCount++; $tasktype='t3';}
                     
                     }   //------ end if private task
+                     $outall = "<input type=hidden id=EditTaskRef".$celnodv."     name=EditTaskRef".$celnodv." value=".$TRecRef." > ";
+                  include "ptaskdetails.php";
+                  $outall.= "
+               </div>
+               ";
                $TRecRefold = $TRecRef;
                $csqlScheduleDateold=$row301['cScheduleDate'];
                $csqlDueDateold=$row301['cDueDate'];
@@ -654,7 +656,7 @@
                  
                   
                              <div id="pagination-container3"></div>
-                                <div class="main-tab">
+                                <div class="TM main-tab">
                                       <?php echo $outomorrow; ?>
                                 </div>
                         
@@ -761,7 +763,7 @@ function openCity1(evt, cityName,mid,subid) {
 }
       </script>
       <script type="text/javascript">
-  var items = $(".OD .maintab-box");
+  var items = $(".t1");
     var numItems = items.length;
     var perPage = 20;
 
@@ -779,6 +781,46 @@ function openCity1(evt, cityName,mid,subid) {
         }
     });
 </script>
+ <script type="text/javascript">
+  var items1 = $(".t2");
+    var numItems1 = items1.length;
+    var perPage1 = 20;
+
+    items1.slice(perPage1).hide();
+
+    $('#pagination-container1').pagination({
+        items: numItems1,
+        itemsOnPage: perPage1,
+        prevText: "&laquo;",
+        nextText: "&raquo;",
+        onPageClick: function (pageNumber1) {
+            var showFrom1 = perPage1 * (pageNumber1 - 1);
+            var showTo1 = showFrom1 + perPage1;
+            items1.hide().slice(showFrom1, showTo1).show();
+        }
+    });
+</script> <script type="text/javascript">
+  var items2 = $(".t3");
+    var numItems2 = items2.length;
+    var perPage2 = 20;
+
+    items2.slice(perPage2).hide();
+
+    $('#pagination-container3').pagination({
+        items: numItems2,
+        itemsOnPage: perPage2,
+        prevText: "&laquo;",
+        nextText: "&raquo;",
+        onPageClick: function (pageNumber2) {
+            var showFrom2 = perPage2 * (pageNumber2 - 1);
+            var showTo2 = showFrom2 + perPage2;
+            items2.hide().slice(showFrom2, showTo2).show();
+        }
+    });
+</script>
+
+
+
 
 
 

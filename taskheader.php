@@ -676,7 +676,7 @@
              var dataString = "ForTaskid=" + taskid + "&ForSTaskid=" + subtaskid + "&ForCalid=" + cid + "&note=" + note + "&noteid=" + noteid + "&cat=addsubendnote" ;
              //alert(dataString);
              $.ajax({  
-         		type: "POST",  
+         		type: "GET",  
          		url: "ptaskload.php",  
          		data: dataString,
          		success: function(response)

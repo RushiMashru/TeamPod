@@ -30,7 +30,7 @@
                     
                     $outall.= "<input type=hidden id=EditCalendarRef".$celnodv." name=EditCalendarRef".$celnodv." value=".$cRecRef." > ";
                     $outall.= "<input type=hidden id=EditScheduleRef".$celnodv." name=EditScheduleRef".$celnodv." value=".$sRecRef." > ";
-                    $outall.= '<div class="maintab-box" id=dv-'.$celnodv.'>
+                    $outall.= '<div class="maintab-box '.$tasktype.'" id=dv-'.$celnodv.'>
                <div class="tabsub-box">';
                if($Priority=='P1'){
                   $outall.= '<img src="images/P1.svg" class="tab-img-1">';
@@ -44,7 +44,7 @@
                  
                   $outall.= '<div class="tab-text-1">
                      <div class="tab-text-left">
-                        <h1># '.$CoShortCode.'</h1>
+                        <h1># '.$TRecRef.' '.$CoShortCode.'</h1>
                         <p>';
                         if ($PrivateTask==1) { $outall.= "<img src='images/Lock.svg'>"; }
                         $outall.=$TaskTitle.'<p>
