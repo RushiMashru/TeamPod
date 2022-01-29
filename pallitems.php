@@ -403,7 +403,7 @@ function ShowList(tday)
                     }
                     $ForUserFullName.=', ' .$FullName;
                     if($ForRefUSRC==$ForRefUSR) {$color="#ccc";} else { $color="#fff";};
-                    $initials.="<span style='background:#ffe199;color:#000;border-radius:50%;padding: 7px;margin-left: 7px;;border:1px solid #000' ><a href='#' title='$FullName' style='color:white !improtant'>".substr($FirstName,0,1).substr($LastName,0,1)."</a></span>&nbsp;&nbsp;";
+                    $initials.="<div class='img-box' style='background: #ffe199;color: black;'><span style='background:#ffe199;color:#e74c3c;border-radius:50%;padding: 7px;border:1px solid #e74c3c' ><a href='#' title='$FullName' style='color:white !improtant'>".substr($FirstName,0,1).substr($LastName,0,1)."</a></span></div>";
                     $assigneduser[$x]=$ForRefUSR;
                     $x++;
                     }

@@ -70,9 +70,9 @@
                      </div>
                   </div>
                   <div class="tab-text-4">
-                     <div class="img-box" style="background: #ffe199;color: black;">
+                    
                         '.$initials.'
-                     </div>
+                     
                      
                   </div>
                   <div class="tab-text-1 tab-text-5">

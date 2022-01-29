@@ -471,7 +471,7 @@
                      $query301="SELECT t1.*,t2.*,t3.* FROM `tTasks` AS t1, `tSchedule` AS t2, `tCalendar` AS t3 
                                  WHERE t1.TRecRef=t2.TRecRef AND t2.SRecRef=t3.SRecRef $FCCriteria $FUCriteria $FTMGCriteria $FTSGCriteria $FCMPCriteria $FTTagCriteria 
                                  AND ( DATE(t3.cScheduleDate) BETWEEN '$DateStart' AND '$DateTomorrow' ) AND t3.Status='A'
-                                 ORDER BY t3.cScheduleDate,t1.TRecRef LIMIT 200";
+                                 ORDER BY t1.TRecRef LIMIT 200";
 
                               //   $query301 = "SELECT t1.*,t2.*,t3.* FROM `tTasks` AS t1, `tSchedule` AS t2, `tCalendar` AS t3 WHERE t1.TRecRef=t2.TRecRef AND t2.SRecRef=t3.SRecRef ORDER BY t3.cScheduleDate,t1.TRecRef LIMIT 200";
                      
@@ -542,7 +542,7 @@
                                  $ForUserFullName.=', ' .$FullName;
                                  if($ForRefUSRC==$ForRefUSR) {$color="#ccc";} else { $color="#fff";};
                                  
-                                  $initials.="<span style='background:#ffe199;color:#000;border-radius:50%;padding: 7px;margin-left: 7px;;border:1px solid #000' ><a href='#' title='$FullName' style='color:white !improtant'>".substr($FirstName,0,1).substr($LastName,0,1)."</a></span>&nbsp;&nbsp;";
+                                  $initials.="<div class='img-box' style='background: #ffe199;color: black;'><span style='background:#ffe199;color:#e74c3c;border-radius:50%;padding: 7px;border:1px solid #e74c3c' ><a href='#' title='$FullName' style='color:white !improtant'>".substr($FirstName,0,1).substr($LastName,0,1)."</a></span></div>";
                                  $assigneduser[$x]=$ForRefUSR;
                                  $x++;
                                  }
