@@ -30,6 +30,11 @@ $SuccessMessage='';
 
     // var_dump($_POST);
 
+ $query15= "SELECT CliRecRef FROM `tUser`where RefUSR='$id' ";
+            $sql15 = mysqli_query($mysqli, $query15);
+            $row15 = mysqli_fetch_array($sql15);
+            $CliRecRef = $row15["CliRecRef"];
+
 if ($AddNewBtnClick=="YES"  )
 {
     $AddNewBtnClick="";
@@ -47,14 +52,14 @@ if ($AddNewBtnClick=="YES"  )
     else            //----- add new rocord
     {
         
-        $query31="SELECT * FROM `tTaskgCode` WHERE `gOfMain`='$eMainGroup' and  `gTitle` ='$NewTitle' " ;
+        $query31="SELECT * FROM `tTaskgCode` WHERE `gOfMain`='$eMainGroup' and  `gTitle` ='$NewTitle' and `CliRecRef`='$CliRecRef' " ;
         $sql31 = mysqli_query($mysqli, $query31);
         $existCount31 = mysqli_num_rows($sql31);	
         if ($existCount31 > 0) {
             echo "<script> alert ('Subgroup already exists!');</script>";
         } else {
-        $query2="INSERT INTO `tTaskgCode`( `gTitle`,    `gUsedFor`,     `gOfMain`,        `Status`) 
-                                VALUES ( '$NewTitle', 'TASKSUBGROUP', '$eMainGroup', '$selAccountStatus') " ;
+        $query2="INSERT INTO `tTaskgCode`( `gTitle`,    `gUsedFor`,     `gOfMain`,        `Status`,`CliRecRef`) 
+                                VALUES ( '$NewTitle', 'TASKSUBGROUP', '$eMainGroup', '$selAccountStatus','$CliRecRef') " ;
         $sql2 = mysqli_query($mysqli, $query2);
         //$uUSRIDNO=$mysqli->insert_id;
 
@@ -113,6 +118,12 @@ if ($AddNewBtnClick=="YES"  )
   color: white;
 }
 
+@media screen and (min-width: 1668px) {
+  #customers {
+       margin-left: 400px;
+    }
+}
+
 </style>
 <style>
 #customers {
@@ -125,6 +136,7 @@ if ($AddNewBtnClick=="YES"  )
 #customers td, #customers th {
   border: 1px solid #ddd;
   padding: 8px;
+  text-align: left;
 }
 
 
@@ -169,7 +181,7 @@ select:focus{
   background-color: lightblue;
 }
 .button{
-    background-color: #e74c3c;
+    background-color: #4caaaf;
     border: none;
     color: white;
     padding: 10px 35px;
@@ -206,6 +218,12 @@ function validcheck1()
           return false;
         }
 
+        if(document.forms["UserForm"]["eMainGroup"].value=="")
+        {
+        alert('Please Select Main Group');
+            return false;
+        }
+
 
 	/*   after all field valids then submit the form */
  document.forms["UserForm"]["AddNewBtnClick"].value="YES";				//----- store parameter to check if the Submit New Button was clicked
@@ -224,7 +242,7 @@ function validcheck1()
   <a class="btn1 " href="SAgroupmain.php">Main Groups</a>
   <a class="btn1 active " href="SAgroupsub.php">Sub Groups</a>
   <a class="btn1" href="SAcompanyacc.php">Company Account</a>
-  <a class="btn1" href="#">User Management</a>
+  <a class="btn1" href="Umanagement.php">User Management</a>
  
 </div>
 
@@ -232,7 +250,7 @@ function validcheck1()
 <form action="" name="UserForm" method="post">
             <input type=hidden name=AddNewBtnClick value="">
 
-  <input type="text" id="NewTitle" name="NewTitle" placeholder="Task Main Group Title" value="<?php echo $gTitle; ?>">
+  <input type="text" id="NewTitle" name="NewTitle" placeholder="Task Sub Group Title" value="<?php echo $gTitle; ?>">
 
   <select name="eMainGroup" id="eMainGroup">
   <option value="">... Select Main Group ...</option>
@@ -251,7 +269,6 @@ function validcheck1()
   </select>
   
   <select name="selAccountStatus" id="selAccountStatus">
-  <option value="">... Select Status ...</option>
   <option value="ACT" <?php if($selAccountStatus=='ACT') { ?> selected="selected" <?php } ?> >Active</option>
                         <option value="INA" <?php if($selAccountStatus=='INA') { ?> selected="selected" <?php } ?> >In-Active</option>
  
@@ -259,18 +276,14 @@ function validcheck1()
   
   <button class="button" name="btnSave" value="SaveGroup" onclick="validcheck1()">Save Group</button>
 
-  <p>&nbsp;</p>
-                     
-                     <?php if ($SuccessMessage!='') echo $SuccessMessage; ?>
-
 </div>
 
   <div >
-  <div class=hbox > <h3 style="color:#43BFC7;">Sub Group List</h3> </div>
+  <div class=hbox > <h3 style="color:#6f6467;">Sub Group List</h3> </div>
 
   <?php 
 
-$query6 = "SELECT * FROM `tTaskgCode` WHERE gUsedFor='TASKSUBGROUP' ORDER BY `gTitle` ";
+$query6 = "SELECT * FROM `tTaskgCode` WHERE gUsedFor='TASKSUBGROUP' AND CliRecRef = '$CliRecRef' ORDER BY `gTitle` ";
 $sql6 = mysqli_query($mysqli, $query6);
 $TACount=mysqli_num_rows($sql6);
     //    printf("Result = %d , %d rows.\n",$id ,$TSCount);
@@ -279,7 +292,7 @@ if ($TACount>0)
     ?> 
 <table id="customers">
 <tr>
-  <th>Code</th>
+  <!-- <th>Code</th> -->
   <th>Sub Group Title</th>
   <th>Main Group</th>
   <th>Status</th>
@@ -299,11 +312,11 @@ if ($TACount>0)
                              
                              ?> 
   <tr>
-    <td><?php echo $gRecRef?></td>
+    <!-- <td><?php //echo $gRecRef?></td> -->
     <td><?php echo $gTitle?></td>
     <td><?php echo $gOfMainTitle?></td>
     <td><?php echo $Status?></td>
-    <td><a target="_self" title="  Edit Group  " href="SAgroupsub.php?RIDNO=<?php echo $gRecRef?>&ToAct=EDIT" >
+    <td style="text-align: center";><a target="_self" title="  Edit Group  " href="SAgroupsub.php?RIDNO=<?php echo $gRecRef?>&ToAct=EDIT" >
     <img src="images/iconedit.png" alt="EDIT" height="20" width="20" border=0></a>
       
    </td>

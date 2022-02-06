@@ -337,7 +337,7 @@ function ShowList(tday)
                                 //----------------------- START Over Due, Today & Tomorrow Task List --------------------------- START
         $query301="SELECT distinct t1.*,t2.*,t3.* FROM `tTasks` AS t1, `tSchedule` AS t2, `tCalendar` AS t3 
                     WHERE t1.TRecRef=t2.TRecRef AND t3.Status='A' AND t2.SRecRef=t3.SRecRef $FCCriteria $FUCriteria $FTMGCriteria $FTSGCriteria $FCMPCriteria $FTTagCriteria 
-                    ORDER BY t3.cScheduleDate LIMIT 200";
+                    ORDER BY t1.TRecRef LIMIT 200";
         $sql301 = mysqli_query($mysqli, $query301);    
         $existCount301 = mysqli_num_rows($sql301);
         //echo '<br>QUERY---'.$existCount301.'-----'.$query301;
@@ -350,6 +350,7 @@ function ShowList(tday)
                     $TRecRef=$row301['TRecRef'];
                     $csqlScheduleDate=$row301['cScheduleDate'];
                     $csqlDueDate=$row301['cDueDate'];
+                    $TaskNumber=$row301['TaskNumber'];
                     if (($TRecRef !== $TRecRefold) or ($TRecRef == $TRecRefold && $csqlScheduleDateold !== $csqlScheduleDate && $csqlDueDate !==$csqlDueDateold)) 
                     {
                     $taskowner = $row301['CreatedBy'];
@@ -385,7 +386,15 @@ function ShowList(tday)
                     $initials='';
                     $awdays = $row301['DaysInWeek'];
                     $assigneduser=array();
-                    $x=0;
+                    $x=0;$nsubtasks=0;
+                    $query11="SELECT * FROM `tSubTasks` a WHERE STRecRef in (Select STRecRef from tSubTaskCal b where cRecRef in 
+                                (select cRecRef from tCalendar where SRecRef in (select SRecRef from tSchedule c where TRecRef = '$TRecRef') 
+                                and (`cScheduleDate`,`cDueDate`) in (select `cScheduleDate`,`cDueDate` from tCalendar where cRecRef='$cRecRef') ) AND b.cRecRef in (select cRecRef from tCalendar where cRecRef=b.cRecRef and Status='A')) ORDER BY a.STRecRef ";
+                    $sql11 = mysqli_query($mysqli, $query11);    
+                    $existCount11 = mysqli_num_rows($sql11);
+                    if ($existCount11>0){
+                        $nsubtasks = 1;
+                    }
                     $query3011 = "SELECT distinct ForRefUSR from tCalendar where TRecRef='$TRecRef' and (`cScheduleDate`,`cDueDate`) in (select `cScheduleDate`,`cDueDate` from tCalendar where cRecRef='$cRecRef') ";
                     $sql3011 = mysqli_query($mysqli, $query3011);
                     while($row3011=mysqli_fetch_array($sql3011))
@@ -460,7 +469,7 @@ function ShowList(tday)
                             $ThisTaskcRecRef=$row21['cRecRef'];
                             $ThisTagTitle=$row21['TagTitle'];
                             //$ThisTagTitle= ucfirst(strtolower($ThisTagTitle));
-                            $ThisTaskTags.="<a href='#' onClick='removetag($celnodv,$ThisTRecRef)'><img src='../focinc/images/imgRemove.png' alt='X' height='15' width='15' border=0/></a>
+                            $ThisTaskTags.="<a href='#' onClick='removetag($celnodv,$ThisTRecRef)'><img src='images/imgRemove.png' alt='X' height='15' width='15' border=0/></a>
       $ThisTagTitle&nbsp;<br/> ";
                         } 
                     
@@ -494,9 +503,8 @@ function ShowList(tday)
         ?>
             <input type="hidden" name="CountCells" value="<?php echo $celnodv;?>"/>
         
-            <table cellpadding=4 cellspacing=0 width=100% border=0><tr style="cursor: pointer;"  onclick="ShowList('TD')" >
-            <td width="100%"><div class=BLUbkgBLUborder style='width:100%'><h4>ALL TASKS</h4></div></td>
-            <td align=center><div class=BLUbkgBLUborder style='width:90px;'><h4><?php echo $AllCount; ?></h4></div></td>
+            <table cellpadding=4 cellspacing=0 width=100% border=0><tr>
+            <td width="100%"><div style='margin-bottom: 20px;font-size: 18px;color: #6f6467;'><h4>ALL TASKS (<?php echo $AllCount; ?>)</h4></div></td>
             </tr></table>
              <div id="pagination-container"></div>
                   <div class="main-tab">

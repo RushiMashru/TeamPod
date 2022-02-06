@@ -17,7 +17,7 @@
    background-repeat:no-repeat;
    }
    .sidenav1 {   
-    width: 720px;
+    width: 720px !important;
     height: 900px;
     padding-top: 0px;
    }
@@ -609,7 +609,7 @@ button.fr.btn-save {
    <!-- <input type=button id="myQuickTask" class='btn btn-default' title="Add New Task" value="Quick Task" style="font-family:'Open Sans';width:150px;height:32px;border-radius:25px;margin:0px 16px 0px 0px;" onclick="popup('popUpDiv','addtask','')"/> -->
    <input type=button id="myQuickTask" class='btn btn-default' title="Add New Task" value="Quick Task" style="font-family:'Open Sans';width:150px;height:32px;border-radius:25px;margin:0px 16px 0px 0px;" onclick="quickboxfilter()"/>
    
-   <img style="border:none;background:#eee;float:right;cursor: pointer;margin:0px 40px 0px 0px;" alt="" src="images/Filters.svg" onclick="openfilter()" />
+   <img style="border:none;background:#fff;float:right;cursor: pointer;margin:0px 40px 0px 0px;" alt="" src="images/Filters.svg" onclick="openfilter()" />
 </div>
 <br clear='all'/>
 <div class=sidenav1 id=quickbox1 style="z-index: 2;">

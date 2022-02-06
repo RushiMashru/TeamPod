@@ -56,7 +56,7 @@ html, body {
     flex-wrap: wrap;
     width: 99% !important;
         overflow-y: scroll;
-    height: 100vh;
+    /*height: 100vh;*/
 }
 .tablinks.active-tab {
     background-color: #f4e5c1;
@@ -93,21 +93,24 @@ html, body {
 }
 .tab-text-left h1 {
     margin: 0;
-    font-size: 20px;
+    font-size: 16px;
     margin-right: 25px;
+    width: 100%;
 }
 .tab-text-left p {
     margin: 0;
     /* vertical-align: middle; */
     display: flex;
     align-items: center;
-        font-size: 20px;
-        line-height: 18px;
+    font-size: 16px;
+    line-height: 18px;
+    font-weight:bold;
 }
 .tab-text-2 p {
     font-size: 14px;
     margin: 0;
     line-height: 18px;
+    font-weight:400;
 }
 .tab-text-2 {
     margin: 0;
@@ -150,7 +153,7 @@ html, body {
     display: none;
 }
 .tab-text-5 .tab button {
-    padding: 0 5px;
+    padding: 0 0px;
     background-color: transparent;
     border: none;
     width: auto;
@@ -170,7 +173,7 @@ html, body {
 }
 .tab-text-1.tab-text-5 .tab-text-right {
     padding: 0;
-    width: 65%;
+    width: 70%;
 }
 
 .tab-text-6 .tabcontent {
@@ -188,7 +191,7 @@ html, body {
     padding: 5px;
 }
 .tabcontent .text-box button {
-    padding: 7px 30px;
+    padding: 7px 22px;
     border: 1px solid #e74c3c;
     color: #e74c3c;
     background-color: transparent;
@@ -418,14 +421,17 @@ p.popup { font-size: 15px; margin: 0px; text-align: left;}
 }
 
 #popUpDiv {
-	position: absolute;
-	background-color: rgba(189, 189, 189, 0.25);
-	width: 420px;
-	height: auto;
-	z-index: 9002;
-	padding: 20px;
-	border:#333 1px solid;
-	border-radius:5px;
+    position: absolute;
+    background-color: rgb(255 255 255);
+    width: 513px;
+    height: auto;
+    z-index: 9002;
+    padding: 20px;
+    border: #333 1px solid;
+    border-radius: 5px;
+    margin-left: 475px;
+    overflow-y: scroll;
+    height: 520px;
 }
 
 .floatleft{
@@ -568,6 +574,7 @@ outline: 0;
     background-color: #fff;
     border-bottom: 5px solid rgba(231, 76, 60, 0.5);
     transform: translate(0px, 0px);
+    z-index:9999;
 }
 .maindiv {
     position: absolute;
@@ -597,8 +604,8 @@ a:hover {
 /* Fixed sidenav, full height */
 .tab {
   overflow: hidden;
-  border: 0px solid #ccc;
-  background-color: rgba(189, 189, 189,0.05);
+  border: 0px solid #fff;
+  background-color: #fff;
   font-family: open sans;
   /*height: 100%;
   width: 15%;
@@ -615,8 +622,8 @@ a:hover {
 
 /* Style the sidenav links and the dropdown button */
 .tab button {
-  background-color: #fff;
-  border-bottom: 6px solid #FFF;
+  background-color: #f1f1f1;
+  border-bottom: 6px solid #f1f1f1;
   float: left;
   border:none;
   outline:none;
@@ -682,7 +689,7 @@ a:hover {
 .sidenav1 {
   font-family: "Lato", sans-serif;    
   height: 100%;
-  width: 360px;
+  width: 43% !important;
   position: fixed;
   top: 67px;
   right: 0;
@@ -693,7 +700,6 @@ a:hover {
   border-right:1px solid #ccc;
   display:none;
 }
-
 
 
 .toplinks {

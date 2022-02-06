@@ -81,7 +81,10 @@
                <span style="vertical-align: middle;"><label class="lbl"><?php echo $loginame; ?></label>&nbsp;&nbsp;</span>
                <a class="topicons" href='SAusermgmt.php' target='_self' title="Personal Profile"><img src="images/Profile.svg" height="40" style="vertical-align:middle;margin:10px 16px 0px 0px;" />  </a>
                <a class="topicons" onclick="popup('popUpDiv','invite_friends','')" title="Invite Friends"><img src="images/Email.svg" height="40" style="vertical-align:middle;margin:10px 16px 0px 0px;" />  </a>
+               <?php if ($CanSystemAdmin == 1)
+            { ?>
                <a class="topicons" href='SAgroupmain.php' target='_self' title="Configuration"><img src="images/setting.png" height="40" style="vertical-align:middle;margin:10px 16px 0px 0px;" />  </a>
+               <? } ?>
                <a class="topicons" href='https://teampod.co.uk/TeamPod/index.php'  title="Signout"><img src="images/Logout.svg" height="40" style="vertical-align:middle;margin:10px 40px 0px 0px;" /></a>  
             </div>
          </div>
@@ -245,9 +248,7 @@
              if (r == true) {
              fortid = "EditTaskRef"+rowid;
              taskid = document.getElementById(fortid).value; 
-             
              var dataString = "ForTaskid=" + taskid + "&tagid=" + id + "&row=" + rowid + "&cat=removetag" ;
-         
              $.ajax({  
          		type: "POST",  
          		url: "ptaskload.php",  
@@ -469,7 +470,8 @@
          
          function loadsubgrp1(rowid) {
              group = document.getElementById('eMainGroup'+rowid).value;
-             var dataString = "group=" + group + "&cat=loadsubgrp" ;
+             var dataString = "group=" + group + "&cat=loadsubgrp1" ;
+             alert(dataString);
              $.ajax({  
          		type: "POST",  
          		url: "ptaskload.php",  
@@ -639,10 +641,18 @@
          		success: function(response)
          		{   
          		    document.getElementById(forid).value ="";
-         		    var fordiv='tab-2'+rowid;
+         		    var fordiv='tab-10'+rowid;
                      document.getElementById(fordiv).style.display = "none";
                      document.getElementById("ntaskid"+rowid).value ="";
                      document.getElementById("notid"+rowid).value ="";
+                     var fordiv='clockstarticon1'+rowid;
+                    document.getElementById(fordiv).style.display = "none";
+                    var fordiv='dv-'+rowid;
+                    document.getElementById(fordiv).style.backgroundColor = "";
+                    var fordiv='clockstarticon10'+rowid;
+                    document.getElementById(fordiv).style.display = "none";
+                    var fordiv='clockstarticon2'+rowid;
+                    document.getElementById(fordiv).style.display = "inline";
                      var activeclass = 'clockstarticon2'+rowid;
                      $('#'+activeclass).removeClass('active');   
                      $(".successmsg").html('Note added Successfully!').fadeIn(500);
@@ -687,7 +697,14 @@
                      document.getElementById("notid"+rowid+"-"+srowid).value ="";
                      var fordiv='sub-tab-2'+rowid+srowid;
                      document.getElementById(fordiv).style.display = "none";
-                     var activeclass = 'endtimeicon'+rowid+'-'+srowid;
+                     var fordiv='clockstart'+rowid+srowid;
+                    document.getElementById(fordiv).style.display = "none";
+                    var fordiv='endtimeicon'+rowid+srowid;
+                    document.getElementById(fordiv).style.display = "none";
+                    var fordiv='starttimeicon'+rowid+srowid;
+                    document.getElementById(fordiv).style.display = "inline";
+                     var activeclass = 'clockstarticon2'+rowid;
+                     var activeclass = 'endtimeicon'+rowid+srowid;
                      $('#'+activeclass).removeClass('active');  
                      $(".successmsg").html('Note added Successfully!').fadeIn(500);
          			$(".successmsg").html('Note added Successfully!').fadeOut(2000);
@@ -1649,7 +1666,7 @@
            var input, filter, table, tr, td, i, txtValue;
            input = document.getElementById("myInput");
            filter = input.value.toUpperCase();
-         for (const element of document.getElementsByClassName("myTable")){
+         for (const element of document.getElementsByClassName("maintab-box")){
            //table = document.getElementById("myTable");
            tr = element.getElementsByTagName("tr");
            for (i = 0; i < tr.length; i++) {
@@ -1679,7 +1696,7 @@
       <!--css popup window 1-->
       <div style="display: none;" id="blanket"></div>
       <div style="display: none;" id="popUpDiv">
-         <a onclick="popup('popUpDiv')"><img style="border:none;background:#eee;float:right" alt="" src="images/Close.svg" /></a><br /><br />
+         <a href="" ><img style="float:right" alt="" src="images/Close.svg" /></a><br /><br />
          <div class="popup"></div>
       </div>
       <!--css popup window 1 close-->

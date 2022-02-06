@@ -21,6 +21,11 @@ $uREFIDNO=$_GET["REFIDNO"];
     
 $SuccessMessage='';    
 
+$query15= "SELECT CliRecRef FROM `tUser`where RefUSR='$id' ";
+            $sql15 = mysqli_query($mysqli, $query15);
+            $row15 = mysqli_fetch_array($sql15);
+            $CliRecRef = $row15["CliRecRef"];
+
     $NewCode=$_POST["NewCode"];
     $NewCode=strtoupper($NewCode);
     $NewTitle=$_POST["NewTitle"];
@@ -31,7 +36,7 @@ if ($AddNewBtnClick=="YES" && $NewCode!='' && $NewTitle!='' )
 {
     $AddNewBtnClick="";
                             //---- check duplicate Code
-    $query4 = "SELECT * FROM `tCompany` WHERE `CoCode`='$NewCode' AND `CoType`='COMPANY' ORDER BY `CoName` ";
+    $query4 = "SELECT * FROM `tCompany` WHERE `CoCode`='$NewCode' AND `CoType`='COMPANY' AND `CliRecRef` = '$CliRecRef' ORDER BY `CoName` ";
     $sql4 = mysqli_query($mysqli, $query4);
     $TECount=mysqli_num_rows($sql4);
           //  printf("Result = %s , %d rows.\n",$NewCode ,$TECount);
@@ -41,8 +46,8 @@ if ($AddNewBtnClick=="YES" && $NewCode!='' && $NewTitle!='' )
     }    
      else
     {
-        $query2="INSERT INTO `tCompany`( `CoCode`, `CoName`, `CoType`, `Status`) 
-                                VALUES ( '$NewCode', '$NewTitle', 'COMPANY', 'ACT') " ;
+        $query2="INSERT INTO `tCompany`( `CoCode`, `CoName`, `CoType`, `Status`,`CliRecRef`) 
+                                VALUES ( '$NewCode', '$NewTitle', 'COMPANY', 'ACT','$CliRecRef') " ;
         $sql2 = mysqli_query($mysqli, $query2);
         $SuccessMessage=' Successfully Added ! ';
         $NewMake='';
@@ -139,6 +144,12 @@ function validcheck1()
   color: white;
 }
 
+@media screen and (min-width: 1668px) {
+  #customers {
+       margin-left: 400px;
+    }
+}
+
 </style>
 <style>
 #customers {
@@ -151,6 +162,7 @@ function validcheck1()
 #customers td, #customers th {
   border: 1px solid #ddd;
   padding: 8px;
+  text-align: left;
 }
 
 
@@ -195,7 +207,7 @@ select:focus{
   background-color: lightblue;
 }
 .button{
-    background-color: #e74c3c;
+    background-color: #4caaaf;
     border: none;
     color: white;
     padding: 10px 35px;
@@ -215,7 +227,7 @@ select:focus{
   <a class="btn1 " href="SAgroupmain.php">Main Groups</a>
   <a class="btn1 " href="SAgroupsub.php">Sub Groups</a>
   <a class="btn1 active" href="SAcompanyacc.php">Company Account</a>
-  <a class="btn1" href="">User Management</a>
+  <a class="btn1" href="Umanagement.php">User Management</a>
  
 </div>
 
@@ -230,19 +242,13 @@ select:focus{
   
   <button class="button" name="btnRegisterMe" value="RegisterMe" onclick="validcheck1()">Add New Company Account</button>
 
-  <br>&nbsp;</br>
-                     
-                     <?php //if ($SuccessMessage!='') echo $SuccessMessage; ?>
-                    
- 
-
 </div>
 
   <div >
-  <div class=hbox> <h3 style="color: #43BFC7;">Company Account</h3> </div>
+  <div class=hbox> <h3 style="color: #6f6467;">Company Account</h3> </div>
   <?php 
 
-$query6 = "SELECT * FROM `tCompany` ORDER BY `CoName` ";
+$query6 = "SELECT * FROM `tCompany` where CliRecRef = '$CliRecRef' ORDER BY `CoName` ";
 $sql6 = mysqli_query($mysqli, $query6);
 $TACount=mysqli_num_rows($sql6);
     //    printf("Result = %d , %d rows.\n",$id ,$TSCount);
@@ -268,7 +274,7 @@ if ($TACount>0)
     <td><?php echo $Code?></td>
     <td><?php echo $Title?></td>
     <td><?php echo $Status?></td>
-    <td>      <?php if ($Status=='ACT') {?>
+    <td style="text-align: center;">      <?php if ($Status=='ACT') {?>
                                          <a target="_self" href="SAcompanyacc.php?REFIDNO=<?php echo $RecRef?>&ToAct=INACTIVE" >
                                             <img src="images/imgRemove.png" alt="X" height="20" width="20" border=0></a>
                                          <?php }?>

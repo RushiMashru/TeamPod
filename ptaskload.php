@@ -60,7 +60,7 @@ $UserCodeName_arr = array();
 if($_POST['cat'] =="loadsubgrp") {
 $MainGroup = $_POST['group'];
 ?>
-<label class="email" for="SubGroup">Sub Group</label>  
+
 <select  name="SubGroup" id="SubGroup" >
                 <option value="">----- Select -----</option>
                     <?php  
@@ -82,6 +82,31 @@ $MainGroup = $_POST['group'];
 </select>
 <?php
 }
+
+if($_POST['cat'] =="loadsubgrp1") {
+$MainGroup = $_POST['group'];
+?>
+
+                <option value="">----- Select -----</option>
+                    <?php  
+                    $SubGroupsOfMain_arr=getSubGroupOfMain($MainGroup);
+                    if ($SubGroupsOfMain_arr!="") {
+                    $maxtasksubgrouptitle = sizeof($SubGroupsOfMain_arr);
+                    } else {
+                     $maxtasksubgrouptitle=0;
+                    }
+                    $i=0; 
+                    while($i<$maxtasksubgrouptitle)
+                    {   
+                        $valueof= $SubGroupsOfMain_arr[$i][0] ;
+                        if ($SubGroup == $valueof) {  ?>
+                            <option value="<?php echo $valueof; ?>" selected> <?php echo $SubGroupsOfMain_arr[$i][1] ?></option>
+                        <?php } else{ ?>    
+                            <option value="<?php echo $valueof ?>"> <?php echo $SubGroupsOfMain_arr[$i][1] ?> </option>
+                    <?php  }  $i++; } ?>
+<?php
+}
+
 
 if($_POST['cat'] =="createtask") {
 
@@ -119,15 +144,41 @@ $FlagNewTaskSchedule=0;
         $query3="UPDATE `tTasks` SET `TaskMainGroup`='$MainGroup',`TaskSubGroup`='$SubGroup' WHERE `TRecRef`='$sTRecRef' " ;
         $sql3 = mysqli_query($mysqli, $query3);
     }
-*/    
+*/   
+
+$query15= "SELECT FirstName, LastName, CliRecRef FROM `tUser`where RefUSR='$id' ";
+$sql15 = mysqli_query($mysqli, $query15);
+$row15 = mysqli_fetch_array($sql15);
+$CliRecRef = $row15["CliRecRef"]; 
+$FirstName = $row15["FirstName"]; 
+$LastName  =$row15["LastName"];
+$FullName  =$FirstName.' '.$LastName;
+
+$query17= "SELECT MAX(TaskNumber) as TNum FROM `tTasks` where CliRecRef='$CliRecRef' ";
+
+$sql17 = mysqli_query($mysqli, $query17);
+$row17 = mysqli_fetch_array($sql17);
+$TNum = $row17["TNum"];
+
+if( $TNum > 0){
+    $TNum = $TNum + 1;
+    $TaskNumber=$TNum;
+}
+else{
+    $TaskNumber = '1';
+   
+}
+
     if ( $sTaskName!='')    //----------- if new task title & group is added
     {
-        $query3="INSERT INTO `tTasks`(`TaskMainGroup`, `TaskSubGroup`, `TaskGroup`,  `TaskTitle`, `Status`, `Priority`, `CreatedBy`, `CreatedDateTime`) 
-                              VALUES ( '$MainGroup',    '$SubGroup',  '$sTaskGroup', '$sTaskName',  'ACT', '$Priority', '$id', '$currdatetime' ) " ;
+        $query3="INSERT INTO `tTasks`(`TaskMainGroup`, `TaskSubGroup`, `TaskGroup`,  `TaskTitle`, `Status`, `Priority`, `CreatedBy`, `CreatedDateTime`,`CliRecRef`, `TaskNumber`) 
+                              VALUES ( '$MainGroup',    '$SubGroup',  '$sTaskGroup', '$sTaskName',  'ACT', '$Priority', '$id', '$currdatetime','$CliRecRef','$TaskNumber' ) " ;
+
         $sql3 = mysqli_query($mysqli, $query3);
-        $sTRecRef= $mysqli->insert_id;          //------------ if its new task title then get last title inserted record number
+        $sTRecRef= $mysqli->insert_id;         
+         //------------ if its new task title then get last title inserted record number
     }   //---- end if new task title & group is added
-    
+
     if ($sTRecRef!='' && $RepeatSchedule==""){
     $query4="INSERT INTO `tSchedule`(`TRecRef`, `TaskDescription`, `ForCoRecRef`, `PrivateTask`,  `StartDate`,    `DueDate`,  `DueDays`, `RepeatSchedule`, `AssignDT`, `AssignedBy`) 
                              VALUES ('$sTRecRef','$TaskDescription','$ForCompany', '$chkPrivateTask','$sqlStartDate','$sqlDueDate','$DueDays','$RepeatSchedule', '$currdatetime','$id' ) " ;
@@ -313,6 +364,42 @@ $FlagNewTaskSchedule=0;
     } //end while of user
         if ($FlagSuccess==1) {
             echo "<script> alert ('Tasks is Scheduled !'); document.location='paddtask.php';</script>";
+            
+             $query3011 = "SELECT distinct ForRefUSR from tCalendar where TRecRef='$sTRecRef' AND Status='A' and (`cScheduleDate`,`cDueDate`) in (select `cScheduleDate`,`cDueDate` from tCalendar where TRecRef='$sTRecRef') ";
+                                 $sql3011 = mysqli_query($mysqli, $query3011);
+                                 $ForUserID = '';
+                                 while($row3011=mysqli_fetch_array($sql3011))
+                                 {
+                                 $ForRefUSR=$row3011['ForRefUSR'];
+                                 $query31="SELECT `RefUSR`, `UserID`, `FirstName`, `LastName`  FROM `tUser` WHERE `RefUSR`='$ForRefUSR' ";
+                                 $sql31 = mysqli_query($mysqli, $query31);
+                                 while($row31 = mysqli_fetch_array($sql31)){
+                                     $UserRef   =$row31["RefUSR"];
+                                     $UserID    =$row31["UserID"].',';
+                                     $FullName=ucwords(strtolower($FullName)); //----- convert to UpperLower Case
+                                 }
+                                 $ForUserID.= $UserID;
+                                 }
+            $to="$ForUserID";
+        	$subject1= "Task No:".$TaskNumber." is assigned";
+        	$fromName = $FullName;
+        	$from = "support@teampod.co.uk"; 
+            $message2='
+            Hi!
+            
+            Task details are as below
+            
+            Task Number: '.$TaskNumber.'
+            Description: '.$TaskDescription.'
+            
+            Thanks & Regards,'
+            
+            .$FullName.'';
+            
+            $headers1 = "From: $fromName"."<".$from.">";
+        	mail($to,$subject1,$message2,$headers1);
+        	
+        	
         }
         else
         {
@@ -716,7 +803,7 @@ if($_POST['cat'] == "quicktaskpopup") {
 -->
     <div class="labelcust" style='width:85px'>Description:</div> 
     <textarea name=TaskDescription class="total_fields forminput" id=TaskDescription style="vertical-align: top;height:60px;border-radius:4px;width:290px" rows=3  placeholder='Please provide task detail' ></textarea>
-    <br clear="all"/><br clear="all"/><br clear="all"/>  <br clear="all"/>
+    
     <input type=button name="btnSave"  value="Save" style="margin-left:10%;font-weight:bold;width:100px" class='btn' onclick="quicktask()" />
 <?php
 }
@@ -728,10 +815,28 @@ $TaskDescription=$_POST['descr'];
 //$TaskMainGroup=$_POST['TaskMainGroup'];
 //$TaskSubGroup=$_POST['TaskSubGroup'];
 
+$query15= "SELECT CliRecRef FROM `tUser`where RefUSR='$id' ";
+$sql15 = mysqli_query($mysqli, $query15);
+$row15 = mysqli_fetch_array($sql15);
+$CliRecRef = $row15["CliRecRef"];       
 
+$query17= "SELECT MAX(TaskNumber) as TNum FROM `tTasks` where CliRecRef='$CliRecRef' ";
 
-$query3="INSERT INTO `tTasks`(`TaskMainGroup`, `TaskSubGroup`, `TaskGroup`,  `TaskTitle`, `Status`, `Priority`, `CreatedBy`, `CreatedDateTime`) 
-                              VALUES ( '0',    '0',  '0', '$sTaskName',  'ACT', 'P3', '$id', '$currdatetime' ) " ;
+$sql17 = mysqli_query($mysqli, $query17);
+$row17 = mysqli_fetch_array($sql17);
+$TNum = $row17["TNum"];
+
+if( $TNum > 0){
+    $TNum = $TNum + 1;
+    $TaskNumber=$TNum;
+}
+else{
+    $TaskNumber = '1';
+   
+}
+
+$query3="INSERT INTO `tTasks`(`TaskMainGroup`, `TaskSubGroup`, `TaskGroup`,  `TaskTitle`, `Status`, `Priority`, `CreatedBy`, `CreatedDateTime`,`CliRecRef`, `TaskNumber`) 
+                              VALUES ( '0',    '0',  '0', '$sTaskName',  'ACT', 'P3', '$id', '$currdatetime','$CliRecRef','$TaskNumber'  ) " ;
 $sql3 = mysqli_query($mysqli, $query3);
 $sTRecRef= $mysqli->insert_id;
 
@@ -1146,7 +1251,7 @@ echo "<span style='font-size:16px;font-weight:bold'>Task#$ForTaskid</span><br cl
         //echo '<br><br>---'.$existCount304.'-----'.$query304;
         if ($existCount304>0){
             echo "<br><table id=history cellpadding=2 cellspacing=2 width=100%>
-                        <tr bgcolor=#5DADE2><td align=left><b>HISTORY</b></td><td align=center>&nbsp;</td><td align=center></td></tr>";
+                        <tr bgcolor=#ffe199><td align=left style='font-size:12px;line-height: 30px !important;'><b>HISTORY</b></td><td align=center>&nbsp;</td><td align=center></td></tr>";
             while($row304=mysqli_fetch_array($sql304))
                 {
                     $nNotes=$row304['Notes'];
@@ -1159,7 +1264,7 @@ echo "<span style='font-size:16px;font-weight:bold'>Task#$ForTaskid</span><br cl
                     $TimeSpent=$TimeSpent+$nsTimeTaken;
                     $hDocName=$row304['DocName'];
                     $hDocLink=$row304['DocLink'];
-                    $target_path = "../uploads/SupportingDoc/";
+                    $target_path = "../TeamPod/SupportingDoc/";
                     $showfielink=$target_path.$hDocLink;
                     $style =$row304['Style'];
                     $stage=$row304['Stage'];
@@ -1185,8 +1290,9 @@ echo "<span style='font-size:16px;font-weight:bold'>Task#$ForTaskid</span><br cl
                     if ($style == "I") { $styling ="font-style: italic; font-weight: 400;text-decoration: none;color:black"; }
                     if ($style == "U") { $styling ="font-style: normal; font-weight: 400;text-decoration: underline;color:black"; }
                     
-                    echo "<tr><td colspan=3 style='line-height:1.2'><span id='note$NRecRef' style='$styling'>$noteadd $nNotes $noteadd1</span> <br/><br/><a href='$showfielink' style='line-height:1.2' target=_blank>$hDocName</a></td></tr>
-                        <tr><td style='line-height:1.2' >$nNotesDT</td><td align=center>$nNotesByName</td>
+                    echo "<tr><td colspan=3 style='line-height:1.2'><span id='note$NRecRef' style='$styling'>$noteadd $nNotes $noteadd1</span> <br/><br/>";
+                    if($hDocLink != ""){ echo "<a href='$showfielink' style='line-height:1.2;color:#7ccfe1' target=_blank>View Attachment</a></td></tr> "; }
+                       echo "<tr><td style='line-height:1.2' >$nNotesDT</td><td align=center>$nNotesByName</td>
                         <td align=right>
                             <a href='#' onclick=notestyle('B','$NRecRef') title='Bold'><b>B</b></a>
                             <a href='#' onclick=notestyle('I','$NRecRef') title='Italic'> <i>I</i></a>
@@ -1270,25 +1376,26 @@ $query301="SELECT t1.*,t2.*,t3.* FROM `tTasks` AS t1, `tSchedule` AS t2, `tCalen
 
 echo "<span style='font-size:16px;font-weight:bold'>Task#$ForTaskid</span><br clear='all'><br clear='all'>";
 ?>
-<div style='width:100px;float:left;text-align:left'>Company: </div> <div style='display:inline;float:left'><?php echo $CoName ?></div><br clear='all'><br clear='all'>
-<div style='width:100px;float:left;text-align:left'>Assign to: </div> <div style='float:left;line-height:1;text-align:left;width:275px'><?php echo $ForUserFullName ?></div><br clear='all'><br clear='all'>
-<div style='width:100px;float:left;text-align:left'>Task: </div> <div style='float:left;line-height:1;text-align:left;width:275px'><?php echo $TaskTitle ?></div><br clear='all'><br clear='all'>
-<div style='width:100px;float:left;text-align:left'>Main Group: </div> <div style='display:inline;float:left'><?php echo $TaskMainGroupTitle ?></div><br clear='all'><br clear='all'>
-<div style='width:100px;float:left;text-align:left'>Sub Group: </div> <div style='display:inline;float:left'><?php echo $TaskSubGroupTitle ?></div><br clear='all'><br clear='all'>
-<div style='width:100px;float:left;text-align:left'>Start Date: </div> <div style='display:inline;float:left'><?php echo $cScheduleDate ?></div><br clear='all'><br clear='all'>
-<div style='width:100px;float:left;text-align:left'>Due Date: </div> <div style='display:inline;float:left'><?php echo $cDueDate ?></div><br clear='all'><br clear='all'>
+<div style='width:120px;float:left;text-align:left; font-weight:bold;'>Company: </div> <div style='display:inline;float:left'><?php echo $CoName ?></div><br clear='all'><br clear='all'>
+<div style='width:120px;float:left;text-align:left;font-weight:bold;'>Assign to: </div> <div style='float:left;line-height:1;text-align:left;width:275px'><?php echo $ForUserFullName ?></div><br clear='all'><br clear='all'>
+<div style='width:120px;float:left;text-align:left;font-weight:bold;'>Task: </div> <div style='float:left;line-height:1;text-align:left;width:275px'><?php echo $TaskTitle ?></div><br clear='all'><br clear='all'>
+<div style='width:120px;float:left;text-align:left;font-weight:bold;'>Main Group: </div> <div style='display:inline;float:left'><?php echo $TaskMainGroupTitle ?></div><br clear='all'><br clear='all'>
+<div style='width:120px;float:left;text-align:left;font-weight:bold;'>Sub Group: </div> <div style='display:inline;float:left'><?php echo $TaskSubGroupTitle ?></div><br clear='all'><br clear='all'>
+<div style='width:120px;float:left;text-align:left;font-weight:bold;'>Start Date: </div> <div style='display:inline;float:left'><?php echo $cScheduleDate ?></div><br clear='all'><br clear='all'>
+<div style='width:120px;float:left;text-align:left;font-weight:bold;'>Due Date: </div> <div style='display:inline;float:left'><?php echo $cDueDate ?></div><br clear='all'><br clear='all'>
 
-<div style='width:100px;float:left;text-align:left'>Priority: </div> <div style='display:inline;float:left;'>
-      <select class="forminput" name="priority" id="priority" style='padding:3px;border-radius:3px;width:120px' <?php echo $disabled ?>>
+<div style='width:120px;float:left;text-align:left;font-weight:bold;'>Priority: </div> <div style='display:inline;float:left;'>
+      <select class="forminput" name="priority" id="priority" style='padding:3px;border-radius:3px;width: 220px;
+    height: 30px;' <?php echo $disabled ?>>
                 <option value="P3" <?php echo $P3Selected ?> >P3 - Low</option>
                 <option value="P2" <?php echo $P2Selected ?> >P2 - Medium</option>
                 <option value="P1" <?php echo $P1Selected ?> >P1 - High</option>
        </select></div><br clear='all'><br clear='all'>
-<div style='width:100px;float:left;text-align:left'>Description: </div> <div style='display:inline;float:left'><textarea id='taskdescr' rows=5 style='width:250px;border-radius:3px' <?php echo $readonly ?>><?php echo $TaskDescription ?></textarea></div><br clear='all'><br clear='all'>
-<div style='width:100px;float:left;text-align:left'>Private Task: </div> <div style='display:inline;float:left'><input type="checkbox" class="" name="chkPrivateTask" id="chkPrivateTask" value="" <?php echo $checked ?> <?php echo $disabled ?>></input></div><br clear='all'><br clear='all'>
+<div style='width:120px;float:left;text-align:;font-weight:bold;'>Description: </div> <div style='display:inline;float:left;'><textarea id='taskdescr' rows=5 style='border-radius:3px;width: 220px;height: 70px;border: 1px solid black;' <?php echo $readonly ?>><?php echo $TaskDescription ?></textarea></div><br clear='all'><br clear='all'>
+<div style='width:120px;float:left;text-align:left;font-weight:bold;'>Private Task: </div> <div style='display:inline;float:left'><input type="checkbox" class="" name="chkPrivateTask" id="chkPrivateTask" value="" <?php echo $checked ?> <?php echo $disabled ?>></input></div><br clear='all'><br clear='all'>
 <?php if ($Stagesub !="Completed") { ?>
 <br clear="all"/><br clear="all"/>
-<input type=button name="btnSave"  value="Save" style="font-weight:bold;width:100px" class='btn' onclick="updatetask(<?php echo $ForTaskid ?>)" />
+<input type=button name="btnSave"  value="Save" style="font-weight:bold;width:100px;margin-top:-30px;" class='btn' onclick="updatetask(<?php echo $ForTaskid ?>)" />
 <?php } ?>
 <br clear="all"/><br clear="all"/>
 <div class="maindiv1" id="center" style="width:100%">
@@ -1303,8 +1410,12 @@ echo "<span style='font-size:16px;font-weight:bold'>Task#$ForTaskid</span><br cl
         $existCount304 = mysqli_num_rows($sql304);
         //echo '<br><br>---'.$existCount304.'-----'.$query304;
         if ($existCount304>0){
-            echo "<br><table id=history cellpadding=2 cellspacing=2 width=100%>
-                        <tr bgcolor=#5DADE2><td align=left><b>HISTORY</b></td><td align=center>&nbsp;</td><td align=center></td></tr>";
+            echo "<br><table id=history  width=100% style='border-collapse: collapse;
+            width: 99%;border: 1px solid green;border-radius: 5px;'>
+                      
+                        <tr bgcolor='#ffe199'><td align='left' style='font-size:16px;line-height:28px;'><b>HISTORY</b></td><td align='center'>&nbsp;</td><td align='center'></td></tr>";
+
+
             while($row304=mysqli_fetch_array($sql304))
                 {
                     $nNotes=$row304['Notes'];
@@ -1317,7 +1428,7 @@ echo "<span style='font-size:16px;font-weight:bold'>Task#$ForTaskid</span><br cl
                     $TimeSpent=$TimeSpent+$nsTimeTaken;
                     $hDocName=$row304['DocName'];
                     $hDocLink=$row304['DocLink'];
-                    $target_path = "../uploads/SupportingDoc/";
+                    $target_path = "../TeamPod/SupportingDoc/";
                     $showfielink=$target_path.$hDocLink;
                     $style =$row304['Style'];
                     $stage=$row304['Stage'];
@@ -1360,8 +1471,9 @@ echo "<span style='font-size:16px;font-weight:bold'>Task#$ForTaskid</span><br cl
                     if ($style == "I") { $styling ="font-style: italic; font-weight: 400;text-decoration: none;color:black"; }
                     if ($style == "U") { $styling ="font-style: normal; font-weight: 400;text-decoration: underline;color:black"; }
                     
-                    echo "<tr><td colspan=3 style='line-height:1.2'><span id='note$NRecRef' style='$styling'>$noteadd $nNotes $noteadd1</span> <br/><br/><a href='$showfielink' style='line-height:1.2' target=_blank>$hDocName</a></td></tr>
-                        <tr><td style='line-height:1.2' >$nNotesDT</td><td align=center>$nNotesByName</td>
+                    echo "<tr><td colspan=3 style='line-height:1.2;padding-top: 12px;'><span id='note$NRecRef' style='$styling'>$noteadd $nNotes $noteadd1</span> <br/>";
+                    if($hDocLink != ""){ echo "<a href='$showfielink' style='line-height:1.2;color:#7ccfe1' target=_blank>View Attachment</a></td></tr>"; }
+                       echo "<tr><td style='line-height:1.2; padding:10px;' >$nNotesDT</td><td align=center>$nNotesByName</td>
                         <td align=right>
                             <a href='#' onclick=notestyle('B','$NRecRef') title='Bold'><b>B</b></a>
                             <a href='#' onclick=notestyle('I','$NRecRef') title='Italic'> <i>I</i></a>

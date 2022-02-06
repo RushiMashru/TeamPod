@@ -17,7 +17,7 @@
    
    //echo '<br>DateToday'.$DateToday.'----DateTomorrow='.$DateTomorrow.'----';
    
-               $target_path = "../uploads/SupportingDoc/";
+               $target_path = "../TeamPod/SupportingDoc/";
    
    //echo 'print coockies= '; print_r($_COOKIE);
    if(isset($_COOKIE["name"]))           { $loginame=$_COOKIE["name"]; }
@@ -228,7 +228,7 @@
          background-repeat:no-repeat;
          }
          body {
-         background-color: rgba(189, 189, 189, 0.25);
+         background-color: #fff;
          }
          /*.tab {
          overflow: hidden;
@@ -318,26 +318,24 @@
         border: 2px solid #e74c3c !important;
 }
       </style>
-      <link rel="shortcut icon" type="image/png" href="images/icontask.png"/>
+<link rel="shortcut icon" type="image/png" href="images/icontask.png"/>
       <link rel="stylesheet" type="text/css" href="newstyle.css?v=vcb54">
       </link>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
       <!--Requirement jQuery-->
-      <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-      <!--Load Script and Stylesheet -->
-     <!--  <script type="text/javascript" src="jquery.simple-dtpicker.js"></script> -->
-      <link type="text/css" href="jquery.simple-dtpicker.css" rel="stylesheet" />
+    
       <link type="text/css" href="multiselect.css?v=4534" rel="stylesheet" />
       <!---->
       <script>
          $(function() {
-           $( ".datepicker" ).datepicker({ dateFormat: "dd/mm/yy" });
+           $( ".datepicker" ).datepicker({ dateFormat: "dd-mm-yy" });
          }); 
-           
+          
       </script>
       <!-- --------------- START Auto Complete Text from Array -->
-      <link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/ui-darkness/jquery-ui.min.css" rel="stylesheet">
-      <!-- DO NOT USE, As it is already used in Date Validation <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>  -->
-      <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+     
       <script language=javascript>
          var h=0;
          var m=0;
@@ -447,7 +445,7 @@
             ?>
          <div class="maindiv" id="wrapper" style="margin-left:16%;width:84%;">
             <div id="floatleft" style="width:100%;float:left;z-index: -1;">
-               <div style="background-color: #f0f0f0">
+               <div style="background-color: #fff">
                   <?php       $FTMGCriteria=''; $FTSGCriteria=''; $FTGCriteria='';
                      $FCCriteria=" AND t2.ForCoRecRef IN (SELECT FCompany FROM `tUserAccessLevels` WHERE RefUSR='$id' AND ( `AccessLevel` LIKE '%ALPROCES%' ) ) ";
                      if ($chkViewCompleted=='YES') {$FCMPCriteria=" AND t3.CompleteBy!='' "; } else  {$FCMPCriteria=" AND t3.CompleteBy='' "; }
@@ -484,6 +482,9 @@
                                  $TRecRef=$row301['TRecRef'];
                                  $csqlScheduleDate=$row301['cScheduleDate'];
                                  $csqlDueDate=$row301['cDueDate'];
+                                 $TaskNumber=$row301['TaskNumber'];
+                                 $nsubtasks = 0;
+
                                  if (($TRecRef !== $TRecRefold) or ($TRecRef == $TRecRefold && $csqlScheduleDateold !== $csqlScheduleDate && $csqlDueDate !==$csqlDueDateold)) 
                                 {
                                    // echo "1";exit;
@@ -524,8 +525,18 @@
                                  //if($ForRefUSR!='ALL') {;
                                  $assigneduser=array();
                                  $x=0;
+                                  $query11="SELECT * FROM `tSubTasks` a WHERE STRecRef in (Select STRecRef from tSubTaskCal b where cRecRef in 
+                                (select cRecRef from tCalendar where SRecRef in (select SRecRef from tSchedule c where TRecRef = '$TRecRef') 
+                                and (`cScheduleDate`,`cDueDate`) in (select `cScheduleDate`,`cDueDate` from tCalendar where cRecRef='$cRecRef') ) AND b.cRecRef in (select cRecRef from tCalendar where cRecRef=b.cRecRef and Status='A')) ORDER BY a.STRecRef ";
+                
+                                $sql11 = mysqli_query($mysqli, $query11);    
+                                $existCount11 = mysqli_num_rows($sql11);
+                                if ($existCount11>0){
+                                    $nsubtasks = 1;
+                                }
                                  $query3011 = "SELECT distinct ForRefUSR from tCalendar where TRecRef='$TRecRef' AND Status='A' and (`cScheduleDate`,`cDueDate`) in (select `cScheduleDate`,`cDueDate` from tCalendar where cRecRef='$cRecRef') ";
                                  $sql3011 = mysqli_query($mysqli, $query3011);
+                                 
                                  while($row3011=mysqli_fetch_array($sql3011))
                                  {
                                  $ForRefUSR=$row3011['ForRefUSR'];
@@ -604,7 +615,14 @@
 
                  
                //echo $outall;exit;
-               $celnodv++;
+               
+               
+                $outall = "<input type=hidden id=EditTaskRef".$celnodv."     name=EditTaskRef".$celnodv." value=".$TRecRef." > ";
+                  include "ptaskdetails.php";
+                $celnodv++;                  
+                    $outall.= "
+               </div>
+               ";
               // echo '<br>csqlScheduleDate'.$csqlScheduleDate.'='.strtotime($csqlScheduleDate).'------DateToday='.$DateToday.'='.strtotime($DateToday).'------'.$csqlDueDate;
               // exit;
                //if (strtotime($csqlScheduleDate)<strtotime($DateToday))  {$outover.=$outall; $OverDueCount++;}
@@ -615,11 +633,8 @@
                     if (strtotime($csqlScheduleDate)==strtotime($DateTomorrow)) {$outomorrow.=$outall; $TomorrowCount++; $tasktype='t3';}
                     
                     }   //------ end if private task
-                     $outall = "<input type=hidden id=EditTaskRef".$celnodv."     name=EditTaskRef".$celnodv." value=".$TRecRef." > ";
-                  include "ptaskdetails.php";
-                  $outall.= "
-               </div>
-               ";
+                    
+               
                $TRecRefold = $TRecRef;
                $csqlScheduleDateold=$row301['cScheduleDate'];
                $csqlDueDateold=$row301['cDueDate'];
@@ -634,7 +649,7 @@
                   <button class="tablinks active-tab" type="button" id="tdtasks" onclick="ShowList('TD')"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbspToday's tasks (<?php echo $TodaysCount; ?>) &nbsp &nbsp</button>
                   <button class="tablinks" id="tmtasks" type="button" onclick="ShowList('TM')"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbspTomorrow's tasks (<?php echo $TomorrowCount; ?>)</button>
                </div>
-               <div id="OD" class="tabcontent1" style="display: none;">
+               <div id="OD" class="tabcontent1" style="display: none;margin-top:10px;">
                 
                          
                              <div id="pagination-container2"></div>
@@ -643,7 +658,7 @@
                                 </div>
                        
                     </div>
-               <div id="TD" class="tabcontent1" >
+               <div id="TD" class="tabcontent1" style="margin-top:10px;" >
                   <div id="pagination-container1"></div>
                   <div class="main-tab TD">
            
@@ -652,7 +667,7 @@
          </div>
          
                </div>
-               <div id="TM" class="tabcontent1 TM" style="display: none;">
+               <div id="TM" class="tabcontent1 TM" style="display: none;margin-top:10px;">
                  
                   
                              <div id="pagination-container3"></div>
@@ -732,7 +747,7 @@ $('.image-upload-wrap').bind('dragover', function () {
   $(".Collapsed.tabcontent").slideToggle();
   $(this).toggleClass('active-icon');
 });*/
-  function openCity(evt, cityName) {
+  function openCity(evt, tdid, divid) {
   var i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
@@ -742,11 +757,49 @@ $('.image-upload-wrap').bind('dragover', function () {
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
-  document.getElementById(cityName).style.display = "block";
+  document.getElementById(tdid).style.display = "block";
   evt.currentTarget.className += " active";
+  
+  if (divid == "divstarttime") {
+        var tdid=tdid.replace("tab-2","");
+        var fordiv='clockstarticon1'+tdid;
+
+        document.getElementById(fordiv).style.display = "inline";
+        var fordiv='dv-'+tdid;
+        document.getElementById(fordiv).style.backgroundColor = "#f1f1f1";
+        var fordiv='clockstarticon2'+tdid;
+        document.getElementById(fordiv).style.display = "none";
+        
+        fortid = "EditTaskRef"+tdid;
+        taskid = document.getElementById(fortid).value; 
+        forcid = "EditCalendarRef"+tdid;
+        cid = document.getElementById(forcid).value;
+        var dataString = "ForTaskid=" + taskid + "&ForCalid=" + cid + "&cat=starttime" ;
+    
+        $.ajax({  
+    		type: "POST",  
+    		url: "ptaskload.php",  
+    		data: dataString,
+    		success: function(response)
+    		{   
+    		    fornoteid = "notid"+tdid;
+    		    noteid = response.substring(response.indexOf("_") + 1);
+    		    document.getElementById(fornoteid).value=noteid;
+    		    fortaskid = "ntaskid"+tdid;
+    		    document.getElementById(fortaskid).value=taskid;
+    		    document.getElementById("clockstarticon10"+tdid).style.display = "inline";
+                $(".successmsg").html('Task Started Successfully!').fadeIn(500);
+    			$(".successmsg").html('Task Started Successfully!').fadeOut(2000);
+    		    
+    		}
+    		
+    	});
+    	
+    
+    }
 }
 
-function openCity1(evt, cityName,mid,subid) {
+function openCity1(evt, tdid,mid,subid,divid) {
   var i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
@@ -756,10 +809,46 @@ function openCity1(evt, cityName,mid,subid) {
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
-  document.getElementById(cityName).style.display = "block";
+  document.getElementById(tdid).style.display = "block";
   evt.currentTarget.className += " active";
   $("#expendeddiv"+mid).slideToggle();
  // $("#sdv-"+mid+'-'+subid).css('display','block');
+ 
+ if (divid == "divsubstarttime") {
+        var tdid=tdid.replace("sub-tab-1","");
+        var fordiv='clockstart'+tdid;
+        document.getElementById(fordiv).style.display = "inline";
+        var fordiv='starttimeicon'+tdid;
+        document.getElementById(fordiv).style.display = "none";
+        
+        forstid = "EditSubTaskRef-"+mid+"-"+subid;
+        subtaskid = document.getElementById(forstid).value; 
+        fortid = "EditTaskRef"+mid;
+        taskid = document.getElementById(fortid).value; 
+        forcid = "EditCalendarRef"+mid;
+        cid = document.getElementById(forcid).value;
+        var dataString = "ForTaskid=" + taskid + "&ForSTaskid=" + subtaskid + "&ForCalid=" + cid + "&cat=substarttime" ;
+    
+        $.ajax({  
+    		type: "POST",  
+    		url: "ptaskload.php",  
+    		data: dataString,
+    		success: function(response)
+    		{   
+    		    fornoteid = "notid"+mid+'-'+subid;
+    		    noteid = response.substring(response.indexOf("_") + 1);
+    		    document.getElementById(fornoteid).value=noteid;
+    		    fortaskid = "ntaskid"+mid+'-'+subid;
+    		    document.getElementById(fortaskid).value=subtaskid;
+    		    document.getElementById("endtimeicon"+tdid).style.display = "inline";
+                $(".successmsg").html('SubTask Started Successfully!').fadeIn(500);
+    			$(".successmsg").html('SubTask Started Successfully!').fadeOut(2000);
+    		    
+    		}
+    		
+    	});
+    	
+ }
 }
       </script>
       <script type="text/javascript">
