@@ -81,10 +81,9 @@
                <span style="vertical-align: middle;"><label class="lbl"><?php echo $loginame; ?></label>&nbsp;&nbsp;</span>
                <a class="topicons" href='SAusermgmt.php' target='_self' title="Personal Profile"><img src="images/Profile.svg" height="40" style="vertical-align:middle;margin:10px 16px 0px 0px;" />  </a>
                <a class="topicons" onclick="popup('popUpDiv','invite_friends','')" title="Invite Friends"><img src="images/Email.svg" height="40" style="vertical-align:middle;margin:10px 16px 0px 0px;" />  </a>
-               <?php if ($CanSystemAdmin == 1)
-            { ?>
+             
                <a class="topicons" href='SAgroupmain.php' target='_self' title="Configuration"><img src="images/setting.png" height="40" style="vertical-align:middle;margin:10px 16px 0px 0px;" />  </a>
-               <? } ?>
+            
                <a class="topicons" href='https://teampod.co.uk/TeamPod/index.php'  title="Signout"><img src="images/Logout.svg" height="40" style="vertical-align:middle;margin:10px 40px 0px 0px;" /></a>  
             </div>
          </div>
@@ -647,8 +646,6 @@
                      document.getElementById("notid"+rowid).value ="";
                      var fordiv='clockstarticon1'+rowid;
                     document.getElementById(fordiv).style.display = "none";
-                    var fordiv='dv-'+rowid;
-                    document.getElementById(fordiv).style.backgroundColor = "";
                     var fordiv='clockstarticon10'+rowid;
                     document.getElementById(fordiv).style.display = "none";
                     var fordiv='clockstarticon2'+rowid;
@@ -697,14 +694,7 @@
                      document.getElementById("notid"+rowid+"-"+srowid).value ="";
                      var fordiv='sub-tab-2'+rowid+srowid;
                      document.getElementById(fordiv).style.display = "none";
-                     var fordiv='clockstart'+rowid+srowid;
-                    document.getElementById(fordiv).style.display = "none";
-                    var fordiv='endtimeicon'+rowid+srowid;
-                    document.getElementById(fordiv).style.display = "none";
-                    var fordiv='starttimeicon'+rowid+srowid;
-                    document.getElementById(fordiv).style.display = "inline";
-                     var activeclass = 'clockstarticon2'+rowid;
-                     var activeclass = 'endtimeicon'+rowid+srowid;
+                     var activeclass = 'endtimeicon'+rowid+'-'+srowid;
                      $('#'+activeclass).removeClass('active');  
                      $(".successmsg").html('Note added Successfully!').fadeIn(500);
          			$(".successmsg").html('Note added Successfully!').fadeOut(2000);
@@ -1666,7 +1656,7 @@
            var input, filter, table, tr, td, i, txtValue;
            input = document.getElementById("myInput");
            filter = input.value.toUpperCase();
-         for (const element of document.getElementsByClassName("maintab-box")){
+         for (const element of document.getElementsByClassName("myTable")){
            //table = document.getElementById("myTable");
            tr = element.getElementsByTagName("tr");
            for (i = 0; i < tr.length; i++) {
