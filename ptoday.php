@@ -51,15 +51,27 @@
    
    if ($_SERVER['REQUEST_METHOD'] === 'POST' ) 
    {
-       $_SESSION['ForCompany']=$_POST['ForCompany'];
-       $_SESSION['ForRefUSR']=$_POST['ForRefUSR'];
-       $_SESSION['MainGroup']=$_POST['MainGroup'];
-       $_SESSION['SubGroup']=$_POST['SubGroup'];
-       $_SESSION['ForTaskTag']=$_POST['ForTaskTag'];
-       $_SESSION['chkViewCompleted']=$_POST['chkViewCompleted'];
+        if(in_array('ALL',$_POST['Company'])){
+            $_SESSION['ForCompany']= 'ALL';
+        }else{
+            $_SESSION['ForCompany']= implode(",",$_POST['Company']);
+        }
        
+       $_SESSION['ForRefUSR']= implode(",",$_POST['ForUSR']);
+       $_SESSION['MainGroup']= implode(",",$_POST['Main']);
+       $_SESSION['SubGroup']= implode(",",$_POST['Sub']);
+       $_SESSION['ForTaskTag']= implode(",",$_POST['ForTaskTag']);
+       $_SESSION['chkViewCompleted']= implode(",",$_POST['ViewCompleted']);
+       
+       echo "<p style='margin-top:100px'>ForCompany : ".$_SESSION['ForCompany']."</p></br>";
+       echo "ForRefUSR : ".$_SESSION['ForRefUSR']."</br>";
+       echo "MainGroup : ".$_SESSION['MainGroup']."</br>";
+       echo "SubGroup : ".$_SESSION['SubGroup']."</br>";
+       echo "chkViewCompleted : ".$_SESSION['chkViewCompleted']."</br>";
+       exit;
        
    }
+
    
    //echo '<br>LINE 60--CO=('.$ForCompany.')----USR=('.$ForRefUSR.')----FCCriteria-'.$FCCriteria;
    
@@ -436,7 +448,7 @@
       </script>
    </head>
    <body>
-      <form action="" name="TaskMgmt" id="TaskMgmt" method="post" enctype="multipart/form-data" target="_self" >
+     
          <div style="position:fixed;top:50%;left:30%;font-size:20px;padding:15px;border: solid 1px #300000;border-radius:5px;background-color: #000;color:#fff;display:none;z-index:10000;text-align:center" class ="successmsg"></div>
          <input type=hidden name=AddNewBtnClick id=AddNewBtnClick value="" />
          <input type=hidden name=ViewListForFD id=ViewListForFD value="<?php echo $ViewListForFD;?>" />
