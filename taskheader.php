@@ -1655,30 +1655,60 @@
            function fnTypeFilterRow() {
            var input, filter, table, tr, td, i, txtValue;
            input = document.getElementById("myInput");
+           var countcell = $("#CountCells").val();
+
            filter = input.value.toUpperCase();
-         for (const element of document.getElementsByClassName("myTable")){
-           //table = document.getElementById("myTable");
-           tr = element.getElementsByTagName("tr");
-           for (i = 0; i < tr.length; i++) {
-              if (tr[i].id!=""){
-             td = tr[i].getElementsByTagName("td")[1];
-         
-             if (td) {
-               txtValue = td.textContent || td.innerText;
-               //alert(txtValue);
-               if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                 x="dv-"+tr[i].id;
-                 //alert(txtValue);
-                 document.getElementById(x).style.display = "";
-               } else {
-                   //alert(tr[i].id);
-                 x="dv-"+tr[i].id;
-                 document.getElementById(x).style.display = "none";
+           if(input!=""){
+                for (var i=0;i<countcell;i++){  
+                    var text = $("#title"+i).html();
+                    var main = $("#maintask"+i).html();
+                    var result = text.toLowerCase();
+                    var result1 = main.toLowerCase();
+                    var input1 = filter.toLowerCase();
+                    var  position1 = result.search(input1);
+                    var  position2 = result1.search(input1);
+
+                    if(parseInt(position1)+parseInt(position2) >= 0 ){
+                        $("#dv-"+i).css("display","block");
+                    }else{
+                        $("#dv-"+i).css("display","none");
+                    }
+
+                    if(position1==0){
+                        $("#dv-"+i).css("display","block");
+                    }
+                    if(position2==0){
+                        $("#dv-"+i).css("display","block");
+                    }
+
+                    if(input1==""){
+                        $("#dv-"+i).css("display","block");
+                    }
+                    
                }
-             }       
+                    var items = $(".t1");
+                    var numItems = items.length;
+                    var perPage = 20;
+
+                    items.slice(perPage).hide();
+
+                    $('#pagination-container2').pagination({
+                        items: numItems,
+                        itemsOnPage: perPage,
+                        prevText: "&laquo;",
+                        nextText: "&raquo;",
+                        onPageClick: function (pageNumber) {
+                            var showFrom = perPage * (pageNumber - 1);
+                            var showTo = showFrom + perPage;
+                            items.hide().slice(showFrom, showTo).show();
+                        }
+                    });
+           }else{
+              for (var i=0;i<countcell;i++){  
+                 $("#dv-"+i).css("display","block");
+              }
            }
-           }
-         }
+          
          }
       </script>
    </body>

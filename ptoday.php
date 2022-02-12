@@ -655,7 +655,7 @@
                //----------------------- END Over Due, Today & Tomorrow Task List --------------------------- END
                }   //------- end if
                ?>
-               <input type="hidden" name="CountCells" value="<?php echo $celnodv;?>"/>
+               <input type="hidden" name="CountCells" id="CountCells" value="<?php echo $celnodv;?>"/>
                <div class="tab">
                   <button class="tablinks " type="button" id="odtasks" onclick="ShowList('OD')"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbspOver due tasks (<?php echo $OverDueCount; ?>)&nbsp</button>
                   <button class="tablinks active-tab" type="button" id="tdtasks" onclick="ShowList('TD')"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbspToday's tasks (<?php echo $TodaysCount; ?>) &nbsp &nbsp</button>

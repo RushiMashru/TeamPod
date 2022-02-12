@@ -48,7 +48,7 @@
                      ";
                         if ($PrivateTask==1) { $outall.= "<img src='images/Lock.svg'> &nbsp "; }
                         if ($RepeatSchedule1!="") { $outall.= "<img src='images/iconcircle.svg'> &nbsp "; }
-                        $outall.=$TaskTitle.'<p>
+                        $outall.= '<p id="title'.$celnodv.'">'.$TaskTitle.'</p>
                      </div>';
                      if ($nsubtasks == 1){
                      $outall.=  '<div class="tab-text-right">
@@ -61,7 +61,7 @@
                     $outall.=  ' </div>
                   <div class="tab-text-1 tab-text-2">
                      <div class="tab-text-left">
-                        <p>'.$TaskMainGroupTitle.' - '. $TaskSubGroupTitle.'</p>
+                        <p id="maintask'.$celnodv.'">'.$TaskMainGroupTitle.' - '. $TaskSubGroupTitle.'</p>
                      </div>
                      <div class="tab-text-right">
                         <p>'.$showdate.'</p>
