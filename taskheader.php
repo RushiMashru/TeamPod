@@ -88,6 +88,14 @@
             </div>
          </div>
       </form>
+      <style type="text/css">
+          .hide1{
+              display: none;
+          }
+          .show1{
+             display: block;
+          }
+      </style>
       <div class="sidenav">
          <a href="#" title="Today"  onclick="window.location.href='ptoday.php';" <?php echo $divmenuMTODAY; ?> ><img class="webicon" width="20px" <?php echo $divmenuMTODAYimg ?> /> <span class="navlabel">&nbsp Today</span> <img class="mobicon" width="50px" <?php echo $divmenuMTODAYimg ?> /> </a>
          <a href="#" title="All Items" onclick="window.location.href='pallitems.php'" <?php echo $divmenuMALLITEMS; ?> ><img class="webicon" width="20px" <?php echo $divmenuMALLITEMSimg ?> /><span class="navlabel"> &nbsp All Items</span> <img class="mobicon" width="50px" <?php echo $divmenuMALLITEMSimg ?> /></a>
@@ -1653,62 +1661,83 @@
          //clock();
          
            function fnTypeFilterRow() {
-           var input, filter, table, tr, td, i, txtValue;
-           input = document.getElementById("myInput");
-           var countcell = $("#CountCells").val();
+            var input, filter, table, tr, td, i, txtValue;
+               input = document.getElementById("myInput");
+               var countcell = $("#CountCells").val();
 
-           filter = input.value.toUpperCase();
-           if(input!=""){
-                for (var i=0;i<countcell;i++){  
-                    var text = $("#title"+i).html();
-                    var main = $("#maintask"+i).html();
-                    var result = text.toLowerCase();
-                    var result1 = main.toLowerCase();
-                    var input1 = filter.toLowerCase();
-                    var  position1 = result.search(input1);
-                    var  position2 = result1.search(input1);
+               filter = input.value.toUpperCase();
+               var a = 0;
+               var b = 0;
+               var c = 0;
+               if(input!=""){
+                    for (var i=0;i<countcell;i++){  
+                        var text = $("#title"+i).html();
+                        var main = $("#maintask"+i).html();
+                        var result = text.toLowerCase();
+                        var result1 = main.toLowerCase();
+                        var input1 = filter.toLowerCase();
+                        var  position1 = result.search(input1);
+                        var  position2 = result1.search(input1);
+                        if(parseInt(position1)+parseInt(position2) >= 0 ){
+                            $("#dv-"+i).removeClass("hide1");
+                            $("#dv-"+i).addClass("show1");
+                            if($("#dv-"+i).attr('class')=="maintab-box show1"||$("#dv-"+i).attr('class')=="maintab-box t1 show1"){
+                                a = parseInt(a)+1;
+                            }
+                            if($("#dv-"+i).attr('class')=="maintab-box t2 show1"){
+                                b = parseInt(b)+1;
+                            }
+                            if($("#dv-"+i).attr('class')=="maintab-box t3 show1"){
+                                c = parseInt(c)+1;
+                            }
+                            
 
-                    if(parseInt(position1)+parseInt(position2) >= 0 ){
-                        $("#dv-"+i).css("display","block");
-                    }else{
-                        $("#dv-"+i).css("display","none");
-                    }
-
-                    if(position1==0){
-                        $("#dv-"+i).css("display","block");
-                    }
-                    if(position2==0){
-                        $("#dv-"+i).css("display","block");
-                    }
-
-                    if(input1==""){
-                        $("#dv-"+i).css("display","block");
-                    }
-                    
-               }
-                    var items = $(".t1");
-                    var numItems = items.length;
-                    var perPage = 20;
-
-                    items.slice(perPage).hide();
-
-                    $('#pagination-container2').pagination({
-                        items: numItems,
-                        itemsOnPage: perPage,
-                        prevText: "&laquo;",
-                        nextText: "&raquo;",
-                        onPageClick: function (pageNumber) {
-                            var showFrom = perPage * (pageNumber - 1);
-                            var showTo = showFrom + perPage;
-                            items.hide().slice(showFrom, showTo).show();
+                        }else if(position1==0||position2==0){
+                            $("#dv-"+i).removeClass("hide1");
+                            $("#dv-"+i).addClass("show1"); 
+                             if($("#dv-"+i).attr('class')=="maintab-box show1"||$("#dv-"+i).attr('class')=="maintab-box t1 show1"){
+                                a = parseInt(a)+1;
+                            }
+                            if($("#dv-"+i).attr('class')=="maintab-box t2 show1"){
+                               b = parseInt(b)+1;
+                            }
+                            if($("#dv-"+i).attr('class')=="maintab-box t3 show1"){
+                                c = parseInt(c)+1;
+                            }
+                            console.log($("#dv-"+i).attr('class'));
+                        }else{
+                            $("#dv-"+i).removeClass("show1");
+                            $("#dv-"+i).addClass("hide1");
                         }
-                    });
-           }else{
-              for (var i=0;i<countcell;i++){  
-                 $("#dv-"+i).css("display","block");
-              }
-           }
-          
+
+                       
+                            var items = $(".show1");
+                            var numItems = items.length;
+                            var perPage = 20;
+
+                            items.slice(perPage).hide();
+
+                            $('#pagination-container2').pagination({
+                                items: numItems,
+                                itemsOnPage: perPage,
+                                prevText: "&laquo;",
+                                nextText: "&raquo;",
+                                onPageClick: function (pageNumber) {
+                                    var showFrom = perPage * (pageNumber - 1);
+                                    var showTo = showFrom + perPage;
+                                    items.hide().slice(showFrom, showTo).show();
+                                }
+                            });
+                            $("#odcount").html(a);
+                            $("#tdcount").html(b);
+                            $("#tmcount").html(c);
+                   }
+                        
+               }else{
+                  for (var i=0;i<countcell;i++){  
+                     $("#dv-"+i).css("display","block");
+                  }
+               }
          }
       </script>
    </body>
