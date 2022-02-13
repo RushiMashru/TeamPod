@@ -1669,8 +1669,7 @@
                var a = 0;
                var b = 0;
                var c = 0;
-               console.log(filter);
-               console.log(countcell);
+               $(".maintab-box").css("display","block");
                if(input!=""){
                     for (var i=0;i<countcell;i++){  
                         var text = $("#title"+i).html();
