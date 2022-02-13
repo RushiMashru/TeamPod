@@ -63,12 +63,12 @@
        $_SESSION['ForTaskTag']= implode(",",$_POST['ForTaskTag']);
        $_SESSION['chkViewCompleted']= implode(",",$_POST['ViewCompleted']);
        
-       echo "<p style='margin-top:100px'>ForCompany : ".$_SESSION['ForCompany']."</p></br>";
+      /* echo "<p style='margin-top:100px'>ForCompany : ".$_SESSION['ForCompany']."</p></br>";
        echo "ForRefUSR : ".$_SESSION['ForRefUSR']."</br>";
        echo "MainGroup : ".$_SESSION['MainGroup']."</br>";
        echo "SubGroup : ".$_SESSION['SubGroup']."</br>";
        echo "chkViewCompleted : ".$_SESSION['chkViewCompleted']."</br>";
-       exit;
+       exit;*/
        
    }
 
@@ -628,7 +628,11 @@
                  
                //echo $outall;exit;
                
-               
+               $tasktype="";
+                if (strtotime($csqlScheduleDate)<strtotime($DateToday) && strtotime($csqlDueDate)<strtotime($DateToday))  {$tasktype='t1';}
+                    if (strtotime($csqlScheduleDate)==strtotime($DateToday) || ( strtotime($csqlScheduleDate)<strtotime($DateToday) && strtotime($csqlDueDate)>=strtotime($DateToday)  ) ) {$tasktype='t2';}
+                    if (strtotime($csqlScheduleDate)==strtotime($DateTomorrow)) {$tasktype='t3';}
+
                 $outall = "<input type=hidden id=EditTaskRef".$celnodv."     name=EditTaskRef".$celnodv." value=".$TRecRef." > ";
                   include "ptaskdetails.php";
                 $celnodv++;                  
@@ -639,10 +643,10 @@
               // exit;
                //if (strtotime($csqlScheduleDate)<strtotime($DateToday))  {$outover.=$outall; $OverDueCount++;}
                //if (strtotime($csqlScheduleDate)==strtotime($DateToday)) {$outoday.=$outall; $TodaysCount++;}
-               $tasktype="";
-                if (strtotime($csqlScheduleDate)<strtotime($DateToday) && strtotime($csqlDueDate)<strtotime($DateToday))  {$outover.=$outall; $OverDueCount++;$tasktype='t1';}
-                    if (strtotime($csqlScheduleDate)==strtotime($DateToday) || ( strtotime($csqlScheduleDate)<strtotime($DateToday) && strtotime($csqlDueDate)>=strtotime($DateToday)  ) ) {$outoday.=$outall; $TodaysCount++;$tasktype='t2';}
-                    if (strtotime($csqlScheduleDate)==strtotime($DateTomorrow)) {$outomorrow.=$outall; $TomorrowCount++; $tasktype='t3';}
+               
+                if (strtotime($csqlScheduleDate)<strtotime($DateToday) && strtotime($csqlDueDate)<strtotime($DateToday))  {$outover.=$outall; $OverDueCount++;}
+                    if (strtotime($csqlScheduleDate)==strtotime($DateToday) || ( strtotime($csqlScheduleDate)<strtotime($DateToday) && strtotime($csqlDueDate)>=strtotime($DateToday)  ) ) {$outoday.=$outall; $TodaysCount++;}
+                    if (strtotime($csqlScheduleDate)==strtotime($DateTomorrow)) {$outomorrow.=$outall; $TomorrowCount++;}
                     
                     }   //------ end if private task
                     
@@ -655,38 +659,36 @@
                //----------------------- END Over Due, Today & Tomorrow Task List --------------------------- END
                }   //------- end if
                ?>
-               <input type="hidden" name="CountCells" value="<?php echo $celnodv;?>"/>
+               <input type="hidden" name="CountCells" id="CountCells" value="<?php echo $celnodv;?>"/>
                <div class="tab">
-                  <button class="tablinks " type="button" id="odtasks" onclick="ShowList('OD')"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbspOver due tasks (<?php echo $OverDueCount; ?>)&nbsp</button>
-                  <button class="tablinks active-tab" type="button" id="tdtasks" onclick="ShowList('TD')"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbspToday's tasks (<?php echo $TodaysCount; ?>) &nbsp &nbsp</button>
-                  <button class="tablinks" id="tmtasks" type="button" onclick="ShowList('TM')"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbspTomorrow's tasks (<?php echo $TomorrowCount; ?>)</button>
+                  <button class="tablinks " type="button" id="odtasks" onclick="ShowList('OD')"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbspOver due tasks (<?php echo '<span id="odcount">'.$OverDueCount.'</span>'; ?>)&nbsp</button>
+                  <button class="tablinks active-tab" type="button" id="tdtasks" onclick="ShowList('TD')"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbspToday's tasks (<?php echo '<span id="tdcount">'.$TodaysCount.'</span>'; ?>) &nbsp &nbsp</button>
+                  <button class="tablinks" id="tmtasks" type="button" onclick="ShowList('TM')"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbspTomorrow's tasks (<?php echo '<span id="tmcount">'.$TomorrowCount.'</span>'; ?>)</button>
                </div>
                <div id="OD" class="tabcontent1" style="display: none;margin-top:10px;">
-                
-                         
-                             <div id="pagination-container2"></div>
-                                <div class="main-tab OD">
-                                      <?php echo $outover; ?>
-                                </div>
-                       
+                    <div id="original_od">
+                        <div id="pagination-container2"></div>
+                        <div class="main-tab OD"><?php echo $outover; ?></div>
                     </div>
+                    <div id="search_od">
+                        
+                    </div>
+                </div>
                <div id="TD" class="tabcontent1" style="margin-top:10px;" >
-                  <div id="pagination-container1"></div>
-                  <div class="main-tab TD">
-           
-           <?php if ($ViewListForFD=='TD' || $ViewListForFD=='') { echo $outoday; } ?> 
-           
-         </div>
-         
+                <div id="original_td">
+                      <div id="pagination-container1"></div>
+                      <div class="main-tab TD"><?php if ($ViewListForFD=='TD' || $ViewListForFD=='') { echo $outoday; } ?></div>    
+                </div> 
+                <div id="search_td">
+                        
+                </div>    
                </div>
                <div id="TM" class="tabcontent1 TM" style="display: none;margin-top:10px;">
-                 
-                  
-                             <div id="pagination-container3"></div>
-                                <div class="TM main-tab">
-                                      <?php echo $outomorrow; ?>
-                                </div>
-                        
+                    <div id="original_tm">
+                        <div id="pagination-container3"></div>
+                        <div class="TM main-tab"><?php echo $outomorrow; ?></div>
+                    </div>
+                    <div id="search_tm"></div>  
                </div>
                <!--  <table cellpadding=4 cellspacing=0 width=100% border=0><tr style="cursor: pointer;" onclick="ShowList('OD')" >
                   <td width="100%"><div class=BLUbkgBLUborder style='width:100%'><h4>OVER DUE TASKS &nbsp;&nbsp;&nbsp;&nbsp;</h4></div></td>
