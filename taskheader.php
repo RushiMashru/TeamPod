@@ -1669,6 +1669,8 @@
                var a = 0;
                var b = 0;
                var c = 0;
+               console.log(filter);
+               console.log(countcell);
                if(input!=""){
                     for (var i=0;i<countcell;i++){  
                         var text = $("#title"+i).html();
@@ -1731,6 +1733,8 @@
                             $("#odcount").html(a);
                             $("#tdcount").html(b);
                             $("#tmcount").html(c);
+                            $("#allitemsacount").html(a);
+                            
                    }
                         
                }else{
