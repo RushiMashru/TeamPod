@@ -93,7 +93,7 @@
               display: none;
           }
           .show1{
-             display: block;
+             display: block !important;
           }
       </style>
       <div class="sidenav">
@@ -1669,7 +1669,7 @@
                var a = 0;
                var b = 0;
                var c = 0;
-               $(".maintab-box").css("display","block");
+               $(".maintab-box").addClass("show1");
                if(input!=""){
                     for (var i=0;i<countcell;i++){  
                         var text = $("#title"+i).html();
@@ -1709,6 +1709,7 @@
                         }else{
                             $("#dv-"+i).removeClass("show1");
                             $("#dv-"+i).addClass("hide1");
+                            $(".maintab-box").css("display","none");
                         }
 
                        
