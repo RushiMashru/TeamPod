@@ -89,12 +89,12 @@
          </div>
       </form>
       <style type="text/css">
-          .hide1{
+           .hide1{
               display: none;
-          }
-          .show1{
-             display: block !important;
-          }
+           }
+            .show1{
+              /*display: block;*/
+           }
       </style>
       <div class="sidenav">
          <a href="#" title="Today"  onclick="window.location.href='ptoday.php';" <?php echo $divmenuMTODAY; ?> ><img class="webicon" width="20px" <?php echo $divmenuMTODAYimg ?> /> <span class="navlabel">&nbsp Today</span> <img class="mobicon" width="50px" <?php echo $divmenuMTODAYimg ?> /> </a>
@@ -1669,9 +1669,10 @@
                var a = 0;
                var b = 0;
                var c = 0;
-               $(".maintab-box").addClass("show1");
+             
                if(input!=""){
                     for (var i=0;i<countcell;i++){  
+                         
                         var text = $("#title"+i).html();
                         var main = $("#maintask"+i).html();
                         var result = text.toLowerCase();
@@ -1680,8 +1681,9 @@
                         var  position1 = result.search(input1);
                         var  position2 = result1.search(input1);
                         if(parseInt(position1)+parseInt(position2) >= 0 ){
-                            $("#dv-"+i).removeClass("hide1");
                             $("#dv-"+i).addClass("show1");
+                            $("#dv-"+i).css("display","block");
+                            $("#dv-"+i).show();
                             if($("#dv-"+i).attr('class')=="maintab-box show1"||$("#dv-"+i).attr('class')=="maintab-box t1 show1"){
                                 a = parseInt(a)+1;
                             }
@@ -1691,11 +1693,12 @@
                             if($("#dv-"+i).attr('class')=="maintab-box t3 show1"){
                                 c = parseInt(c)+1;
                             }
-                            
+                           
 
                         }else if(position1==0||position2==0){
-                            $("#dv-"+i).removeClass("hide1");
-                            $("#dv-"+i).addClass("show1"); 
+                            $("#dv-"+i).addClass("show1");
+                            $("#dv-"+i).css("display","block");
+                            $("#dv-"+i).show();
                              if($("#dv-"+i).attr('class')=="maintab-box show1"||$("#dv-"+i).attr('class')=="maintab-box t1 show1"){
                                 a = parseInt(a)+1;
                             }
@@ -1705,37 +1708,46 @@
                             if($("#dv-"+i).attr('class')=="maintab-box t3 show1"){
                                 c = parseInt(c)+1;
                             }
-                            console.log($("#dv-"+i).attr('class'));
+
                         }else{
-                            $("#dv-"+i).removeClass("show1");
-                            $("#dv-"+i).addClass("hide1");
+                           $("#dv-"+i).removeClass("show1");
+                            $("#dv-"+i).hide();
+                            $("#dv-"+i).css("display","none");
                             $(".maintab-box").css("display","none");
                         }
+                             
+                            
 
                        
-                            var items = $(".show1");
-                            var numItems = items.length;
-                            var perPage = 20;
+                           
+                            
+                   }
+                   $(".show1").show();
+                    var items25 = $(".show1");
+                            var numItems25 = items25.length;
+                            var perPage25 = 20;
 
-                            items.slice(perPage).hide();
+                            items25.slice(perPage25).hide();
 
                             $('#pagination-container2').pagination({
-                                items: numItems,
-                                itemsOnPage: perPage,
+                                items: numItems25,
+                                itemsOnPage: perPage25,
                                 prevText: "&laquo;",
                                 nextText: "&raquo;",
-                                onPageClick: function (pageNumber) {
-                                    var showFrom = perPage * (pageNumber - 1);
-                                    var showTo = showFrom + perPage;
-                                    items.hide().slice(showFrom, showTo).show();
+                                onPageClick: function (pageNumber25) {
+                                    var showFrom25 = perPage25 * (pageNumber25 - 1);
+                                    var showTo25 = showFrom25 + perPage25;
+                                    items25.hide().slice(showFrom25, showTo25).show();
                                 }
                             });
+
+                         
+
+
                             $("#odcount").html(a);
                             $("#tdcount").html(b);
                             $("#tmcount").html(c);
                             $("#allitemsacount").html(a);
-                            
-                   }
                         
                }else{
                   for (var i=0;i<countcell;i++){  
