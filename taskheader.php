@@ -1669,10 +1669,9 @@
                var a = 0;
                var b = 0;
                var c = 0;
-             
-               if(input!=""){
-                    for (var i=0;i<countcell;i++){  
-                         
+               var d = 0;
+               if(filter!=""){
+                    for (var i=0;i<countcell;i++){                           
                         var text = $("#title"+i).html();
                         var main = $("#maintask"+i).html();
                         var result = text.toLowerCase();
@@ -1684,49 +1683,40 @@
                             $("#dv-"+i).addClass("show1");
                             $("#dv-"+i).css("display","block");
                             $("#dv-"+i).show();
-                            if($("#dv-"+i).attr('class')=="maintab-box show1"||$("#dv-"+i).attr('class')=="maintab-box t1 show1"){
-                                a = parseInt(a)+1;
+                            if($("#dv-"+i).attr('class')=="maintab-box t1 show1"||$("#dv-"+i).attr('class')=="maintab-box show1"){
+                                a++;
                             }
                             if($("#dv-"+i).attr('class')=="maintab-box t2 show1"){
-                                b = parseInt(b)+1;
+                                b++;
                             }
                             if($("#dv-"+i).attr('class')=="maintab-box t3 show1"){
-                                c = parseInt(c)+1;
+                                c++;
                             }
-                           
 
                         }else if(position1==0||position2==0){
                             $("#dv-"+i).addClass("show1");
                             $("#dv-"+i).css("display","block");
                             $("#dv-"+i).show();
-                             if($("#dv-"+i).attr('class')=="maintab-box show1"||$("#dv-"+i).attr('class')=="maintab-box t1 show1"){
-                                a = parseInt(a)+1;
+                             if($("#dv-"+i).attr('class')=="maintab-box t1 show1" ||$("#dv-"+i).attr('class')=="maintab-box show1"){
+                                a++;
                             }
                             if($("#dv-"+i).attr('class')=="maintab-box t2 show1"){
-                               b = parseInt(b)+1;
+                               b++;
                             }
                             if($("#dv-"+i).attr('class')=="maintab-box t3 show1"){
                                 c = parseInt(c)+1;
                             }
-
                         }else{
                            $("#dv-"+i).removeClass("show1");
                             $("#dv-"+i).hide();
                             $("#dv-"+i).css("display","none");
                             $(".maintab-box").css("display","none");
                         }
-                             
-                            
-
-                       
-                           
-                            
                    }
-                   $(".show1").show();
-                    var items25 = $(".show1");
+                            $(".show1").show();
+                            var items25 = $(".show1");
                             var numItems25 = items25.length;
                             var perPage25 = 20;
-
                             items25.slice(perPage25).hide();
 
                             $('#pagination-container2').pagination({
@@ -1741,18 +1731,21 @@
                                 }
                             });
 
-                         
+                            
 
 
                             $("#odcount").html(a);
                             $("#tdcount").html(b);
                             $("#tmcount").html(c);
-                            $("#allitemsacount").html(a);
+
+                            $("#allitemsacount").html(numItems25);
                         
                }else{
+                  console.log("f");
                   for (var i=0;i<countcell;i++){  
                      $("#dv-"+i).css("display","block");
                   }
+                   $("#allitemsacount").html(countcell);
                }
          }
       </script>
