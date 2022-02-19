@@ -517,12 +517,12 @@ center{
 
         
         ?>
-            <input type="hidden" name="CountCells" value="<?php echo $celnodv;?>"/>
+            <input type="hidden" name="CountCells" id="CountCells" value="<?php echo $celnodv;?>"/>
         
             <table cellpadding=4 cellspacing=0 width=100% border=0><tr>
-            <td width="100%"><div style='margin-bottom: 20px;font-size: 18px;color: #6f6467;'><h4>ALL TASKS (<?php echo $AllCount; ?>)</h4></div></td>
+            <td width="100%"><div style='margin-bottom: 20px;font-size: 18px;color: #6f6467;'><h4>ALL TASKS (<?php echo '<span id="allitemsacount">'.$AllCount.'</span>'; ?>)</h4></div></td>
             </tr></table>
-             <div id="pagination-container"></div>
+             <div id="pagination-container2"></div>
                   <div class="main-tab">
                 <?php if ($ViewListForFD=='TD' || $ViewListForFD=='') { echo $outall; } ?>
             </div>
@@ -624,7 +624,7 @@ function openCity1(evt, cityName,mid,subid) {
 
     items.slice(perPage).hide();
 
-    $('#pagination-container').pagination({
+    $('#pagination-container2').pagination({
         items: numItems,
         itemsOnPage: perPage,
         prevText: "&laquo;",
