@@ -81,9 +81,10 @@
                <span style="vertical-align: middle;"><label class="lbl"><?php echo $loginame; ?></label>&nbsp;&nbsp;</span>
                <a class="topicons" href='SAusermgmt.php' target='_self' title="Personal Profile"><img src="images/Profile.svg" height="40" style="vertical-align:middle;margin:10px 16px 0px 0px;" />  </a>
                <a class="topicons" onclick="popup('popUpDiv','invite_friends','')" title="Invite Friends"><img src="images/Email.svg" height="40" style="vertical-align:middle;margin:10px 16px 0px 0px;" />  </a>
-             
-               <a class="topicons" href='SAgroupmain.php' target='_self' title="Configuration"><img src="images/setting.png" height="40" style="vertical-align:middle;margin:10px 16px 0px 0px;" />  </a>
-            
+             <?php if ($CanSystemAdmin == 1)
+            { ?>
+               <a class="topicons" href='SAuser.php' target='_self' title="Configuration"><img src="images/setting.png" height="40" style="vertical-align:middle;margin:10px 16px 0px 0px;" />  </a>
+            <?php } ?>
                <a class="topicons" href='https://teampod.co.uk/TeamPod/index.php'  title="Signout"><img src="images/Logout.svg" height="40" style="vertical-align:middle;margin:10px 40px 0px 0px;" /></a>  
             </div>
          </div>
@@ -97,13 +98,13 @@
           }
       </style>
       <div class="sidenav">
-         <a href="#" title="Today"  onclick="window.location.href='ptoday.php';" <?php echo $divmenuMTODAY; ?> ><img class="webicon" width="20px" <?php echo $divmenuMTODAYimg ?> /> <span class="navlabel">&nbsp Today</span> <img class="mobicon" width="50px" <?php echo $divmenuMTODAYimg ?> /> </a>
-         <a href="#" title="All Items" onclick="window.location.href='pallitems.php'" <?php echo $divmenuMALLITEMS; ?> ><img class="webicon" width="20px" <?php echo $divmenuMALLITEMSimg ?> /><span class="navlabel"> &nbsp All Items</span> <img class="mobicon" width="50px" <?php echo $divmenuMALLITEMSimg ?> /></a>
-         <a href="#" title="Calendar" onclick="window.location.href='pcalendarw.php'" <?php echo $divmenuMCALENDAR; ?> ><img class="webicon" width="20px" <?php echo $divmenuMCALENDARimg ?> /><span class="navlabel"> &nbsp Calendar</span><img class="mobicon" width="50px" <?php echo $divmenuMCALENDARimg ?> /></a>
-         <a href="#" title="Add Task" onclick="window.location.href='paddtask.php'" <?php echo $divmenuMADDTASK; ?> ><img class="webicon" width="20px" <?php echo $divmenuMADDTASKimg ?> /><span class="navlabel"> &nbsp Add Task</span><img class="mobicon" width="50px" <?php echo $divmenuMADDTASKimg ?> /></a>
+         <a href="ptoday.php" title="Today"  onclick="window.location.href='ptoday.php';" <?php echo $divmenuMTODAY; ?> ><img class="webicon" width="20px" <?php echo $divmenuMTODAYimg ?> /> <span class="navlabel">&nbsp Today</span> <img class="mobicon" width="50px" <?php echo $divmenuMTODAYimg ?> /> </a>
+         <a href="pallitems.php" title="All Items" onclick="window.location.href='pallitems.php'" <?php echo $divmenuMALLITEMS; ?> ><img class="webicon" width="20px" <?php echo $divmenuMALLITEMSimg ?> /><span class="navlabel"> &nbsp All Items</span> <img class="mobicon" width="50px" <?php echo $divmenuMALLITEMSimg ?> /></a>
+         <a href="pcalendarw.php" title="Calendar" onclick="window.location.href='pcalendarw.php'" <?php echo $divmenuMCALENDAR; ?> ><img class="webicon" width="20px" <?php echo $divmenuMCALENDARimg ?> /><span class="navlabel"> &nbsp Calendar</span><img class="mobicon" width="50px" <?php echo $divmenuMCALENDARimg ?> /></a>
+         <a href="paddtask.php" title="Add Task" onclick="window.location.href='paddtask.php'" <?php echo $divmenuMADDTASK; ?> ><img class="webicon" width="20px" <?php echo $divmenuMADDTASKimg ?> /><span class="navlabel"> &nbsp Add Task</span><img class="mobicon" width="50px" <?php echo $divmenuMADDTASKimg ?> /></a>
          <?php if ($CanSystemAdmin == 1)
             { ?>
-         <a href="#" title="Hours Worked" onclick="window.location.href='phrsuser.php'" <?php echo $divmenuUSERHOURS; ?> ><img class="webicon" width="20px" <?php echo $divmenuUSERHOURSimg ?> /><span class="navlabel"> &nbsp Hours Work</span> <img class="mobicon" width="50px" <?php echo $divmenuUSERHOURSimg ?> /></a>
+         <a href="phrsuser.php" title="Hours Worked" onclick="window.location.href='phrsuser.php'" <?php echo $divmenuUSERHOURS; ?> ><img class="webicon" width="20px" <?php echo $divmenuUSERHOURSimg ?> /><span class="navlabel"> &nbsp Hours Work</span> <img class="mobicon" width="50px" <?php echo $divmenuUSERHOURSimg ?> /></a>
          <?php
             } ?>
          <br clear="all"/>
