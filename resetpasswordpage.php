@@ -53,8 +53,20 @@ if ($AddNewBtnClick=="YES"  )
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <script src="jquery.inputmask.bundle.min.js"></script>
 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
+<style>
+      .btn {
+       background-color: #4caaaf;
+    font-size: 17px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+     width: 140px;
+   }
+</style>
 <script>
 
 function ShowHidePswrd() {
@@ -113,23 +125,53 @@ function validcheck1()
 
 </head>
 
-<div align="left" style='margin:56px 0 0 15%;width:87%'>
+<div align="center" style='margin:55px 0 0 0;'>
 
     <form action="" name="UserForm" method="post">
+      <!-- <h3 style="margin-bottom: 40px;color:#cf6735"> Change Password</h3> -->
         <input type=hidden name=AddNewBtnClick value="">
-                     
-                    <div style="display:inline;width:120px;float:left;margin-top:10px"><b>New Password :</b></div>
-                    <input type="password" class="form-control total_fields" style="display:inline;width:220px" id="NewPswd" name="NewPswd" placeholder="*New Password" value="" > <input type="checkbox" onclick="ShowHidePswrd()">&nbsp;SHOW </br><p>&nbsp;</p>
-                    <div style="display:inline;width:120px;float:left;margin-top:10px"><b>Confirm Password :</b></div>
-                    <input type="password" class="form-control total_fields" style="display:inline;width:220px" id="NewPswd1" name="NewPswd1" placeholder="*Confirm Password" value="" > <input type="checkbox" onclick="ShowHidePswrd1()">&nbsp;SHOW </br>
-                    <p style="font-size:0.8vw;"><i>[Enter 8 to 15 characters which contains lowercase letter, uppercase letter, numeric digit, special character]</i></p>
+                     <div style="display:inline;width:120px;float:center;margin-top:10px;margin-right:10px;"><b style="color:#bda217">New Password &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</b></div>
+
+                    <input type="password" class="form-control total_fields" style="display:inline;width:250px" id="NewPswd" name="NewPswd" placeholder="*New Password" value="" >
+
+                    <span toggle="#NewPswd" class="fa fa-fw fa-eye-slash field-icon pwd-toggle" style="margin-left:-35px;"></span></br><p>&nbsp;</p>
+
+                    <div style="display:inline;width:120px;float:center;margin-top:10px;margin-right:10px;"><b style="color:#bda217">Confirm Password :</b></div>
+
+                    <input type="password" class="form-control total_fields" style="display:inline;width:250px" id="NewPswd1" name="NewPswd1" placeholder="*Confirm Password" value="" >  
+
+                    <span toggle="#NewPswd1" class="fa fa-fw fa-eye-slash field-icon pwd-toggle" style="margin-left:-35px;"></span>
+
+                   </br>
+                    <p style="font-size: 13px;margin-top: 15px;"><i>[Enter 8 to 15 characters which contains lowercase letter, uppercase letter, numeric digit, special character]</i></p>
 <br/>
-                    <button type="button" class="btn btn-default btn-login" name="btnSave" value="SaveUser" onclick="validcheck1()">Save</button>
+                    <button type="button" class="btn" name="btnSave" value="SaveUser" onclick="validcheck1()">Save</button>
 
                      <p>&nbsp;</p>
                      
                      <?php if ($SuccessMessage!='') echo $SuccessMessage; ?>
                      <p>&nbsp;</p>
                 </div>
-                    
+
+<!-- password eye js code start  -->
+                
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script>
+  $(".pwd-toggle").click(function() {
+
+$(this).toggleClass("fa-eye fa-eye-slash");
+var input = $($(this).attr("toggle"));
+if (input.attr("type") == "password") {
+input.attr("type", "text");
+} else {
+input.attr("type", "password");
+}
+});
+
+</script>
+<!-- password eye js code end  -->
     

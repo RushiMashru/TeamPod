@@ -329,6 +329,22 @@
 .simple-pagination ul li.active{
         border: 2px solid #e74c3c !important;
 }
+
+   #popUpDiv{
+    top: 100px !important;
+    left: 50px !important;
+    height:500px !important;
+}
+center{
+    line-height:40px;
+}
+.row{
+    margin-top:-20px;
+}
+.btn{
+    width:150px !important;
+}
+
       </style>
 <link rel="shortcut icon" type="image/png" href="images/icontask.png"/>
       <link rel="stylesheet" type="text/css" href="newstyle.css?v=vcb54">

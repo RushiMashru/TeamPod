@@ -117,8 +117,8 @@ if ($ForTaskTag!='') {$FTTagCriteria.=" AND t3.cRecRef IN ( SELECT cRecRef FROM 
 				$Priority=$row132['Priority'];
 				$cForCoRecRef=$row132['ForCoRecRef'];
                 $cCoCode=getCompanyShortCode($cForCoRecRef);
-				$statuscolor="style='color:red' ";
-				$sout.="<div style='border: 1px #aaa solid;padding:2px;border-radius:5px'><span $statuscolor><b> Task#$tTaskRef - $Priority</b></span><br clear='all'/> <a onclick=popup('popUpDiv','calendar','$tTaskRef') style='line-height:1.2;'> <span $statuscolor ><b>$cCoCode</b><br clear='all' />$TaskTitle<span> </a><br  clear='all' />$cDueDate<br  clear='all' /></div><br  clear='all' />";
+				$statuscolor="style='color:#e74c3c' ";
+				$sout.="<div style='border: 1px #aaa solid;padding:2px;border-radius:5px;height:20vh'><span $statuscolor><b> Task#$tTaskRef - $Priority</b></span><br clear='all'/> <a onclick=popup('popUpDiv','calendar','$tTaskRef') style='line-height:1.2;'> <span $statuscolor ><b>$cCoCode</b><br clear='all' />$TaskTitle<span> </a><br  clear='all' />$cDueDate<br  clear='all' /></div><br  clear='all' />";
 
 				}   //-------- end while $row132 calender tasks list
         $sout.="</td>";
@@ -156,14 +156,14 @@ if ($ForTaskTag!='') {$FTTagCriteria.=" AND t3.cRecRef IN ( SELECT cRecRef FROM 
                                 $cCoCode=getCompanyShortCode($cForCoRecRef);
                                 $Priority=$row102['Priority'];
                                 $statuscolor="style='color:black' ";
-                                if ($CompleteBy==0 && $cDueDate<$current_date) {$statuscolor="style='color:red' ";}
+                                if ($CompleteBy==0 && $cDueDate<$current_date) {$statuscolor="style='color:#e74c3c' ";}
                                 if ($CompleteBy!=0) {$statuscolor="style='color:green' ";}
                                 if (($cScheduleDate !==$cDueDate) && $TaskForDate == date('Y-m-d') ) { $print = 'Y'; } else { $print = 'N'; }
                                 if ($TaskForDate == $cDueDate && $TaskForDate < date('Y-m-d')) { $print = 'Y'; } 
                                 if ($TaskForDate == $cScheduleDate && $TaskForDate > date('Y-m-d')) { $print = 'Y'; } 
                                 if ($cScheduleDate == $cDueDate) { $print = 'Y'; }
                                 if ($print == 'Y') {
-                                $sout.="<div style='border: 1px #999 solid;padding:2px;border-radius:5px'><span style='color:#666;'><b> Task#$tTaskRef - $Priority</b></span><br clear='all'/>";
+                                $sout.="<div style='border: 1px #999 solid;padding:2px;border-radius:5px;height:20vh'><span style='color:#666;'><b> Task#$tTaskRef - $Priority</b></span><br clear='all'/>";
                                 $sout.="<a onclick=popup('popUpDiv','calendar','$tTaskRef') style='line-height:1.2' '> <span $statuscolor ><b>$cCoCode</b><br clear='all'/>$TaskTitle<span> </a><br  clear='all' />";
                                 if ($cScheduleDate !==$cDueDate) {$sout.="SD=$cScheduleDate <br>DD=$cDueDate";}
                                 $sout.="</div><br  clear='all' />";

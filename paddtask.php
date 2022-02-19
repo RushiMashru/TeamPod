@@ -801,6 +801,21 @@ button.btn.btn-outline-secondary.border-left-0 {
 .gj-datepicker.gj-datepicker-bootstrap.gj-unselectable.input-group {
     margin-right: 40px;
 }
+
+   #popUpDiv{
+    top: 100px !important;
+    left: 50px !important;
+    height:500px !important;
+}
+center{
+    line-height:40px;
+}
+.row{
+    margin-top:-20px;
+}
+.btn{
+    width:150px !important;
+}
    </style>
    <body>
       <div class="maindiv" id="wrapper" style="margin-left:16%;width:84%;margin-top:10px">
