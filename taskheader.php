@@ -1052,8 +1052,9 @@
          function updatetask(taskid) {
              taskdescr = document.getElementById("taskdescr").value;
              priority = document.getElementById("priority").value;
-             chkPrivateTaskchk=document.getElementById('chkPrivateTask');
-             if (chkPrivateTaskchk.checked == true) { chkPrivateTask ="1"; } else { chkPrivateTask ="0";  } 
+             chkPrivateTask ="0";
+            // chkPrivateTaskchk=document.getElementById('chkPrivateTask');
+            // if (chkPrivateTaskchk.checked == true) { chkPrivateTask ="1"; } else { chkPrivateTask ="0";  } 
              
              var dataString = "ForTaskid=" + taskid + "&taskdescr=" + taskdescr + "&priority=" + priority + "&private=" + chkPrivateTask + "&cat=updatetask" ;
              
@@ -1503,14 +1504,11 @@
          		data: dataString,
          		success: function(response)
          		{   
-         		    $(".popup").html(response).show();
+         		    document.getElementById("tasknotes").style.display = "block";
+                    $("#tasknotes").html(response);
          		}
          		
          	});
-         	 blanket_size(windowname,page);
-           window_pos(windowname);
-           toggle('blanket');
-           toggle(windowname);
             }
             if (page == 'subtasknotes') {
              fortid = "EditTaskRef"+rowid;
@@ -1527,14 +1525,11 @@
          		data: dataString,
          		success: function(response)
          		{   
-         		    $(".popup").html(response).show();
+         		    document.getElementById("subtasknotes").style.display = "block";
+                    $("#subtasknotes").html(response);
          		}
          		
          	});
-         	 blanket_size(windowname,page);
-           window_pos(windowname);
-           toggle('blanket');
-           toggle(windowname);
             }
             
             if (page == 'calendar') {

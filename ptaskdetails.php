@@ -212,7 +212,7 @@ if ($cStage!="Completed") {
                $outall.='<div style="border: 2px solid;border-color:'.$sbordercolor.';padding: 5px;border-radius: 5px;border-left-width: 10px;margin-bottom:5px">';
                 
                  $outall.=' <div class="tab-text-4" id=sdv-'.$celnodv.'-'.$scelnodv.'>
-                              <div class="img-box" style="background: #ffe199;    color: black;">
+                              <div class="img-box" style="background: #ffe199;    color: black;" >
                                  '.substr($sFirstName,0,1).substr($sLastName,0,1).'</div>
                               <div class="name-box" >';
 
@@ -224,7 +224,7 @@ if ($cStage!="Completed") {
                }
                if($Prioritysub=='P3'){
                    $outall.= '<img src="images/P3.svg" class="tab-img-1">';
-               }$outall.='<p>'.$TaskTitlesub.'</p>
+               }$outall.='<p onclick=popup("popUpDiv","subtasknotes",'.$celnodv.','.$scelnodv.')>'.$TaskTitlesub.'</p>
                               </div>
                            </div>
                      <p> Description. '.$Descrsub.'
