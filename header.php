@@ -1639,9 +1639,23 @@
              document.getElementById("sidenav1").style.display = "block";
          }
 
-          function subbox(id) {
+        function subbox(id) {
              document.getElementById("subtaskbox").style.display = "block";
              $("#task_id").html(id);
+         }
+
+         function tasknotes() {
+             document.getElementById("tasknotes").style.display = "block";
+             
+         }
+        
+
+         function subtasknotes(id) {
+             document.getElementById("subtasknotes").style.display = "block";
+             
+         }
+          function subtasknotesclosefilter() {
+             document.getElementById("subtasknotes").style.display = "none";
          }
 
          function quickboxclosefilter() {
