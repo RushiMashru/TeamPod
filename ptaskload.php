@@ -1600,14 +1600,14 @@ input#sTaskName {
 </script>
 
  <div class="row shadow p-3 bg-white rounded" style="width: 576px;height: 70px;">
-         <div class="col-md-6" style="margin-top: 28px;">
+         <div class="col-md-6" style="margin-top: 28px;width: 75%;">
             <a href="javascript:tasknotesclosefilter()" class="fl times_a"><i class="fas fa-times"></i></a> 
             <label class="fl filter_label" > 
             <?php echo $TaskTitle." #".$TaskNumber ?>
             </label>
 
          </div>
-         <div class="col-md-6" style="margin-top: 28px;">
+         <div class="col-md-6" style="margin-top: 28px;width: 25%;">
             <?php if ($Stagesub !="Completed") { ?>
             <button type="button" onclick="updatetask(<?php echo $ForTaskid ?>)"  name="btntaskadd"  class="fr btn-save">Save</button>
             <?php } ?>

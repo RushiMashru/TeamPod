@@ -659,7 +659,7 @@ button.fr.btn-save {
   <div class=sidenav1 id=subtasknotes style="z-index: 2;width: 30% !important;;"> 
   </div>
 
-  
+
  <!-- <div class=sidenav1 id=sidenav1>
    <label style="width:100px;float:left"> Filter by:</label> <a onclick="closefilter()"><img style="border:none;background:#fff;float:right;margin-right:10px" alt="" src="images/Close.svg" /></a><br/><br/>
    <select class="total_fields forminput" name="ForCompany" style="width:200px">
@@ -741,14 +741,14 @@ button.fr.btn-save {
    </div> --> 
  <div class=sidenav1 id=sidenav1 style="z-index: 2;">
    <form method="post">
-<div class="row shadow p-3 bg-white rounded" style="height: 48px;">
-   <div class="col-md-6" style="margin-top: 10px;">
+<div class="row shadow p-3 bg-white rounded" style="height: 70px;">
+   <div class="col-md-6" style="margin-top: 28px;">
       <a onclick="closefilter()" class="fl times_a"><i class="fas fa-times"></i></a> 
       <label class="fl filter_label_sidenav" > 
       Filters
       </label>
    </div>
-   <div class="col-md-6" style="margin-top: 10px;">
+   <div class="col-md-6" style="margin-top: 28px;">
     <button type="submit" name="btnFilter"  class="fr btn-save">Filters</button>
     <!-- <form method="post">
           

@@ -494,6 +494,7 @@ center{
                     if ($PrivateTask==1 && $AssignedBy!=$id) {   //---- This is private task 
                     }
                     else {
+                        $tasktype = 't1';
                         /*  id="dv-<?php echo $celnodv;?>" onmouseover="mouseOverDV(<?php echo $celnodv;?>)" onmouseout="mouseOutDV(<?php echo $celnodv;?>)"> */
                     $outall.= "<input type=hidden id=EditTaskRef".$celnodv."     name=EditTaskRef".$celnodv." value=".$TRecRef." > ";
                     include "ptaskdetails.php";
