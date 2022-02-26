@@ -98,7 +98,7 @@ if ($ForTaskTag!='') {$FTTagCriteria.=" AND t3.cRecRef IN ( SELECT cRecRef FROM 
 
         $sout.="<td valign=top  style='line-height:1.2' width=11%>";
         
-		$query132="SELECT t1.cRecRef, t1.cScheduleDate, t1.cDueDate, t1.Stage, t1.CompleteBy, t2.SRecRef, t1.ForRefUSR, t2.ForCoRecRef, t3.TRecRef, t3.TaskTitle , t3.Priority
+		$query132="SELECT t1.cRecRef, t1.cScheduleDate, t1.cDueDate, t1.Stage, t1.CompleteBy, t2.SRecRef, t1.ForRefUSR, t2.ForCoRecRef, t3.TRecRef, t3.TaskTitle , t3.Priority, t3.TaskNumber
 				   FROM `tCalendar` AS t1, `tSchedule` AS t2, `tTasks` AS t3 
 				   WHERE t1.SRecRef=t2.SRecRef AND t2.TRecRef=t3.TRecRef AND t1.ForRefUSR='$sRefUSR' $FUCriteria $FTTagCriteria 
 				   AND t1.cDueDate<'$sqlStartOfWeek' AND t1.CompleteBy=0 and t1.Status='A'
@@ -110,6 +110,7 @@ if ($ForTaskTag!='') {$FTTagCriteria.=" AND t3.cRecRef IN ( SELECT cRecRef FROM 
 				{
 				$cTaskRef=$row132['cRecRef'];
 				$tTaskRef=$row132['TRecRef'];
+				$TaskNumber=$row132['TaskNumber'];
 				$cScheduleDate=$row132['cScheduleDate'];
 				$cDueDate=$row132['cDueDate'];
 				$TaskTitle=$row132['TaskTitle'];
@@ -117,8 +118,8 @@ if ($ForTaskTag!='') {$FTTagCriteria.=" AND t3.cRecRef IN ( SELECT cRecRef FROM 
 				$Priority=$row132['Priority'];
 				$cForCoRecRef=$row132['ForCoRecRef'];
                 $cCoCode=getCompanyShortCode($cForCoRecRef);
-				$statuscolor="style='color:red' ";
-				$sout.="<div style='border: 1px #aaa solid;padding:2px;border-radius:5px'><span $statuscolor><b> Task#$tTaskRef - $Priority</b></span><br clear='all'/> <a onclick=popup('popUpDiv','calendar','$tTaskRef') style='line-height:1.2;'> <span $statuscolor ><b>$cCoCode</b><br clear='all' />$TaskTitle<span> </a><br  clear='all' />$cDueDate<br  clear='all' /></div><br  clear='all' />";
+				$statuscolor="style='color:#e74c3c' ";
+				$sout.="<div style='border: 1px #aaa solid;padding:2px;border-radius:5px;height:20vh'><span $statuscolor><b> Task#$TaskNumber - $Priority</b></span><br clear='all'/> <a onclick=popup('popUpDiv','calendar','$tTaskRef','$cTaskRef') style='line-height:1.2;'> <span $statuscolor ><b>$cCoCode</b><br clear='all' />$TaskTitle<span> </a><br  clear='all' />$cDueDate<br  clear='all' /></div><br  clear='all' />";
 
 				}   //-------- end while $row132 calender tasks list
         $sout.="</td>";
@@ -136,7 +137,7 @@ if ($ForTaskTag!='') {$FTTagCriteria.=" AND t3.cRecRef IN ( SELECT cRecRef FROM 
                     if ($tTaskRefPrvDay!="") {$taskcriteriaprvday = " AND t2.TRecRef NOT IN ($tTaskRefPrvDay)";}
                     $sout.="<td valign=top style='background-color:$TodayCellColor;line-height:1.2;width:11%'>";
 
-                        $query102="SELECT t1.cRecRef, t1.cScheduleDate, t1.cDueDate, t1.Stage, t1.CompleteBy, t2.SRecRef, t1.ForRefUSR, t2.TRecRef, t2.ForCoRecRef, t3.TRecRef, t3.TaskTitle , t3.Priority
+                        $query102="SELECT t1.cRecRef, t1.cScheduleDate, t1.cDueDate, t1.Stage, t1.CompleteBy, t2.SRecRef, t1.ForRefUSR, t2.TRecRef, t2.ForCoRecRef, t3.TRecRef, t3.TaskTitle , t3.Priority, t3.TaskNumber
                                    FROM `tCalendar` AS t1, `tSchedule` AS t2, `tTasks` AS t3 
                                    WHERE t1.SRecRef=t2.SRecRef AND t2.TRecRef=t3.TRecRef AND t1.ForRefUSR='$sRefUSR' $FUCriteria $FTTagCriteria
                                    AND ( t1.cScheduleDate <= '$TaskForDate' AND t1.cDueDate >= '$TaskForDate' ) and t1.Status='A'
@@ -148,6 +149,7 @@ if ($ForTaskTag!='') {$FTTagCriteria.=" AND t3.cRecRef IN ( SELECT cRecRef FROM 
                                 {
                                 $tTaskRef=$row102['TRecRef'];
                                 $cTaskRef=$row102['cRecRef'];
+                                $TaskNumber=$row102['TaskNumber'];
                                 $cScheduleDate=$row102['cScheduleDate'];
                                 $cDueDate=$row102['cDueDate'];
                                 $TaskTitle=$row102['TaskTitle'];
@@ -156,15 +158,15 @@ if ($ForTaskTag!='') {$FTTagCriteria.=" AND t3.cRecRef IN ( SELECT cRecRef FROM 
                                 $cCoCode=getCompanyShortCode($cForCoRecRef);
                                 $Priority=$row102['Priority'];
                                 $statuscolor="style='color:black' ";
-                                if ($CompleteBy==0 && $cDueDate<$current_date) {$statuscolor="style='color:red' ";}
+                                if ($CompleteBy==0 && $cDueDate<$current_date) {$statuscolor="style='color:#e74c3c' ";}
                                 if ($CompleteBy!=0) {$statuscolor="style='color:green' ";}
                                 if (($cScheduleDate !==$cDueDate) && $TaskForDate == date('Y-m-d') ) { $print = 'Y'; } else { $print = 'N'; }
                                 if ($TaskForDate == $cDueDate && $TaskForDate < date('Y-m-d')) { $print = 'Y'; } 
                                 if ($TaskForDate == $cScheduleDate && $TaskForDate > date('Y-m-d')) { $print = 'Y'; } 
                                 if ($cScheduleDate == $cDueDate) { $print = 'Y'; }
                                 if ($print == 'Y') {
-                                $sout.="<div style='border: 1px #999 solid;padding:2px;border-radius:5px'><span style='color:#666;'><b> Task#$tTaskRef - $Priority</b></span><br clear='all'/>";
-                                $sout.="<a onclick=popup('popUpDiv','calendar','$tTaskRef') style='line-height:1.2' '> <span $statuscolor ><b>$cCoCode</b><br clear='all'/>$TaskTitle<span> </a><br  clear='all' />";
+                                $sout.="<div style='border: 1px #999 solid;padding:2px;border-radius:5px;height:20vh'><span style='color:#666;'><b> Task#$TaskNumber - $Priority</b></span><br clear='all'/>";
+                                $sout.="<a onclick=popup('popUpDiv','calendar','$tTaskRef','$cTaskRef') style='line-height:1.2' '> <span $statuscolor ><b>$cCoCode</b><br clear='all'/>$TaskTitle<span> </a><br  clear='all' />";
                                 if ($cScheduleDate !==$cDueDate) {$sout.="SD=$cScheduleDate <br>DD=$cDueDate";}
                                 $sout.="</div><br  clear='all' />";
                                 }
@@ -262,8 +264,6 @@ $(document).ready(function(){
 </script>
 <!--  End Mask Date Validation    -->
 
-
- 
 </head>
 
 <body>
@@ -274,15 +274,24 @@ $(document).ready(function(){
         <!-- Main TAB menu Header START -->
 
         <div class="calendar-header">
-        <div class="search-container">
+<!--        <div class="search-container">
     <form action="/action_page.php">
       <input type="text" placeholder="Search.." name="search" style=" border-radius: 18px;">
       <i class="fa fa-search" style="font-size: 14px; margin-left: -23px;"></i>
     </form>
-  </div>
-          <span style="margin-left: 400px;">  <div class="button"  onclick="window.location.href='pcalendarw.php'" >Weekly</div>
+  </div> 
+          <span style="margin-left: 100px;">  <div class="button"  onclick="window.location.href='pcalendarw.php'" >Weekly</div>
            <div class="button" onclick="window.location.href='pcalendarm.php'">Monthly</div>
-            <img src="images/Filters.svg"  onclick="openfilter()"  style="border: none; float: right; cursor: pointer; margin: 0px 0px 0px 6px;" >
+            <img src="images/Filters.svg"  onclick="openfilter()"  style="border: none; float: right; cursor: pointer; margin: 0px 0px 0px 600px;" > -->
+        
+        <div class="row">
+     <div class="left" style="float:left;">
+     <span style="margin-left: 160px;">  <div class="button"  onclick="window.location.href='pcalendarw.php'" >Weekly</div>
+           <div class="button" onclick="window.location.href='pcalendarm.php'">Monthly</div>
+</div>
+<div class="right" style="float:right;margin-left:174px;">
+<img src="images/Filters.svg"  onclick="openfilter()"  style="border: none; float: right; cursor: pointer; margin: 0px 0px 0px 600px;" >
+</div>
          
             <div class=sidenav1 id=sidenav1>
            <label style="width:100px;float:left;font-size: 18px;"> Filter by:</label> <i class="fa fa-close" onclick="window.location.href='pcalendarw.php'"></i> <a onclick="closefilter()"><img style="border:none;background:#eee;float:right;margin-right:10px" alt="" /></a><br/><br/>

@@ -250,25 +250,7 @@
     box-shadow: 0 1px 2px 0px rgb(0 0 0 / 20%), 0 2px 4px 0px rgb(0 0 0 / 20%), 0 4px 8px 0px rgb(0 0 0 / 20%), 0 8px 16px 0px rgb(0 0 0 / 7%), 0 16px 32px 0px rgb(0 0 0 / 13%), 0 32px 48px 0px rgb(0 0 0 / 20%);
 }
 
-.card-header {
-  display: grid;
-  position: relative;
-  overflow: hidden;
-}
-.card-header::before {
-  content: "";
-  position: absolute;
-  display: flex;
-  inset: 0;
-  background: url(https://cdn.pixabay.com/photo/2017/06/26/08/13/mockup-2443050_960_720.jpg)
-    center/cover;
-  transition: transform 300ms ease;
-}
 
-.card-header:hover::before {
-  transform: scale(1.2);
-  transition: transform 266ms linear;
-}
 
 .title {
   text-align: center;
@@ -602,7 +584,7 @@ button.fr.btn-save {
 <div class="maindiv" id="wrapper" style="margin:15px 0 0 16%;width:84%">
 
 <div>
-   <input type="text" id="myInput" onkeyup="fnTypeFilterRow()" style="background-color: #fff;float:left;width:40%;border-radius:25px" placeholder="Search by Task or Maingroup or Subgroup " title="Type in task name" class="form-control  total_fields" />
+   <input type="text" id="myInput" onkeyup="fnTypeFilterRow()" style="background-color: #fff;float:left;width:40%;border-radius:25px" placeholder="Search by Task or Maingroup or Subgroup or Tags or Users " title="Type in task name" class="form-control  total_fields" />
 </div>
 <div style="width:38%;float:left;">&nbsp; </div>
 <div >
@@ -667,11 +649,15 @@ button.fr.btn-save {
       </div>
   
 </div>
-<div class=sidenav1 id=subtaskbox style="z-index: 2;width: 30%;">
-  
+<div class=sidenav1 id=subtaskbox style="z-index: 2;width: 30% !important;">
+ 
      
   
 </div>
+<div class=sidenav1 id=tasknotes style="z-index: 2;width: 30% !important;;"> 
+  </div>
+  <div class=sidenav1 id=subtasknotes style="z-index: 2;width: 30% !important;;"> 
+  </div>
  <!-- <div class=sidenav1 id=sidenav1>
    <label style="width:100px;float:left"> Filter by:</label> <a onclick="closefilter()"><img style="border:none;background:#fff;float:right;margin-right:10px" alt="" src="images/Close.svg" /></a><br/><br/>
    <select class="total_fields forminput" name="ForCompany" style="width:200px">

@@ -1,8 +1,8 @@
 <?php
 error_reporting (E_ALL ^ E_NOTICE ^ E_WARNING);
 
-include "dbhands.php";
-//include "../focinc/i_envirovar.php";
+include "../focinc/dbhands.php";
+include "../focinc/i_envirovar.php";
 include "i_functions.php"; 
 if(isset($_COOKIE["id"]))  { $id=$_COOKIE["id"]; }
 date_default_timezone_set('Europe/London'); // CDT
@@ -20,16 +20,13 @@ if($_POST['cat'] =="loadusers") {
 $ForCompany = $_POST['company'];
 $UserCodeName_arr = array(); 
 
-    $query11="SELECT t1.RefUSR, t1.FirstName, t1.LastName FROM (SELECT t1.RefUSR, t1.FirstName, t1.LastName FROM `tUser` AS t1, `tUserAccessLevels` AS t2  
-    WHERE t1.RefUSR=t2.RefUSR AND t1.Status='ACT' AND t2.FCompany='$ForCompany' AND t1.RefUSR = '$id'
-    UNION
-    SELECT t1.RefUSR, t1.FirstName, t1.LastName FROM `tUser` AS t1, `tUserAccessLevels` AS t2  
-              WHERE t1.RefUSR=t2.RefUSR AND t1.Status='ACT' AND t2.FCompany='$ForCompany' AND (t1.myManager = '$id' OR myManager IN (SELECT RefUSR FROM `tUser` WHERE myManager = '$id'))
-              GROUP BY t1.RefUSR) t1 ORDER BY t1.FirstName, t1.LastName ";  
+    $query11="SELECT t1.RefUSR, t1.FirstName, t1.LastName FROM `tUser` AS t1, `tUserAccessLevels` AS t2  
+              WHERE t1.RefUSR=t2.RefUSR AND t1.Status='ACT' AND t2.FCompany='$ForCompany' 
+              GROUP BY t1.RefUSR ORDER BY t1.FirstName, t1.LastName "; 
     //echo '<br>-----'.$query11;
     $sql11 = mysqli_query($mysqli, $query11);
     $i=0;
-    while($row11=mysqli_fetch_array($sql11))						//------------------- Store Practice ID & Full Name from database to AllPractice_arr ------
+    while($row11=mysqli_fetch_array($sql11))                        //------------------- Store Practice ID & Full Name from database to AllPractice_arr ------
         {
         $UserCodeName_arr[$i][0]=$row11['RefUSR'];
         $UserCodeName_arr[$i][1]=$row11['FirstName'].' '.$row11['LastName'];
@@ -50,14 +47,14 @@ $UserCodeName_arr = array();
         } }?>
     </select>
     <script>
-    	document.multiselect('#ForRefUSR')
-		.setCheckBoxClick("checkboxAll", function(target, args) {
-			console.log("Checkbox 'Select All' was clicked and got value ", args.checked);
-		})
-		.setCheckBoxClick("1", function(target, args) {
-			console.log("Checkbox for item with value '1' was clicked and got value ", args.checked);
-		});
-	</script>
+        document.multiselect('#ForRefUSR')
+        .setCheckBoxClick("checkboxAll", function(target, args) {
+            console.log("Checkbox 'Select All' was clicked and got value ", args.checked);
+        })
+        .setCheckBoxClick("1", function(target, args) {
+            console.log("Checkbox for item with value '1' was clicked and got value ", args.checked);
+        });
+    </script>
 <?php }
 
 if($_POST['cat'] =="loadsubgrp") {
@@ -134,9 +131,9 @@ $DueDays = floor($datediff / (60 * 60 * 24));                //------------ cinv
 $DueDays = $DueDays+1;
 $RepeatSchedule=$_POST['RepeatSchedule'];
 $awdays = $_POST['awdays'];
-//$awdays=implode(',', (array)$_POST['cbxDays']);		//--------------- store multiple selection in one variable, seprated by , comma sign [implode/explode]
+//$awdays=implode(',', (array)$_POST['cbxDays']);       //--------------- store multiple selection in one variable, seprated by , comma sign [implode/explode]
 $NextAfter=$_POST['NextAfter'];
-$radioNoOfTimes=$_POST['radioNoOfTimes'];     //   	EndAfter, EndBy, NoEnd
+$radioNoOfTimes=$_POST['radioNoOfTimes'];     //    EndAfter, EndBy, NoEnd
 $EndAfterOccur=$_POST['EndAfterOccur'];
 $EndByDate=$_POST['EndByDate'];
 $sqlEndByDate = date('Y-m-d', strtotime($EndByDate));
@@ -384,9 +381,9 @@ else{
                                  $ForUserID.= $UserID;
                                  }
             $to="$ForUserID";
-        	$subject1= "Task No:".$TaskNumber." is assigned";
-        	$fromName = $FullName;
-        	$from = "support@teampod.co.uk"; 
+            $subject1= "Task No:".$TaskNumber." is assigned";
+            $fromName = $FullName;
+            $from = "support@teampod.co.uk"; 
             $message2='
             Hi!
             
@@ -400,9 +397,9 @@ else{
             .$FullName.'';
             
             $headers1 = "From: $fromName"."<".$from.">";
-        	mail($to,$subject1,$message2,$headers1);
-        	
-        	
+            mail($to,$subject1,$message2,$headers1);
+            
+            
         }
         else
         {
@@ -666,10 +663,10 @@ if($_POST['cat'] == "addfile") {
     $AttachDoc = $_POST['attachfile'];
     $ForCalid=$_POST['ForCalid'];
     
-    $path_parts = pathinfo($_FILES['attachfile']["name"]);		//--- store file name in array to get extension
+    $path_parts = pathinfo($_FILES['attachfile']["name"]);      //--- store file name in array to get extension
     $fullfile= $_FILES['attachfile']["name"];
     
-    $newfilename=rand().'_'.$fullfile ;	
+    $newfilename=rand().'_'.$fullfile ; 
     if(move_uploaded_file($_FILES['attachfile']['tmp_name'], $target_path.$newfilename)) {
        // echo "hey";exit;
     $query64="INSERT INTO `tTaskNotes`(`TRecRef`, `cRecRef`,  `Stage`,  `Notes`, `TimeTaken`,  `NotesDT`, `NotesBy`) 
@@ -686,35 +683,6 @@ if($_POST['cat'] == "addfile") {
     echo " There was an error uploading the file, please try again! ";
     }
 }
-
-if($_POST['cat'] == "addendtask") {
-    $NewNote=$_POST['note'];
-    $noteid=$_POST['noteid'];
-    $ForTaskid=$_POST['ForTaskid'];
-    $ForCalid=$_POST['ForCalid'];
-    
-   
-
-    $query11="SELECT `NotesDT` FROM `tTaskNotes` WHERE NRecRef = '$noteid'";
-    $sql11 = mysqli_query($mysqli, $query11);
-    while($row11=mysqli_fetch_array($sql11))
-    {
-        $starttime=new DateTime($row11['NotesDT']);
-    }
-    //$expiry_time = new DateTime($row['fromdb']);
-    $current_date = new DateTime();
-    $diff = $starttime->diff($current_date);
-    $timetaken = $diff->format('%H:%I:%S');
-
-    $query5="UPDATE `tCalendar` SET Stage='Completed', CompleteBy='$id', CompleteDT='$currdatetime',TimeTaken='$timetaken' WHERE cRecRef in (SELECT cRecRef from tCalendar where SRecRef in (select SRecRef from tSchedule where TRecRef='$ForTaskid') and (cScheduleDate, cDueDate)  in (select cScheduleDate, cDueDate from tCalendar where cRecRef='$ForCalid')  )  " ;
-    $sql5 = mysqli_query($mysqli, $query5);
-
-
-    $query4="INSERT INTO `tTaskNotes`(`TRecRef`, `cRecRef` , `Stage`,  `Notes`, `TimeTaken`,  `NotesDT`, `NotesBy`)  VALUES ('$ForTaskid','$ForCalid','ENDTIME','$NewNote','$timetaken','$currdatetime','$id' ) " ;
-    $sql4 = mysqli_query($mysqli, $query4);
-    
-}
-
 if($_POST['cat'] == "completetask") {
     $ForCalid=$_POST['ForCalid'];
     $ForTaskid=$_POST['ForTaskid'];
@@ -741,10 +709,10 @@ if($_POST['cat'] == "addsubfile") {
     $AttachDoc = $_POST['attachfile'];
     $ForCalid=$_POST['ForCalid'];
     
-    $path_parts = pathinfo($_FILES['attachfile']["name"]);		//--- store file name in array to get extension
+    $path_parts = pathinfo($_FILES['attachfile']["name"]);      //--- store file name in array to get extension
     $fullfile= $_FILES['attachfile']["name"];
     
-    $newfilename=rand().'_'.$fullfile ;	//--- set new file name  User+Type.extension
+    $newfilename=rand().'_'.$fullfile ; //--- set new file name  User+Type.extension
                     
     if(move_uploaded_file($_FILES['attachfile']['tmp_name'], $target_path.$newfilename)) {
     $query64="INSERT INTO `tTaskNotes`(`TRecRef`, `cRecRef`,  `STRecRef`, `Stage`,  `Notes`, `TimeTaken`,  `NotesDT`, `NotesBy`) 
@@ -761,40 +729,6 @@ if($_POST['cat'] == "addsubfile") {
     echo " There was an error uploading the file, please try again! ";
     }
 }
-
-if($_GET['cat'] == "addsubendtask") {
-    $NewNote=$_GET['note'];
-    $noteid=$_GET['noteid'];
-    $ForTaskid=$_GET['ForTaskid'];
-    $ForSTaskid=$_GET['ForSTaskid'];
-    $ForCalid=$_GET['ForCalid'];
-    
-    $query11="SELECT `NotesDT` FROM `tTaskNotes` WHERE NRecRef = '$noteid'";
-    $sql11 = mysqli_query($mysqli, $query11);
-    $starttime = "";
-    while($row11=mysqli_fetch_array($sql11))
-    {
-        $starttime=new DateTime($row11['NotesDT']);
-    }
-    //$expiry_time = new DateTime($row['fromdb']);
-    $current_date = new DateTime();
-    if($starttime==""){
-       // $diff = $starttime->diff($currdatetime);
-       // $timetaken = $diff->format('%H:%I:%S');
-    }
-    $timetaken = "00:00:00";
-    
-    $query5="UPDATE `tSubTasks` SET Stage='Completed', CompleteBy='$id', CompleteDT='$currdatetime',TimeTaken='$upTimeTaken' WHERE  STRecRef ='$ForSTaskid' " ;
-    $sql5 = mysqli_query($mysqli, $query5);
-    
-    $query4="INSERT INTO `tTaskNotes`(`TRecRef`, `cRecRef` , `STRecRef`, `Stage`,  `Notes`, `TimeTaken`,  `NotesDT`, `NotesBy`) 
-                                                VALUES ('$ForTaskid','$ForCalid','$ForSTaskid','SUBENDTIME','$NewNote','$timetaken','$currdatetime','$id' ) " ;
-                                               // echo $query4;exit;
-    $sql4 = mysqli_query($mysqli, $query4);
-    
-}
-
-
 if($_POST['cat'] == "completesubtask") {
     $ForCalid=$_POST['ForCalid'];
     $ForTaskid=$_POST['ForTaskid'];
@@ -828,7 +762,7 @@ if($_POST['cat'] == "quicktaskpopup") {
             $CompanyCode_arr[$i][2]=$row11['CoName'];
             $i++;
         }
-	$maxcompanycode = sizeof($CompanyCode_arr);
+    $maxcompanycode = sizeof($CompanyCode_arr);
 ?>
 <br/>
 <div class="labelcust" style='width:85px'>Company*: </div>
@@ -1288,112 +1222,24 @@ $query301="SELECT t1.* FROM `tSubTasks` AS t1 limit 1";
             $sForUserFullName = substr($sForUserFullName,2);
         }
 
-//echo "<span style='font-size:16px;font-weight:bold'>Task#$ForTaskid</span><br clear='all'><br clear='all'>";
+echo "<span style='font-size:16px;font-weight:bold'>Task#$ForTaskid</span><br clear='all'><br clear='all'>";
 ?>
-<style type="text/css">
-  
-input#sTaskName {
-    border: 0;
-    border: 1px solid #e6e6e6;
-    width: 100%;
-    outline: none;
-    height: 51px;
-    padding: 0 20px;
-    border-radius: 4px;
-    color: #333333;
-    font-size: 16px;
-    font-family: 'Source Sans Pro';
-    font-weight: normal;
-}
-.mb-30{
-    margin-bottom: 30px;
-}
-.newc{
-        overflow-y: auto;
-}
-.newc::-webkit-scrollbar {
-  width: 10px;
-}
 
-/* Track */
-.newc::-webkit-scrollbar-track {
-  background: #f1f1f1; 
-}
- 
-/* Handle */
-.newc::-webkit-scrollbar-thumb {
-  background: #888; 
-}
-
-/* Handle on hover */
-.newc::-webkit-scrollbar-thumb:hover {
-  background: #555; 
-}
-</style>
-
-<script type="text/javascript">
-      function tasksubnotesclosefilter() {
-             document.getElementById("subtasknotes").style.display = "none";
-         }
-</script>
-  <div class="row shadow p-3 bg-white rounded" style="width: 576px;height: 70px;">
-         <div class="col-md-6" style="margin-top: 28px;">
-            <a onclick="tasksubnotesclosefilter()" class="fl times_a"><i class="fas fa-times"></i></a> 
-            <label class="fl filter_label" > 
-            <?=$sTaskTitle?>
-            </label>
-         </div>
-         <div class="col-md-6" style="margin-top: 28px;">
-            <?php if ($Stagesub !="Completed") { ?>
-            <button type="button" onclick="updatesubtask(<?php echo $ForSTaskid ?>)"  name="btntaskadd"  class="fr btn-save">Save</button>
-            <?php } ?>
-         </div>
-      </div>
-      <div class="contanier_row newc">
-         <div class="quick_content" style="flex-wrap: wrap;height: auto;">
-            <main class="card" id="subtask_title_Card" style="height:400px">
-               <article class="card-content" style='margin: 0px;'  >
-
-                  <div class="wrapper" style='padding: 0px;' >
-                    <div class="card-header" style="color: #e74c3c;text-align: left;width: 100%;font-weight: 700;border-bottom: 1px solid gray;
-        padding: 12px;
-    font-size: 18px;">
-                     <p style="    width: 50%;
-    float: left;">Task Details</p>
-                      <div class="icon" id="subtask_title_icon" style="    text-align: right;" onclick="closesubtaskcard()">
-                          <i class="fa fa-angle-down"  id="" style='color: gray;font-size: 20px;margin-right: 12px;' aria-hidden="true"></i>
-
-                        </div>
-               </div><div class="cardbody" id='subtask_details_content' style="padding: 20px;">
-<div style='width:100px;float:left;text-align:left;color:black'>Task: </div> <div style='float:left;color:black;line-height:1;text-align:left;width:275px'><?php echo $sTaskTitle ?></div><br clear='all'><br clear='all'>
-<div style='width:100px;float:left;text-align:left;color:black'>Assign to: </div> <div style='float:left;color:black;line-height:1;text-align:left;width:275px'><?php echo $sForUserFullName ?></div><br clear='all'><br clear='all'>
-
- <div class="inp">
-                        <label class="email" for="priority"> Priority:</label>
-                        <select id="priority" name="priority" <?php echo $disabled ?> >
-                             <option value="P3" <?php echo $P3Selected ?> >P3 - Low</option>
-                <option value="P2" <?php echo $P2Selected ?> >P2 - Medium</option>
-                <option value="P1" <?php echo $P1Selected ?> >P1 - High</option>
-                        </select>
-                     </div>
-
-
-
-        <div class="inp" style="margin-top: 20px;">
-                        <label class="description" for="description"> Description</label>
-
-
-                        <textarea name="taskdescr" id="taskdescr" style="height: 142px;resize: none;" <?php echo $readonly ?> rows="15" placeholder="Please Provide Task Detail"><?php echo $sTaskDescription ?></textarea>
-
-
-                     </div></div>
-
-</article>
-               <footer class="card-footer">
-                  
-               </footer>
-            </main>
-
+<div style='width:100px;float:left;text-align:left'>Task: </div> <div style='float:left;line-height:1;text-align:left;width:275px'><?php echo $sTaskTitle ?></div><br clear='all'><br clear='all'>
+<div style='width:100px;float:left;text-align:left'>Assign to: </div> <div style='float:left;line-height:1;text-align:left;width:275px'><?php echo $sForUserFullName ?></div><br clear='all'><br clear='all'>
+<div style='width:100px;float:left;text-align:left'>Priority: </div> <div style='display:inline;float:left;'>
+      <select class="forminput" name="priority" id="priority" style='padding:3px;border-radius:3px;width:120px' <?php echo $disabled ?>>
+                <option value="P3" <?php echo $sP3Selected ?> >P3 - Low</option>
+                <option value="P2" <?php echo $sP2Selected ?> >P2 - Medium</option>
+                <option value="P1" <?php echo $sP1Selected ?> >P1 - High</option>
+       </select></div><br clear='all'><br clear='all'>
+<div style='width:100px;float:left;text-align:left'>Description: </div> <div style='display:inline;float:left'><textarea id='taskdescr' rows=5 style='width:250px;border-radius:3px' <?php echo $readonly ?>><?php echo $sTaskDescription ?></textarea></div><br clear='all'><br clear='all'>
+<?php if ($Stagesub !="Completed") { ?>
+<br clear="all"/><br clear="all"/>
+<input type=button name="btnSave"  value="Save" style="font-weight:bold;width:100px" class='btn' onclick="updatesubtask(<?php echo $ForSTaskid ?>)" />
+<?php } ?>
+<br clear="all"/><br clear="all"/>
+<div class="maindiv1" id="center" style="width:100%">
     <?php 
         
         $tdbottomborder=" style='border-bottom:1pt solid green;' " ;
@@ -1405,17 +1251,8 @@ input#sTaskName {
         $existCount304 = mysqli_num_rows($sql304);
         //echo '<br><br>---'.$existCount304.'-----'.$query304;
         if ($existCount304>0){
-            echo " <main class='card' id='subtask_history_Card' ><article class='card-content'  style='margin: 0px;'>
-                  <div class='wrapper' style='padding:0px'>
-<div class='maindiv1' id='center' style='width:100%'><div class='card-header' style='color: #e74c3c;text-align: left;width: 100%;font-weight: 700;border-bottom: 1px solid gray;padding: 12px;font-size: 18px;'>
-                    <p style='width: 50%;
-    float: left;'>History</p>
-                      <div class='icon' style='text-align: right;' id='subtask_history_icon' onclick='subhistroy_task()'>
-                          <i class='fa fa-angle-down'  style='color: gray;
-    font-size: 20px;
-    margin-right: 12px;
-' aria-hidden='true'></i>
-               </div></div><div id='subtask_history_content' style='overflow-y: scroll;    height: 500px;'>";
+            echo "<br><table id=history cellpadding=2 cellspacing=2 width=100%>
+                        <tr bgcolor=#ffe199><td align=left style='font-size:12px;line-height: 30px !important;'><b>HISTORY</b></td><td align=center>&nbsp;</td><td align=center></td></tr>";
             while($row304=mysqli_fetch_array($sql304))
                 {
                     $nNotes=$row304['Notes'];
@@ -1454,38 +1291,26 @@ input#sTaskName {
                     if ($style == "I") { $styling ="font-style: italic; font-weight: 400;text-decoration: none;color:black"; }
                     if ($style == "U") { $styling ="font-style: normal; font-weight: 400;text-decoration: underline;color:black"; }
                     
-                    echo "<div class='main_sub_his'    style='margin-top: 5px;    border-bottom: 2px dotted #e74c3c;display: flow-root;margin: 13px;'>
-                    <div class='row' style='margin-top: 10px;'>
-                            <div class='col-md-6' style='color: black;text-align: left;font-weight: 700;'>
-                                P2:Subtask
-                            </div>
-                            <div class='col-md-6' style='color: black;text-align: right;'>
-                               $nNotesByName
-                            </div>
-                    </div><div class='row' style='color:black;    font-size: 14px;    text-align: left;'>
-                           Description:<span id='note$NRecRef' style='$styling'>$noteadd $nNotes $noteadd1</span>
-                    </div> <div class='rownew' style='margin-top: 5px;'>
-                            <div class='col-md-6' style='color: black;text-align: left;font-size: 12px;'>
-                                $nNotesDT
-                            </div>
-                            <div class='col-md-6' style='color: black;text-align: right;'>
-                                <a href='#' onclick=notestyle('B','$NRecRef') title='Bold'><b>B</b></a>
+                    echo "<tr><td colspan=3 style='line-height:1.2'><span id='note$NRecRef' style='$styling'>$noteadd $nNotes $noteadd1</span> <br/><br/>";
+                    if($hDocLink != ""){ echo "<a href='$showfielink' style='line-height:1.2;color:#7ccfe1' target=_blank>View Attachment</a></td></tr> "; }
+                       echo "<tr><td style='line-height:1.2' >$nNotesDT</td><td align=center>$nNotesByName</td>
+                        <td align=right>
+                            <a href='#' onclick=notestyle('B','$NRecRef') title='Bold'><b>B</b></a>
                             <a href='#' onclick=notestyle('I','$NRecRef') title='Italic'> <i>I</i></a>
                             <a href='#' onclick=notestyle('U','$NRecRef') title='Underline'> <u>U</u></a>
                             <a href='#' onclick=notestyle('C','$NRecRef') title='Color' style='color:red'> C</a>
                             <a href='#' onclick=notestyle('N','$NRecRef') title='Normal'> N</a>
-                            </div>
-                    </div></div>";
+                        </td>
+                        </tr>
+                        <tr><td colspan=3 '.$tdbottomborder.'></td></tr>";
 
                 }   //---- end while  
-                echo "</div></article></main>";
+                echo "</table><br><br>";
         }   //------- end if $existCount304
         
                 
     ?>
 </div>
-
-
 <?php 
 }
 
@@ -1504,7 +1329,6 @@ $query301="SELECT t1.*,t2.*,t3.* FROM `tTasks` AS t1, `tSchedule` AS t2, `tCalen
             {   
                 $TaskTitle=$row301['TaskTitle'];
                 $CoCode=$row301['ForCoRecRef'];
-                $TaskNumber=$row301['TaskNumber'];
                 $query11="SELECT t2.CoName FROM `tCompany` AS t2 WHERE t2.CoType='COMPANY' AND t2.Status='ACT' AND t2.CoRecRef='$CoCode'";
                 $sql11 = mysqli_query($mysqli, $query11);
                 $row11=mysqli_fetch_array($sql11);
@@ -1551,7 +1375,7 @@ $query301="SELECT t1.*,t2.*,t3.* FROM `tTasks` AS t1, `tSchedule` AS t2, `tCalen
             $ForUserFullName = substr($ForUserFullName,2);
         }
 
-echo "<span style='font-size:16px;font-weight:bold'>Task#$TaskNumber</span><br clear='all'><br clear='all'>";
+//echo "<span style='font-size:16px;font-weight:bold'>Task#$ForTaskid</span><br clear='all'><br clear='all'>";
 ?>
                 <style type="text/css">
   
@@ -1603,9 +1427,8 @@ input#sTaskName {
          <div class="col-md-6" style="margin-top: 28px;">
             <a href="javascript:tasknotesclosefilter()" class="fl times_a"><i class="fas fa-times"></i></a> 
             <label class="fl filter_label" > 
-            <?php echo $TaskTitle ?>
+            Task Name
             </label>
-
          </div>
          <div class="col-md-6" style="margin-top: 28px;">
             <?php if ($Stagesub !="Completed") { ?>
@@ -1614,24 +1437,18 @@ input#sTaskName {
          </div>
       </div>
       <div class="contanier_row newc">
-         <div class="quick_content" style="flex-wrap: wrap;height:auto">
-            <main class="card"  id="task_title_Card" style="height: 660px;" >
+         <div class="quick_content" style="flex-wrap: wrap;">
+            <main class="card" style="height: 660px;">
                
-               <article class="card-content" style='margin: 0px;' >
+               <article class="card-content" style='margin: 0px;'>
 
                   <div class="wrapper" style="padding: 0px;">
  <div class="card-header" style="color: #e74c3c;text-align: left;width: 100%;font-weight: 700;border-bottom: 1px solid gray;
         padding: 12px;
     font-size: 18px;">
-                     <p style="    width: 50%;
-    float: left;">Task Details</p>
-                      <div class="icon" id="task_title_icon" style="    text-align: right;" onclick="closetaskcard()">
-                          <i class="fa fa-angle-down"  id="" style='color: gray;font-size: 20px;margin-right: 12px;' aria-hidden="true"></i>
-
-                        </div>
+                     Task Details
                </div>
-
-               <div class="cardbody" id='task_details_content' style="padding: 20px;">
+               <div class="cardbody" style="padding: 20px;">
 <div style='width:120px;float:left;text-align:left;    color: black; font-weight:bold;'>Company: </div> <div style='display:inline;    color: black;float:left'><?php echo $CoName ?></div><br clear='all'><br clear='all'>
 <div style='width:120px;float:left;text-align:left;    color: black;font-weight:bold;'>Assign to: </div> <div style='float:left;    color: black;line-height:1;text-align:left;width:275px'><?php echo $ForUserFullName ?></div><br clear='all'><br clear='all'>
 <div style='width:120px;float:left;text-align:left;    color: black;font-weight:bold;'>Task: </div> <div style='float:left;    color: black;line-height:1;text-align:left;width:275px'><?php echo $TaskTitle ?></div><br clear='all'><br clear='all'>
@@ -1678,17 +1495,12 @@ input#sTaskName {
         $existCount304 = mysqli_num_rows($sql304);
         //echo '<br><br>---'.$existCount304.'-----'.$query304;
         if ($existCount304>0){
-            echo "<main class='card' id='task_history_Card' style='height:550px;' ><article class='card-content'  style='margin: 0px;'>
+            echo "<br> <main class='card'><article class='card-content' style='margin: 0px;'>
                   <div class='wrapper' style='padding:0px'>
-<div class='maindiv1' id='center' style='width:100%'><div class='card-header' style='color: #e74c3c;text-align: left;width: 100%;font-weight: 700;border-bottom: 1px solid gray;padding: 12px;font-size: 18px;'>
-                    <p style='width: 50%;
-    float: left;'>History</p>
-                      <div class='icon' style='text-align: right;' id='task_history_icon' onclick='histroy_task()'>
-                          <i class='fa fa-angle-down'  style='color: gray;
-    font-size: 20px;
-    margin-right: 12px;
-' aria-hidden='true'></i>
-               </div></div><div id='task_history_content' style='overflow-y: scroll;    height: 500px;'>";
+<div class='maindiv1' id='center' style='width:100%'><table id=history  width=100% style='border-collapse: collapse;
+            width: 99%;border-radius: 5px;'>
+                      
+                        <tr style='    border-bottom: 1px solid gray;'><td align='left' style='font-size:16px;padding-left: 24px; line-height:28px;    padding: 12px;font-size: 18px;color:#e74c3c'><b>History</b></td><td align='center'>&nbsp;</td><td align='center'></td></tr>";
 
 
             while($row304=mysqli_fetch_array($sql304))
@@ -1711,33 +1523,33 @@ input#sTaskName {
                     $noteadd1='';
                     if ($stage =='STARTTIME') {
                         $starttime=$row304['time'];
-                        $noteadd = "Task Started on ".$nNotesDT.'';
+                        $noteadd = "Task Started on ".$nNotesDT.'<br/><br/>';
                     }
                     if ($stage =='ENDTIME') {
                         $endtime=$row304['time'];
-                        $noteadd = "Task Ended on ".$nNotesDT.". Time Taken - ".$nsTimeTaken.'';
+                        $noteadd = "Task Ended on ".$nNotesDT.". Time Taken - ".$nsTimeTaken.'<br/><br/>';
                     }
                     if ($stage =='NEWNOTE' || $stage =='SUBNEWNOTE') {
                         
                         if ($nsTimeTaken!=""){
-                        $noteadd1 = "Time Taken - ".$nsTimeTaken;
+                        $noteadd1 = "<br/><br/>Time Taken - ".$nsTimeTaken;
                         }
                     }
                     
                     if ($stage =='COMPLETED') {
                         
                         if ($nsTimeTaken!=""){
-                        $noteadd1 = "Time Taken - ".$nsTimeTaken;
+                        $noteadd1 = "<br/><br/>Time Taken - ".$nsTimeTaken;
                         }
                     }
                     
                     if ($stage =='SUBSTARTTIME' ) {
                         $starttime=$row304['time'];
-                        $noteadd = "Sub Task Started on ".$nNotesDT.'';
+                        $noteadd = "Sub Task Started on ".$nNotesDT.'<br/><br/>';
                     }
                     if ($stage =='SUBENDTIME') {
                         $endtime=$row304['time'];
-                        $noteadd = "Sub Task Ended on ".$nNotesDT.". Time Taken - ".$nsTimeTaken.'';
+                        $noteadd = "Sub Task Ended on ".$nNotesDT.". Time Taken - ".$nsTimeTaken.'<br/><br/>';
                     }
                 
                     if ($style == "N") { $styling ="font-style: normal; font-weight: 400;text-decoration: none;color:black"; }
@@ -1746,31 +1558,21 @@ input#sTaskName {
                     if ($style == "I") { $styling ="font-style: italic; font-weight: 400;text-decoration: none;color:black"; }
                     if ($style == "U") { $styling ="font-style: normal; font-weight: 400;text-decoration: underline;color:black"; }
                     
-                    echo "<div class='main_sub_his'    style='margin-top: 5px;    border-bottom: 2px dotted #e74c3c;display: flow-root;margin: 13px;'>
-                    <div class='row' style='margin-top: 10px;'>
-                            <div class='col-md-6' style='color: black;text-align: left;font-weight: 700;'>
-                                P2:Subtask
-                            </div>
-                            <div class='col-md-6' style='color: black;text-align: right;'>
-                               $nNotesByName
-                            </div>
-                    </div><div class='row' style='color:black;    font-size: 14px;    text-align: left;'>
-                           Description:<span id='note$NRecRef' style='$styling'>$noteadd $nNotes $noteadd1</span>
-                    </div> <div class='rownew' style='margin-top: 5px;'>
-                            <div class='col-md-6' style='color: black;text-align: left;font-size: 12px;'>
-                                $nNotesDT
-                            </div>
-                            <div class='col-md-6' style='color: black;text-align: right;'>
-                                <a href='#' onclick=notestyle('B','$NRecRef') title='Bold'><b>B</b></a>
+                    echo "<tr><td colspan=3 style='line-height:1.2;padding-top: 12px;'><span id='note$NRecRef' style='$styling'>$noteadd $nNotes $noteadd1</span> <br/>";
+                    if($hDocLink != ""){ echo "<a href='$showfielink' style='line-height:1.2;color:#7ccfe1' target=_blank>View Attachment</a></td></tr>"; }
+                       echo "<tr><td style='line-height:1.2; padding:10px;    color: black;' >$nNotesDT</td><td align=center>$nNotesByName</td>
+                        <td align=right>
+                            <a href='#' onclick=notestyle('B','$NRecRef') title='Bold'><b>B</b></a>
                             <a href='#' onclick=notestyle('I','$NRecRef') title='Italic'> <i>I</i></a>
                             <a href='#' onclick=notestyle('U','$NRecRef') title='Underline'> <u>U</u></a>
                             <a href='#' onclick=notestyle('C','$NRecRef') title='Color' style='color:red'> C</a>
                             <a href='#' onclick=notestyle('N','$NRecRef') title='Normal'> N</a>
-                            </div>
-                    </div></div>";
+                        </td>
+                        </tr>
+                        <tr><td colspan=3 '.$tdbottomborder.'></td></tr>";
 
                 }   //---- end while  
-                echo "</div></article></main>";
+                echo "</table></div></article></main>";
         }   //------- end if $existCount304
         
                 
@@ -1782,56 +1584,3 @@ input#sTaskName {
 <?php 
 }
 ?>
-
-<script type="text/javascript">
-    
-    function histroy_task(){
-        if($("#task_history_content").css('display')=='block'){
-            $("#task_history_content").css('display','none');
-            $("#task_history_Card").css('height','44px');
-            $("#task_history_icon").html('<i class="fa fa-angle-up"  id="" style="color: gray;font-size: 20px;margin-right: 12px;" aria-hidden="true"></i>');
-
-        }else{
-            $("#task_history_content").css('display','block');
-            $("#task_history_Card").css('height','560px');
-            $("#task_history_icon").html('<i class="fa fa-angle-down"  id="" style="color: gray;font-size: 20px;margin-right: 12px;" aria-hidden="true"></i>');
-        }
-    }
-
-    function subhistroy_task(){
-        if($("#subtask_history_content").css('display')=='block'){
-            $("#subtask_history_content").css('display','none');
-            $("#subtask_history_Card").css('height','44px');
-            $("#subtask_history_icon").html('<i class="fa fa-angle-up"  id="" style="color: gray;font-size: 20px;margin-right: 12px;" aria-hidden="true"></i>');
-
-        }else{
-            $("#subtask_history_content").css('display','block');
-            $("#subtask_history_Card").css('height','560px');
-            $("#subtask_history_icon").html('<i class="fa fa-angle-down"  id="" style="color: gray;font-size: 20px;margin-right: 12px;" aria-hidden="true"></i>');
-        }
-    }
-
-    function closetaskcard(){
-        if($("#task_details_content").css('display')=='block'){
-            $("#task_details_content").css('display','none');
-            $("#task_title_Card").css('height','44px');
-            $("#task_title_icon").html('<i class="fa fa-angle-up"  id="" style="color: gray;font-size: 20px;margin-right: 12px;" aria-hidden="true"></i>');
-        }else{
-            $("#task_details_content").css('display','block');
-            $("#task_title_Card").css('height','660px');
-            $("#task_title_icon").html('<i class="fa fa-angle-down"  id="" style="color: gray;font-size: 20px;margin-right: 12px;" aria-hidden="true"></i>');
-        }
-    }
-
-    function closesubtaskcard(){
-         if($("#subtask_details_content").css('display')=='block'){
-            $("#subtask_details_content").css('display','none');
-            $("#subtask_title_Card").css('height','44px');
-            $("#subtask_title_icon").html('<i class="fa fa-angle-up"  id="" style="color: gray;font-size: 20px;margin-right: 12px;" aria-hidden="true"></i>');
-        }else{
-            $("#subtask_details_content").css('display','block');
-            $("#subtask_title_Card").css('height','560px');
-            $("#subtask_title_icon").html('<i class="fa fa-angle-down"  id="" style="color: gray;font-size: 20px;margin-right: 12px;" aria-hidden="true"></i>');
-        }
-    }
-</script>

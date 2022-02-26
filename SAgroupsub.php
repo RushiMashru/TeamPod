@@ -3,7 +3,7 @@
 
 <?php
 error_reporting (E_ALL ^ E_NOTICE);
-include("taskheader.php");
+include("header.php");
 
 
 //echo 'print coockies= '; print_r($_COOKIE);
@@ -129,8 +129,8 @@ if ($AddNewBtnClick=="YES"  )
 #customers {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  margin-left: 234px;
-    width: 70%;
+  margin-left: 320px;
+    width: 60%;
 }
 
 #customers td, #customers th {
@@ -242,8 +242,8 @@ function validcheck1()
   <a class="btn1 " href="SAgroupmain.php">Main Groups</a>
   <a class="btn1 active " href="SAgroupsub.php">Sub Groups</a>
   <a class="btn1" href="SAcompanyacc.php">Company Account</a>
-  <a class="btn1" href="Umanagement.php">User Management</a>
- 
+  <a class="btn1" href="SAtaskmanagement.php">Task Management Access</a>
+
 </div>
 
 <div class="row" style="margin-top:40px;">

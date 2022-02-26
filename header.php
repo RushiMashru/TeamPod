@@ -24,35 +24,19 @@
    $divmenuMTODAY = "style='margin-top:-20px' ";
    //if ($MenuSelect==='ptoday.php')     {$divmenuMTODAY="style='background-color:#5DADE2;' "; }
    $divmenuMTODAYimg = "src='images/Today.svg'";
-   if ($MenuSelect === 'ptoday.php')
+   if ($MenuSelect === 'SAuser.php')
    {
        $divmenuMTODAY = "style='font-family: open sans;font-weight:600;background-color:rgba(255,180,1,0.5);margin-top:-20px;border-left: 6px solid #e74c3c;' ";
        $divmenuMTODAYimg = "src='images/TodaySelected.svg'";
    }
    $divmenuMALLITEMSimg = "src='images/AllItems.svg'";
-   if ($MenuSelect === 'pallitems.php')
+   if ($MenuSelect === 'SAgroupmain.php')
    {
        $divmenuMALLITEMS = "style='font-family: open sans;font-weight:600;background-color:rgba(255,180,1,0.5);border-left: 6px solid #e74c3c;'";
        $divmenuMALLITEMSimg = "src='images/AllItemsSelected.svg'";
    }
-   $divmenuMCALENDARimg = "src='images/Calendar.svg'";
-   if ($MenuSelect === 'pcalendarw.php' || $MenuSelect === 'pcalendarm.php')
-   {
-       $divmenuMCALENDAR = "style='font-family: open sans;font-weight:600;background-color:rgba(255,180,1,0.5);border-left: 6px solid #e74c3c;' ";
-       $divmenuMCALENDARimg = "src='images/CalendarSelected.svg'";
-   }
-   $divmenuMADDTASKimg = "src='images/AddTask.svg'";
-   if ($MenuSelect === 'paddtask.php')
-   {
-       $divmenuMADDTASK = "style='font-family: open sans;font-weight:600;background-color:rgba(255,180,1,0.5);border-left: 6px solid #e74c3c;' ";
-       $divmenuMADDTASKimg = "src='images/AddTaskSelected.svg'";
-   }
-   $divmenuUSERHOURSimg = "src='images/WorkHours.svg'";
-   if ($MenuSelect === 'phrsuser.php' || $MenuSelect === 'phrsco.php')
-   {
-       $divmenuUSERHOURS = "style='font-family: open sans;font-weight:600;background-color:rgba(255,180,1,0.5);border-left: 6px solid #e74c3c;' ";
-       $divmenuUSERHOURSimg = "src='images/WorkHoursSelected.svg'";
-   }
+   
+
    
    ?>
 <!doctype html>
@@ -68,7 +52,6 @@
             <link type="text/css" href="multiselect.css?v=23454" rel="stylesheet" />
       <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
       <style>.company_title{ margin-top: 20px; color: #da591c; } </style>
-      
    </head>
    <body style="text-align: center;">
       <form action="" name="TaskMgmt"   method="post" enctype="multipart/form-data" target="_self" >
@@ -77,9 +60,7 @@
             <div style="float:left;height:67px; margin:0px 90px 0px 30px;width:0%"> 
                <a class="clientname bbhd-logo" href="https://teampod.co.uk">
                <img style="float:left;margin:23px 0px 0px 0px;" alt="Bamtus" src="https://teampod.co.uk/wp-content/uploads/2021/06/TeabPod-Logo25x.png">
-               </a>
-               </div>
-                <?php
+               <?php
 
                     $query55= "SELECT  CliRecRef FROM `tUser`where RefUSR='$id' ";
                     $sql55 = mysqli_query($mysqli, $query55);
@@ -92,39 +73,35 @@
                     $CliName = $row56["CliName"];
     
                 ?>
-            <div style="text-align:center;">
-                 <h3 class="company_title" ><?php echo $CliName; ?>  </h3>
-            </div>
+                </a>
+                </div>
+                <div style="text-align:center;">
+                    <h3 class="company_title" ><?php echo $CliName; ?>  </h3>
+                </div>
             <div class="loginname" id="rightheader" style="float:right;margin-top:-60px">
                <span style="vertical-align: middle;"><label class="lbl"><?php echo $loginame; ?></label>&nbsp;&nbsp;</span>
                <a class="topicons" href='SAusermgmt.php' target='_self' title="Personal Profile"><img src="images/Profile.svg" height="40" style="vertical-align:middle;margin:10px 16px 0px 0px;" />  </a>
                <a class="topicons" onclick="popup('popUpDiv','invite_friends','')" title="Invite Friends"><img src="images/Email.svg" height="40" style="vertical-align:middle;margin:10px 16px 0px 0px;" />  </a>
              <?php if ($CanSystemAdmin == 1)
             { ?>
-               <a class="topicons" href='SAuser.php' target='_self' title="Configuration"><img src="images/setting.png" height="40" style="vertical-align:middle;margin:10px 16px 0px 0px;" />  </a>
+               <a class="topicons" href='ptoday.php' target='_self' title="Task Management"><img src="images/TaskManagement.svg" height="40" style="vertical-align:middle;margin:10px 16px 0px 0px;" />  </a>
             <?php } ?>
                <a class="topicons" href='https://teampod.co.uk/TeamPod/index.php'  title="Signout"><img src="images/Logout.svg" height="40" style="vertical-align:middle;margin:10px 40px 0px 0px;" /></a>  
             </div>
          </div>
       </form>
       <style type="text/css">
-           .hide1{
+          .hide1{
               display: none;
-           }
-            .show1{
-              /*display: block;*/
-           }
+          }
+          .show1{
+             display: block;
+          }
       </style>
       <div class="sidenav">
-         <a href="ptoday.php" title="Today"  onclick="window.location.href='ptoday.php';" <?php echo $divmenuMTODAY; ?> ><img class="webicon" width="20px" <?php echo $divmenuMTODAYimg ?> /> <span class="navlabel">&nbsp Today</span> <img class="mobicon" width="50px" <?php echo $divmenuMTODAYimg ?> /> </a>
-         <a href="pallitems.php" title="All Items" onclick="window.location.href='pallitems.php'" <?php echo $divmenuMALLITEMS; ?> ><img class="webicon" width="20px" <?php echo $divmenuMALLITEMSimg ?> /><span class="navlabel"> &nbsp All Items</span> <img class="mobicon" width="50px" <?php echo $divmenuMALLITEMSimg ?> /></a>
-         <a href="pcalendarw.php" title="Calendar" onclick="window.location.href='pcalendarw.php'" <?php echo $divmenuMCALENDAR; ?> ><img class="webicon" width="20px" <?php echo $divmenuMCALENDARimg ?> /><span class="navlabel"> &nbsp Calendar</span><img class="mobicon" width="50px" <?php echo $divmenuMCALENDARimg ?> /></a>
-         <a href="paddtask.php" title="Add Task" onclick="window.location.href='paddtask.php'" <?php echo $divmenuMADDTASK; ?> ><img class="webicon" width="20px" <?php echo $divmenuMADDTASKimg ?> /><span class="navlabel"> &nbsp Add Task</span><img class="mobicon" width="50px" <?php echo $divmenuMADDTASKimg ?> /></a>
-         <?php if ($CanSystemAdmin == 1)
-            { ?>
-         <a href="phrsuser.php" title="Hours Worked" onclick="window.location.href='phrsuser.php'" <?php echo $divmenuUSERHOURS; ?> ><img class="webicon" width="20px" <?php echo $divmenuUSERHOURSimg ?> /><span class="navlabel"> &nbsp Hours Work</span> <img class="mobicon" width="50px" <?php echo $divmenuUSERHOURSimg ?> /></a>
-         <?php
-            } ?>
+         <a href="#" title="Today"  onclick="window.location.href='SAuser.php';" <?php echo $divmenuMTODAY; ?> ><img class="webicon" width="20px" <?php echo $divmenuMTODAYimg ?> /> <span class="navlabel">&nbsp HR Manager</span> <img class="mobicon" width="50px" <?php echo $divmenuMTODAYimg ?> /> </a>
+         <a href="#" title="All Items" onclick="window.location.href='SAgroupmain.php'" <?php echo $divmenuMALLITEMS; ?> ><img class="webicon" width="20px" <?php echo $divmenuMALLITEMSimg ?> /><span class="navlabel"> &nbspTask Manager</span> <img class="mobicon" width="50px" <?php echo $divmenuMALLITEMSimg ?> /></a>
+       
          <br clear="all"/>
          <a class="toplinks" href='SAusermgmt.php' target='_self' title="Personal Profile"><img src="images/Profile.svg" width="50px" style="vertical-align:middle" />  </a>
          <a class="toplinks" onclick="popup('popUpDiv','invite_friends','')" target='_self' title="Invite Friends"><img src="images/Email.svg" height="50px" style="vertical-align:middle" />  </a>
@@ -895,54 +872,6 @@
          
          }
          
-         function Completetaskend(rowid){
-    var forid = "EndNote"+ rowid;
-             note = document.getElementById(forid).value;
-             if (note =="") {
-                 alert ("Please enter Notes!");
-             } 
-             else {
-
-                fortid = "EditTaskRef"+rowid;
-             taskid = document.getElementById(fortid).value; 
-             noteid = document.getElementById("notid"+rowid).value; 
-             forcid = "EditCalendarRef"+rowid;
-             cid = document.getElementById(forcid).value;
-     
-             var dataString = "ForTaskid=" + taskid + "&ForCalid=" + cid + "&note=" + note + "&noteid=" + noteid + "&cat=addendtask" ;
-             
-             $.ajax({  
-         		type: "POST",  
-         		url: "ptaskload.php",  
-         		data: dataString,
-         		success: function(response)
-         		{   
-         		    document.getElementById(forid).value ="";
-         		    var fordiv='tab-10'+rowid;
-                     document.getElementById(fordiv).style.display = "none";
-                     document.getElementById("ntaskid"+rowid).value ="";
-                     document.getElementById("notid"+rowid).value ="";
-                     var fordiv='clockstarticon1'+rowid;
-                    document.getElementById(fordiv).style.display = "none";
-                    var fordiv='clockstarticon10'+rowid;
-                    document.getElementById(fordiv).style.display = "none";
-                    var fordiv='clockstarticon2'+rowid;
-                    document.getElementById(fordiv).style.display = "inline";
-                     var activeclass = 'clockstarticon2'+rowid;
-                     $('#'+activeclass).removeClass('active');   
-                     $(".successmsg").html('Note added Successfully!').fadeIn(500);
-         			$(".successmsg").html('Note added Successfully!').fadeOut(2000);
-
-                     location.reload();
-         		}
-         		
-         	});
-
-
-
-}
-}
-
          function completetask(rowid) {
              upTimeTaken ="upTimeTaken"+rowid;
              if (document.getElementById(upTimeTaken).value=='')
@@ -1006,51 +935,6 @@
              }
              }
          }
-         
-         function Completesubtaskend(rowid,srowid) {
-             var forid = "EndNote"+ rowid+'-'+srowid;
-             note = document.getElementById(forid).value;
-             if (note =="") {
-                 alert ("Please enter Notes!");
-             } 
-             else {
-             
-             forstid = "EditSubTaskRef-"+rowid+"-"+srowid;
-             subtaskid = document.getElementById(forstid).value; 
-             fortid = "EditTaskRef"+rowid;
-             taskid = document.getElementById(fortid).value; 
-             noteid = document.getElementById("notid"+rowid+"-"+srowid).value; 
-             forcid = "EditCalendarRef"+rowid;
-             cid = document.getElementById(forcid).value;
-             
-             
-             var dataString = "ForTaskid=" + taskid + "&ForSTaskid=" + subtaskid + "&ForCalid=" + cid + "&note=" + note + "&noteid=" + noteid + "&cat=addsubendtask" ;
-             //alert(dataString);
-             $.ajax({  
-         		type: "GET",  
-         		url: "ptaskload.php",  
-         		data: dataString,
-         		success: function(response)
-         		{   
-         		    document.getElementById(forid).value ="";
-         		     
-                     document.getElementById("ntaskid"+rowid+"-"+srowid).value ="";
-                     document.getElementById("notid"+rowid+"-"+srowid).value ="";
-                     var fordiv='sub-tab-2'+rowid+srowid;
-                     document.getElementById(fordiv).style.display = "none";
-                     var activeclass = 'endtimeicon'+rowid+'-'+srowid;
-                     $('#'+activeclass).removeClass('active');  
-                     $(".successmsg").html('Note added Successfully!').fadeIn(500);
-         			$(".successmsg").html('Note added Successfully!').fadeOut(2000);
-                     
-                     location.reload();
-         		}
-         		
-         	});
-         	
-             }
-         }
-
          
          function completesubtask(rowid,srowid) {
              upTimeTaken ="upTimeTaken"+rowid+'-'+srowid;
@@ -1163,9 +1047,8 @@
          function updatetask(taskid) {
              taskdescr = document.getElementById("taskdescr").value;
              priority = document.getElementById("priority").value;
-             chkPrivateTask ="0";
-            // chkPrivateTaskchk=document.getElementById('chkPrivateTask');
-            // if (chkPrivateTaskchk.checked == true) { chkPrivateTask ="1"; } else { chkPrivateTask ="0";  } 
+             chkPrivateTaskchk=document.getElementById('chkPrivateTask');
+             if (chkPrivateTaskchk.checked == true) { chkPrivateTask ="1"; } else { chkPrivateTask ="0";  } 
              
              var dataString = "ForTaskid=" + taskid + "&taskdescr=" + taskdescr + "&priority=" + priority + "&private=" + chkPrivateTask + "&cat=updatetask" ;
              
@@ -1615,11 +1498,14 @@
          		data: dataString,
          		success: function(response)
          		{   
-         		    document.getElementById("tasknotes").style.display = "block";
-                    $("#tasknotes").html(response);
+         		    $(".popup").html(response).show();
          		}
          		
          	});
+         	 blanket_size(windowname,page);
+           window_pos(windowname);
+           toggle('blanket');
+           toggle(windowname);
             }
             if (page == 'subtasknotes') {
              fortid = "EditTaskRef"+rowid;
@@ -1636,19 +1522,21 @@
          		data: dataString,
          		success: function(response)
          		{   
-         		    document.getElementById("subtasknotes").style.display = "block";
-                    $("#subtasknotes").html(response);
+         		    $(".popup").html(response).show();
          		}
          		
          	});
+         	 blanket_size(windowname,page);
+           window_pos(windowname);
+           toggle('blanket');
+           toggle(windowname);
             }
             
             if (page == 'calendar') {
              //fortid = "EditTaskRef"+rowid;
              //taskid = document.getElementById(fortid).value; 
              
-          var dataString = "ForTaskid=" + rowid + "&ForCalid=" + srowid + "&cat=tasknotes";
-
+             var dataString = "ForTaskid=" + rowid + "&cat=tasknotes";
          	$.ajax({  
          		type: "POST",  
          		url: "ptaskload.php",  
@@ -1664,8 +1552,9 @@
            toggle('blanket');
            toggle(windowname);
             }
-             
-
+            
+          	
+         	
          }
          function toggle(div_id) {
          	var el = document.getElementById(div_id);
@@ -1750,9 +1639,23 @@
              document.getElementById("sidenav1").style.display = "block";
          }
 
-          function subbox(id) {
+        function subbox(id) {
              document.getElementById("subtaskbox").style.display = "block";
              $("#task_id").html(id);
+         }
+
+         function tasknotes() {
+             document.getElementById("tasknotes").style.display = "block";
+             
+         }
+        
+
+         function subtasknotes(id) {
+             document.getElementById("subtasknotes").style.display = "block";
+             
+         }
+          function subtasknotesclosefilter() {
+             document.getElementById("subtasknotes").style.display = "none";
          }
 
          function quickboxclosefilter() {
@@ -1776,89 +1679,74 @@
                var a = 0;
                var b = 0;
                var c = 0;
-               var d = 0;
-               if(filter!=""){
-                    for (var i=0;i<countcell;i++){                           
+               if(input!=""){
+                    for (var i=0;i<countcell;i++){  
                         var text = $("#title"+i).html();
                         var main = $("#maintask"+i).html();
-                        var tags = $("#tasktags"+i).html();
-                        var usernames = $("#fullname"+i).html();
                         var result = text.toLowerCase();
                         var result1 = main.toLowerCase();
-                        var result2 = tags.toLowerCase();
-                        var result3 = usernames.toLowerCase();
                         var input1 = filter.toLowerCase();
                         var  position1 = result.search(input1);
                         var  position2 = result1.search(input1);
-                        var  position3 = result2.search(input1);
-                         var  position4 = result3.search(input1);
-                        if(parseInt(position1)+parseInt(position2)+parseInt(position3)+parseInt(position4) >= 0 ){
+                        if(parseInt(position1)+parseInt(position2) >= 0 ){
+                            $("#dv-"+i).removeClass("hide1");
                             $("#dv-"+i).addClass("show1");
-                            $("#dv-"+i).css("display","block");
-                            $("#dv-"+i).show();
-                            if($("#dv-"+i).attr('class')=="maintab-box t1 show1"||$("#dv-"+i).attr('class')=="maintab-box show1"){
-                                a++;
+                            if($("#dv-"+i).attr('class')=="maintab-box show1"||$("#dv-"+i).attr('class')=="maintab-box t1 show1"){
+                                a = parseInt(a)+1;
                             }
                             if($("#dv-"+i).attr('class')=="maintab-box t2 show1"){
-                                b++;
-                            }
-                            if($("#dv-"+i).attr('class')=="maintab-box t3 show1"){
-                                c++;
-                            }
-
-                        }else if(position1==0||position2==0||position3==0||position4==0){
-                            $("#dv-"+i).addClass("show1");
-                            $("#dv-"+i).css("display","block");
-                            $("#dv-"+i).show();
-                             if($("#dv-"+i).attr('class')=="maintab-box t1 show1" ||$("#dv-"+i).attr('class')=="maintab-box show1"){
-                                a++;
-                            }
-                            if($("#dv-"+i).attr('class')=="maintab-box t2 show1"){
-                               b++;
+                                b = parseInt(b)+1;
                             }
                             if($("#dv-"+i).attr('class')=="maintab-box t3 show1"){
                                 c = parseInt(c)+1;
                             }
-                        }else{
-                           $("#dv-"+i).removeClass("show1");
-                            $("#dv-"+i).hide();
-                            $("#dv-"+i).css("display","none");
-                            $(".maintab-box").css("display","none");
-                        }
-                   }
-                            $(".show1").show();
-                            var items25 = $(".show1");
-                            var numItems25 = items25.length;
-                            var perPage25 = 20;
-                            items25.slice(perPage25).hide();
-
-                            $('#pagination-container2').pagination({
-                                items: numItems25,
-                                itemsOnPage: perPage25,
-                                prevText: "&laquo;",
-                                nextText: "&raquo;",
-                                onPageClick: function (pageNumber25) {
-                                    var showFrom25 = perPage25 * (pageNumber25 - 1);
-                                    var showTo25 = showFrom25 + perPage25;
-                                    items25.hide().slice(showFrom25, showTo25).show();
-                                }
-                            });
-
                             
 
+                        }else if(position1==0||position2==0){
+                            $("#dv-"+i).removeClass("hide1");
+                            $("#dv-"+i).addClass("show1"); 
+                             if($("#dv-"+i).attr('class')=="maintab-box show1"||$("#dv-"+i).attr('class')=="maintab-box t1 show1"){
+                                a = parseInt(a)+1;
+                            }
+                            if($("#dv-"+i).attr('class')=="maintab-box t2 show1"){
+                               b = parseInt(b)+1;
+                            }
+                            if($("#dv-"+i).attr('class')=="maintab-box t3 show1"){
+                                c = parseInt(c)+1;
+                            }
+                            console.log($("#dv-"+i).attr('class'));
+                        }else{
+                            $("#dv-"+i).removeClass("show1");
+                            $("#dv-"+i).addClass("hide1");
+                        }
 
+                       
+                            var items = $(".show1");
+                            var numItems = items.length;
+                            var perPage = 20;
+
+                            items.slice(perPage).hide();
+
+                            $('#pagination-container2').pagination({
+                                items: numItems,
+                                itemsOnPage: perPage,
+                                prevText: "&laquo;",
+                                nextText: "&raquo;",
+                                onPageClick: function (pageNumber) {
+                                    var showFrom = perPage * (pageNumber - 1);
+                                    var showTo = showFrom + perPage;
+                                    items.hide().slice(showFrom, showTo).show();
+                                }
+                            });
                             $("#odcount").html(a);
                             $("#tdcount").html(b);
                             $("#tmcount").html(c);
-
-                            $("#allitemsacount").html(numItems25);
+                   }
                         
                }else{
-                  console.log("f");
                   for (var i=0;i<countcell;i++){  
                      $("#dv-"+i).css("display","block");
                   }
-                   $("#allitemsacount").html(countcell);
                }
          }
       </script>

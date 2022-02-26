@@ -3,7 +3,7 @@
 
 <?php
 error_reporting (E_ALL ^ E_NOTICE);
-include("taskheader.php");
+include("header.php");
 
 if(isset($_COOKIE["name"]))           { $loginame=$_COOKIE["name"]; }
 if(isset($_COOKIE["id"]))             { $id=$_COOKIE["id"]; }
@@ -245,8 +245,8 @@ $AllTasksTagList = array();
 #customers {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  margin-left: 234px;
-    width: 70%;
+  margin-left: 330px;
+    width: 60%;
 }
 
 #customers td, #customers th {
@@ -354,8 +354,7 @@ function validcheck1()
   <a class="btn1 active" href="SAgroupmain.php">Main Groups</a>
   <a class="btn1 " href="SAgroupsub.php">Sub Groups</a>
   <a class="btn1" href="SAcompanyacc.php">Company Account</a>
-  <a class="btn1" href="Umanagement.php">User Management</a>
- 
+  <a class="btn1" href="SAtaskmanagement.php">Task Management Access</a>
 </div>
 
 <div class="row" style="margin-top:30px;">

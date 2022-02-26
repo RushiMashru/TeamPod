@@ -329,6 +329,22 @@
 .simple-pagination ul li.active{
         border: 2px solid #e74c3c !important;
 }
+
+   #popUpDiv{
+    top: 100px !important;
+    left: 50px !important;
+    height:500px !important;
+}
+center{
+    line-height:40px;
+}
+.row{
+    margin-top:-20px;
+}
+.btn{
+    width:150px !important;
+}
+
       </style>
 <link rel="shortcut icon" type="image/png" href="images/icontask.png"/>
       <link rel="stylesheet" type="text/css" href="newstyle.css?v=vcb54">
@@ -775,6 +791,21 @@ $('.image-upload-wrap').bind('dragover', function () {
   evt.currentTarget.className += " active";
   
   if (divid == "divstarttime") {
+      
+      var x = document.getElementsByClassName("ntaskid");
+    var i;
+    var ntaskid='';
+    for (i = 0; i < x.length; i++) {
+        if (x[i].value!="") {
+        ntaskid = x[i].value;
+        }
+    }    
+    
+    if(ntaskid!=""){
+        alert("End the Previously started Task#"+ntaskid+"!");
+        return false;
+    }
+      
         var tdid=tdid.replace("tab-2","");
         var fordiv='clockstarticon1'+tdid;
 

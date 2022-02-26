@@ -3,7 +3,7 @@
 
 <?php
 error_reporting (E_ALL ^ E_NOTICE);
-include("taskheader.php");
+include("header.php");
 
 //echo 'print coockies= '; print_r($_COOKIE);
 if(isset($_COOKIE["name"]))           { $loginame=$_COOKIE["name"]; }
@@ -155,8 +155,8 @@ function validcheck1()
 #customers {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  margin-left: 234px;
-    width: 70%;
+  margin-left: 335px;
+    width: 55%;
 }
 
 #customers td, #customers th {
@@ -227,8 +227,8 @@ select:focus{
   <a class="btn1 " href="SAgroupmain.php">Main Groups</a>
   <a class="btn1 " href="SAgroupsub.php">Sub Groups</a>
   <a class="btn1 active" href="SAcompanyacc.php">Company Account</a>
-  <a class="btn1" href="Umanagement.php">User Management</a>
- 
+  <a class="btn1" href="SAtaskmanagement.php">Task Management Access</a>
+
 </div>
 
 <div class="row" style="margin-top:40px;">
