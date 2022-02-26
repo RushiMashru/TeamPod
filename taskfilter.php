@@ -658,6 +658,8 @@ button.fr.btn-save {
   </div>
   <div class=sidenav1 id=subtasknotes style="z-index: 2;width: 30% !important;;"> 
   </div>
+
+  
  <!-- <div class=sidenav1 id=sidenav1>
    <label style="width:100px;float:left"> Filter by:</label> <a onclick="closefilter()"><img style="border:none;background:#fff;float:right;margin-right:10px" alt="" src="images/Close.svg" /></a><br/><br/>
    <select class="total_fields forminput" name="ForCompany" style="width:200px">

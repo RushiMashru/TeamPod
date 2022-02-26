@@ -1340,7 +1340,7 @@ input#sTaskName {
          <div class="col-md-6" style="margin-top: 28px;">
             <a onclick="tasksubnotesclosefilter()" class="fl times_a"><i class="fas fa-times"></i></a> 
             <label class="fl filter_label" > 
-            <?=$sTaskTitle?>
+            <?=$sTaskTitle.' #'.$ForTaskid?>
             </label>
          </div>
          <div class="col-md-6" style="margin-top: 28px;">
@@ -1551,7 +1551,7 @@ $query301="SELECT t1.*,t2.*,t3.* FROM `tTasks` AS t1, `tSchedule` AS t2, `tCalen
             $ForUserFullName = substr($ForUserFullName,2);
         }
 
-echo "<span style='font-size:16px;font-weight:bold'>Task#$TaskNumber</span><br clear='all'><br clear='all'>";
+//echo "<span style='font-size:16px;font-weight:bold'>Task#$TaskNumber</span><br clear='all'><br clear='all'>";
 ?>
                 <style type="text/css">
   
@@ -1603,7 +1603,7 @@ input#sTaskName {
          <div class="col-md-6" style="margin-top: 28px;">
             <a href="javascript:tasknotesclosefilter()" class="fl times_a"><i class="fas fa-times"></i></a> 
             <label class="fl filter_label" > 
-            <?php echo $TaskTitle ?>
+            <?php echo $TaskTitle." #".$TaskNumber ?>
             </label>
 
          </div>

@@ -1870,4 +1870,3 @@
          <a href="" ><img style="float:right" alt="" src="images/Close.svg" /></a><br /><br />
          <div class="popup"></div>
       </div>
-      <!--css popup window 1 close-->

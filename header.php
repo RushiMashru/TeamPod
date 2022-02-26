@@ -1533,8 +1533,7 @@
             }
             
             if (page == 'calendar') {
-             //fortid = "EditTaskRef"+rowid;
-             //taskid = document.getElementById(fortid).value; 
+            
              
              var dataString = "ForTaskid=" + rowid + "&cat=tasknotes";
          	$.ajax({  
