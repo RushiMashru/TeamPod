@@ -176,7 +176,7 @@ function validcheck1()
 #customers {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  margin-left: 300px;
+  margin-left: 330px;
     width: 60%;
 }
 
@@ -269,8 +269,8 @@ select:focus{
                         <?php 
            
                                 $query6 = " 
-                                SELECT * FROM `tUser` WHERE CliRecRef = '$CliRecRef'
-                                  ORDER BY `FirstName`;
+                                SELECT * FROM `tUser` WHERE CliRecRef = '$CliRecRef' AND (myManager = '$id' OR myManager IN (SELECT RefUSR FROM `tUser` WHERE myManager = '$id'))
+                                ORDER BY `FirstName`;
                                 ";
                                 $sql6 = mysqli_query($mysqli, $query6);
                                 $TACount=mysqli_num_rows($sql6);

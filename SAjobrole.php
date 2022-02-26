@@ -131,7 +131,7 @@ GLOBAL $AccessLevel;
 #customers {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  margin-left: 300px;
+  margin-left: 330px;
     width: 60%;
 }
 

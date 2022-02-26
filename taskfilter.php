@@ -602,7 +602,7 @@ button.fr.btn-save {
 <div class="maindiv" id="wrapper" style="margin:15px 0 0 16%;width:84%">
 
 <div>
-   <input type="text" id="myInput" onkeyup="fnTypeFilterRow()" style="background-color: #fff;float:left;width:40%;border-radius:25px" placeholder="Search by Task or Maingroup or Subgroup " title="Type in task name" class="form-control  total_fields" />
+   <input type="text" id="myInput" onkeyup="fnTypeFilterRow()" style="background-color: #fff;float:left;width:40%;border-radius:25px" placeholder="Search by Task or Maingroup or Subgroup or Tags or Users " title="Type in task name" class="form-control  total_fields" />
 </div>
 <div style="width:38%;float:left;">&nbsp; </div>
 <div >

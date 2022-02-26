@@ -67,17 +67,35 @@
       <script src="multiselect.min.js"></script>
             <link type="text/css" href="multiselect.css?v=23454" rel="stylesheet" />
       <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+      <style>.company_title{ margin-top: 20px; color: #da591c; } </style>
+      
    </head>
    <body style="text-align: center;">
       <form action="" name="TaskMgmt"   method="post" enctype="multipart/form-data" target="_self" >
          <input type=hidden name="MenuSelect" />
          <div class="divheader" >
-            <div style="float:left;height:67px; margin:0px 90px 0px 30px;width:43%"> 
+            <div style="float:left;height:67px; margin:0px 90px 0px 30px;width:0%"> 
                <a class="clientname bbhd-logo" href="https://teampod.co.uk">
                <img style="float:left;margin:23px 0px 0px 0px;" alt="Bamtus" src="https://teampod.co.uk/wp-content/uploads/2021/06/TeabPod-Logo25x.png">
                </a>
+               </div>
+                <?php
+
+                    $query55= "SELECT  CliRecRef FROM `tUser`where RefUSR='$id' ";
+                    $sql55 = mysqli_query($mysqli, $query55);
+                    $row55 = mysqli_fetch_array($sql55);
+                    $CliRecRef = $row55["CliRecRef"];
+
+                    $query56= "SELECT  CliName FROM `tClient`where CliRecRef ='$CliRecRef' ";
+                    $sql56 = mysqli_query($mysqli, $query56);
+                    $row56 = mysqli_fetch_array($sql56);
+                    $CliName = $row56["CliName"];
+    
+                ?>
+            <div style="text-align:center;">
+                 <h3 class="company_title" ><?php echo $CliName; ?>  </h3>
             </div>
-            <div class="loginname" id="rightheader" style="float:right;">
+            <div class="loginname" id="rightheader" style="float:right;margin-top:-60px">
                <span style="vertical-align: middle;"><label class="lbl"><?php echo $loginame; ?></label>&nbsp;&nbsp;</span>
                <a class="topicons" href='SAusermgmt.php' target='_self' title="Personal Profile"><img src="images/Profile.svg" height="40" style="vertical-align:middle;margin:10px 16px 0px 0px;" />  </a>
                <a class="topicons" onclick="popup('popUpDiv','invite_friends','')" title="Invite Friends"><img src="images/Email.svg" height="40" style="vertical-align:middle;margin:10px 16px 0px 0px;" />  </a>
@@ -877,6 +895,54 @@
          
          }
          
+         function Completetaskend(rowid){
+    var forid = "EndNote"+ rowid;
+             note = document.getElementById(forid).value;
+             if (note =="") {
+                 alert ("Please enter Notes!");
+             } 
+             else {
+
+                fortid = "EditTaskRef"+rowid;
+             taskid = document.getElementById(fortid).value; 
+             noteid = document.getElementById("notid"+rowid).value; 
+             forcid = "EditCalendarRef"+rowid;
+             cid = document.getElementById(forcid).value;
+     
+             var dataString = "ForTaskid=" + taskid + "&ForCalid=" + cid + "&note=" + note + "&noteid=" + noteid + "&cat=addendtask" ;
+             
+             $.ajax({  
+         		type: "POST",  
+         		url: "ptaskload.php",  
+         		data: dataString,
+         		success: function(response)
+         		{   
+         		    document.getElementById(forid).value ="";
+         		    var fordiv='tab-10'+rowid;
+                     document.getElementById(fordiv).style.display = "none";
+                     document.getElementById("ntaskid"+rowid).value ="";
+                     document.getElementById("notid"+rowid).value ="";
+                     var fordiv='clockstarticon1'+rowid;
+                    document.getElementById(fordiv).style.display = "none";
+                    var fordiv='clockstarticon10'+rowid;
+                    document.getElementById(fordiv).style.display = "none";
+                    var fordiv='clockstarticon2'+rowid;
+                    document.getElementById(fordiv).style.display = "inline";
+                     var activeclass = 'clockstarticon2'+rowid;
+                     $('#'+activeclass).removeClass('active');   
+                     $(".successmsg").html('Note added Successfully!').fadeIn(500);
+         			$(".successmsg").html('Note added Successfully!').fadeOut(2000);
+
+                     location.reload();
+         		}
+         		
+         	});
+
+
+
+}
+}
+
          function completetask(rowid) {
              upTimeTaken ="upTimeTaken"+rowid;
              if (document.getElementById(upTimeTaken).value=='')
@@ -940,6 +1006,51 @@
              }
              }
          }
+         
+         function Completesubtaskend(rowid,srowid) {
+             var forid = "EndNote"+ rowid+'-'+srowid;
+             note = document.getElementById(forid).value;
+             if (note =="") {
+                 alert ("Please enter Notes!");
+             } 
+             else {
+             
+             forstid = "EditSubTaskRef-"+rowid+"-"+srowid;
+             subtaskid = document.getElementById(forstid).value; 
+             fortid = "EditTaskRef"+rowid;
+             taskid = document.getElementById(fortid).value; 
+             noteid = document.getElementById("notid"+rowid+"-"+srowid).value; 
+             forcid = "EditCalendarRef"+rowid;
+             cid = document.getElementById(forcid).value;
+             
+             
+             var dataString = "ForTaskid=" + taskid + "&ForSTaskid=" + subtaskid + "&ForCalid=" + cid + "&note=" + note + "&noteid=" + noteid + "&cat=addsubendtask" ;
+             //alert(dataString);
+             $.ajax({  
+         		type: "GET",  
+         		url: "ptaskload.php",  
+         		data: dataString,
+         		success: function(response)
+         		{   
+         		    document.getElementById(forid).value ="";
+         		     
+                     document.getElementById("ntaskid"+rowid+"-"+srowid).value ="";
+                     document.getElementById("notid"+rowid+"-"+srowid).value ="";
+                     var fordiv='sub-tab-2'+rowid+srowid;
+                     document.getElementById(fordiv).style.display = "none";
+                     var activeclass = 'endtimeicon'+rowid+'-'+srowid;
+                     $('#'+activeclass).removeClass('active');  
+                     $(".successmsg").html('Note added Successfully!').fadeIn(500);
+         			$(".successmsg").html('Note added Successfully!').fadeOut(2000);
+                     
+                     location.reload();
+         		}
+         		
+         	});
+         	
+             }
+         }
+
          
          function completesubtask(rowid,srowid) {
              upTimeTaken ="upTimeTaken"+rowid+'-'+srowid;
@@ -1541,7 +1652,8 @@
              //fortid = "EditTaskRef"+rowid;
              //taskid = document.getElementById(fortid).value; 
              
-             var dataString = "ForTaskid=" + rowid + "&cat=tasknotes";
+          var dataString = "ForTaskid=" + rowid + "&ForCalid=" + srowid + "&cat=tasknotes";
+
          	$.ajax({  
          		type: "POST",  
          		url: "ptaskload.php",  
@@ -1557,9 +1669,8 @@
            toggle('blanket');
            toggle(windowname);
             }
-            
-          	
-         	
+             
+
          }
          function toggle(div_id) {
          	var el = document.getElementById(div_id);
@@ -1675,12 +1786,18 @@
                     for (var i=0;i<countcell;i++){                           
                         var text = $("#title"+i).html();
                         var main = $("#maintask"+i).html();
+                        var tags = $("#tasktags"+i).html();
+                        var usernames = $("#fullname"+i).html();
                         var result = text.toLowerCase();
                         var result1 = main.toLowerCase();
+                        var result2 = tags.toLowerCase();
+                        var result3 = usernames.toLowerCase();
                         var input1 = filter.toLowerCase();
                         var  position1 = result.search(input1);
                         var  position2 = result1.search(input1);
-                        if(parseInt(position1)+parseInt(position2) >= 0 ){
+                        var  position3 = result2.search(input1);
+                         var  position4 = result3.search(input1);
+                        if(parseInt(position1)+parseInt(position2)+parseInt(position3)+parseInt(position4) >= 0 ){
                             $("#dv-"+i).addClass("show1");
                             $("#dv-"+i).css("display","block");
                             $("#dv-"+i).show();
@@ -1694,7 +1811,7 @@
                                 c++;
                             }
 
-                        }else if(position1==0||position2==0){
+                        }else if(position1==0||position2==0||position3==0||position4==0){
                             $("#dv-"+i).addClass("show1");
                             $("#dv-"+i).css("display","block");
                             $("#dv-"+i).show();

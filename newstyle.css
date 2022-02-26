@@ -199,6 +199,7 @@ html, body {
     background-color: transparent;
     font-size: 14px;
     border-radius: 50px;
+    cursor : pointer
 }
 .tabcontent .btn-sec{
     text-align: right;

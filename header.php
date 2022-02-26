@@ -51,17 +51,34 @@
       <script src="multiselect.min.js"></script>
             <link type="text/css" href="multiselect.css?v=23454" rel="stylesheet" />
       <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+      <style>.company_title{ margin-top: 20px; color: #da591c; } </style>
    </head>
    <body style="text-align: center;">
       <form action="" name="TaskMgmt"   method="post" enctype="multipart/form-data" target="_self" >
          <input type=hidden name="MenuSelect" />
          <div class="divheader" >
-            <div style="float:left;height:67px; margin:0px 90px 0px 30px;width:43%"> 
+            <div style="float:left;height:67px; margin:0px 90px 0px 30px;width:0%"> 
                <a class="clientname bbhd-logo" href="https://teampod.co.uk">
                <img style="float:left;margin:23px 0px 0px 0px;" alt="Bamtus" src="https://teampod.co.uk/wp-content/uploads/2021/06/TeabPod-Logo25x.png">
-               </a>
-            </div>
-            <div class="loginname" id="rightheader" style="float:right;">
+               <?php
+
+                    $query55= "SELECT  CliRecRef FROM `tUser`where RefUSR='$id' ";
+                    $sql55 = mysqli_query($mysqli, $query55);
+                    $row55 = mysqli_fetch_array($sql55);
+                    $CliRecRef = $row55["CliRecRef"];
+
+                    $query56= "SELECT  CliName FROM `tClient`where CliRecRef ='$CliRecRef' ";
+                    $sql56 = mysqli_query($mysqli, $query56);
+                    $row56 = mysqli_fetch_array($sql56);
+                    $CliName = $row56["CliName"];
+    
+                ?>
+                </a>
+                </div>
+                <div style="text-align:center;">
+                    <h3 class="company_title" ><?php echo $CliName; ?>  </h3>
+                </div>
+            <div class="loginname" id="rightheader" style="float:right;margin-top:-60px">
                <span style="vertical-align: middle;"><label class="lbl"><?php echo $loginame; ?></label>&nbsp;&nbsp;</span>
                <a class="topicons" href='SAusermgmt.php' target='_self' title="Personal Profile"><img src="images/Profile.svg" height="40" style="vertical-align:middle;margin:10px 16px 0px 0px;" />  </a>
                <a class="topicons" onclick="popup('popUpDiv','invite_friends','')" title="Invite Friends"><img src="images/Email.svg" height="40" style="vertical-align:middle;margin:10px 16px 0px 0px;" />  </a>

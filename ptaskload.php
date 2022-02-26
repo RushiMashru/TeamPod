@@ -1,8 +1,8 @@
 <?php
 error_reporting (E_ALL ^ E_NOTICE ^ E_WARNING);
 
-include "../focinc/dbhands.php";
-include "../focinc/i_envirovar.php";
+include "dbhands.php";
+//include "../focinc/i_envirovar.php";
 include "i_functions.php"; 
 if(isset($_COOKIE["id"]))  { $id=$_COOKIE["id"]; }
 date_default_timezone_set('Europe/London'); // CDT
@@ -20,9 +20,12 @@ if($_POST['cat'] =="loadusers") {
 $ForCompany = $_POST['company'];
 $UserCodeName_arr = array(); 
 
-    $query11="SELECT t1.RefUSR, t1.FirstName, t1.LastName FROM `tUser` AS t1, `tUserAccessLevels` AS t2  
-              WHERE t1.RefUSR=t2.RefUSR AND t1.Status='ACT' AND t2.FCompany='$ForCompany' 
-              GROUP BY t1.RefUSR ORDER BY t1.FirstName, t1.LastName "; 
+    $query11="SELECT t1.RefUSR, t1.FirstName, t1.LastName FROM (SELECT t1.RefUSR, t1.FirstName, t1.LastName FROM `tUser` AS t1, `tUserAccessLevels` AS t2  
+    WHERE t1.RefUSR=t2.RefUSR AND t1.Status='ACT' AND t2.FCompany='$ForCompany' AND t1.RefUSR = '$id'
+    UNION
+    SELECT t1.RefUSR, t1.FirstName, t1.LastName FROM `tUser` AS t1, `tUserAccessLevels` AS t2  
+              WHERE t1.RefUSR=t2.RefUSR AND t1.Status='ACT' AND t2.FCompany='$ForCompany' AND (t1.myManager = '$id' OR myManager IN (SELECT RefUSR FROM `tUser` WHERE myManager = '$id'))
+              GROUP BY t1.RefUSR) t1 ORDER BY t1.FirstName, t1.LastName ";  
     //echo '<br>-----'.$query11;
     $sql11 = mysqli_query($mysqli, $query11);
     $i=0;
@@ -683,6 +686,35 @@ if($_POST['cat'] == "addfile") {
     echo " There was an error uploading the file, please try again! ";
     }
 }
+
+if($_POST['cat'] == "addendtask") {
+    $NewNote=$_POST['note'];
+    $noteid=$_POST['noteid'];
+    $ForTaskid=$_POST['ForTaskid'];
+    $ForCalid=$_POST['ForCalid'];
+    
+   
+
+    $query11="SELECT `NotesDT` FROM `tTaskNotes` WHERE NRecRef = '$noteid'";
+    $sql11 = mysqli_query($mysqli, $query11);
+    while($row11=mysqli_fetch_array($sql11))
+    {
+        $starttime=new DateTime($row11['NotesDT']);
+    }
+    //$expiry_time = new DateTime($row['fromdb']);
+    $current_date = new DateTime();
+    $diff = $starttime->diff($current_date);
+    $timetaken = $diff->format('%H:%I:%S');
+
+    $query5="UPDATE `tCalendar` SET Stage='Completed', CompleteBy='$id', CompleteDT='$currdatetime',TimeTaken='$timetaken' WHERE cRecRef in (SELECT cRecRef from tCalendar where SRecRef in (select SRecRef from tSchedule where TRecRef='$ForTaskid') and (cScheduleDate, cDueDate)  in (select cScheduleDate, cDueDate from tCalendar where cRecRef='$ForCalid')  )  " ;
+    $sql5 = mysqli_query($mysqli, $query5);
+
+
+    $query4="INSERT INTO `tTaskNotes`(`TRecRef`, `cRecRef` , `Stage`,  `Notes`, `TimeTaken`,  `NotesDT`, `NotesBy`)  VALUES ('$ForTaskid','$ForCalid','ENDTIME','$NewNote','$timetaken','$currdatetime','$id' ) " ;
+    $sql4 = mysqli_query($mysqli, $query4);
+    
+}
+
 if($_POST['cat'] == "completetask") {
     $ForCalid=$_POST['ForCalid'];
     $ForTaskid=$_POST['ForTaskid'];
@@ -729,6 +761,40 @@ if($_POST['cat'] == "addsubfile") {
     echo " There was an error uploading the file, please try again! ";
     }
 }
+
+if($_GET['cat'] == "addsubendtask") {
+    $NewNote=$_GET['note'];
+    $noteid=$_GET['noteid'];
+    $ForTaskid=$_GET['ForTaskid'];
+    $ForSTaskid=$_GET['ForSTaskid'];
+    $ForCalid=$_GET['ForCalid'];
+    
+    $query11="SELECT `NotesDT` FROM `tTaskNotes` WHERE NRecRef = '$noteid'";
+    $sql11 = mysqli_query($mysqli, $query11);
+    $starttime = "";
+    while($row11=mysqli_fetch_array($sql11))
+    {
+        $starttime=new DateTime($row11['NotesDT']);
+    }
+    //$expiry_time = new DateTime($row['fromdb']);
+    $current_date = new DateTime();
+    if($starttime==""){
+       // $diff = $starttime->diff($currdatetime);
+       // $timetaken = $diff->format('%H:%I:%S');
+    }
+    $timetaken = "00:00:00";
+    
+    $query5="UPDATE `tSubTasks` SET Stage='Completed', CompleteBy='$id', CompleteDT='$currdatetime',TimeTaken='$upTimeTaken' WHERE  STRecRef ='$ForSTaskid' " ;
+    $sql5 = mysqli_query($mysqli, $query5);
+    
+    $query4="INSERT INTO `tTaskNotes`(`TRecRef`, `cRecRef` , `STRecRef`, `Stage`,  `Notes`, `TimeTaken`,  `NotesDT`, `NotesBy`) 
+                                                VALUES ('$ForTaskid','$ForCalid','$ForSTaskid','SUBENDTIME','$NewNote','$timetaken','$currdatetime','$id' ) " ;
+                                               // echo $query4;exit;
+    $sql4 = mysqli_query($mysqli, $query4);
+    
+}
+
+
 if($_POST['cat'] == "completesubtask") {
     $ForCalid=$_POST['ForCalid'];
     $ForTaskid=$_POST['ForTaskid'];
@@ -1328,6 +1394,7 @@ $query301="SELECT t1.*,t2.*,t3.* FROM `tTasks` AS t1, `tSchedule` AS t2, `tCalen
             {   
                 $TaskTitle=$row301['TaskTitle'];
                 $CoCode=$row301['ForCoRecRef'];
+                $TaskNumber=$row301['TaskNumber'];
                 $query11="SELECT t2.CoName FROM `tCompany` AS t2 WHERE t2.CoType='COMPANY' AND t2.Status='ACT' AND t2.CoRecRef='$CoCode'";
                 $sql11 = mysqli_query($mysqli, $query11);
                 $row11=mysqli_fetch_array($sql11);
@@ -1374,7 +1441,7 @@ $query301="SELECT t1.*,t2.*,t3.* FROM `tTasks` AS t1, `tSchedule` AS t2, `tCalen
             $ForUserFullName = substr($ForUserFullName,2);
         }
 
-echo "<span style='font-size:16px;font-weight:bold'>Task#$ForTaskid</span><br clear='all'><br clear='all'>";
+echo "<span style='font-size:16px;font-weight:bold'>Task#$TaskNumber</span><br clear='all'><br clear='all'>";
 ?>
 <div style='width:120px;float:left;text-align:left; font-weight:bold;'>Company: </div> <div style='display:inline;float:left'><?php echo $CoName ?></div><br clear='all'><br clear='all'>
 <div style='width:120px;float:left;text-align:left;font-weight:bold;'>Assign to: </div> <div style='float:left;line-height:1;text-align:left;width:275px'><?php echo $ForUserFullName ?></div><br clear='all'><br clear='all'>

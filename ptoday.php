@@ -791,6 +791,21 @@ $('.image-upload-wrap').bind('dragover', function () {
   evt.currentTarget.className += " active";
   
   if (divid == "divstarttime") {
+      
+      var x = document.getElementsByClassName("ntaskid");
+    var i;
+    var ntaskid='';
+    for (i = 0; i < x.length; i++) {
+        if (x[i].value!="") {
+        ntaskid = x[i].value;
+        }
+    }    
+    
+    if(ntaskid!=""){
+        alert("End the Previously started Task#"+ntaskid+"!");
+        return false;
+    }
+      
         var tdid=tdid.replace("tab-2","");
         var fordiv='clockstarticon1'+tdid;
 

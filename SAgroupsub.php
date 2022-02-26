@@ -129,7 +129,7 @@ if ($AddNewBtnClick=="YES"  )
 #customers {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  margin-left: 290px;
+  margin-left: 320px;
     width: 60%;
 }
 

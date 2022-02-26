@@ -1,11 +1,15 @@
 <style type="text/css">
     .hide{
-        display: none;
+        display: none !important;
     }
-
      .show{
         display: block;
     }
+    
+.myDIV:hover + .hide {
+  display: block !important;
+  color: #e74c3c !important;
+}
 
 </style>
 <?php               if ($Priority =="P1") {$taskcolor="#FA8654";}
@@ -36,7 +40,15 @@
                     $NRecRef=$row21['NRecRef'];
                     $startdisplay="inline";$clockdisplay="none"; $enddisplay="none";
                     $taskid='';$bgtaskcolor='';
-                    if ($NRecRef!=""){ $bgtaskcolor='#f1f1f1';$startdisplay="none";$clockdisplay="inline";$enddisplay="inline";$taskid=$TRecRef; }
+                    if ($NRecRef!=""){ 
+                        $bgtaskcolor='#f1f1f1';$startdisplay="none";$clockdisplay="inline";$enddisplay="inline";$taskid=$TRecRef; 
+                        $query41 = "SELECT Distinct TaskNumber FROM `tTasks` t1 WHERE `TRecRef` ='$TRecRef'";
+                        //echo $query21;exit;
+                    $sql41 = mysqli_query($mysqli, $query41);
+                    $row21=mysqli_fetch_array($sql41);
+                   // echo '<pre>';print_r($row21);exit;
+                    $taskid=$row21['TaskNumber'];
+                    }
                     
                     $outall.= "<input type=hidden id=EditCalendarRef".$celnodv." name=EditCalendarRef".$celnodv." value=".$cRecRef." > ";
                     $outall.= "<input type=hidden id=EditScheduleRef".$celnodv." name=EditScheduleRef".$celnodv." value=".$sRecRef." > ";
@@ -54,11 +66,18 @@
                 $outall.=  "
                         <div class='tab-text-left'>
                         <a  href='#' onclick=popup('popUpDiv','tasknotes','$celnodv') >  <h1># $TaskNumber $CoShortCode</h1></a> 
-                        <div class='tab-text-right' style='width:100%;padding-left: 10px;'>
+                        <div class='tab-text-right' style='width:100%;padding-left: 10px;display:inherit'>
                      ";
                         if ($PrivateTask==1) { $outall.= "<img src='images/Lock.svg'> &nbsp "; }
                         if ($RepeatSchedule1!="") { $outall.= "<img src='images/iconcircle.svg'> &nbsp "; }
-                        $outall.= '<p id="title'.$celnodv.'">'.$TaskTitle.'</p>
+                        //echo $NStage;
+                         $query29 = "SELECT * FROM `tTaskNotes` t1 WHERE `TRecRef` ='$TRecRef' AND `Stage`='FILEUPLOAD'";
+                         $sql29 = mysqli_query($mysqli, $query29);
+                         $row29=mysqli_fetch_array($sql29);
+                        // echo '<pre>';print_r($row21);exit;
+                         $NStage=$row29['Stage'];
+                        if ($NStage=="FILEUPLOAD") { $outall.= "<img src='images/paperclip.svg'> &nbsp "; }
+                        $outall.= '&nbsp <p id="title'.$celnodv.'">'.$TaskTitle.'</p>
                      </div>';
                      if ($nsubtasks == 1){
                      $outall.=  '<div class="tab-text-right">
@@ -78,13 +97,19 @@
                      </div>
                   </div>
                   <div class="tab-text-2 tab-text-3 ">
-                     <div class="tab-text-left">
-                        <p>Description. '.$TaskDescr.'
-                        </p>
-                     </div>
+                      <div class="tab-text-left">
+                       <p class="myDIV">Description -  ';
+                       if(strlen(strip_tags($TaskDescr)) < 50)  {
+                       $outall.= $TaskDescr;
+                       } else {
+                       $outall.= substr(strip_tags($TaskDescr),0,50)."....".' </p>
+                       <p class="hide"> '.$TaskDescr.'
+                       </p>';
+                       }
+                     $outall.='</div>
                   </div>
                   <div class="tab-text-4">
-                    
+                    <p id="fullname'.$celnodv.'" style="display:none" >'.$ForUserFullName.'</p>
                         '.$initials.'
                         <div id="tasktags'.$celnodv.'" >'.$ThisTaskTags.'</div>
                      
@@ -227,7 +252,7 @@ if ($cStage!="Completed") {
                }$outall.='<p>'.$TaskTitlesub.'</p>
                               </div>
                            </div>
-                     <p> Description. '.$Descrsub.'
+                     <p> Description - '.$Descrsub.'
                            </p>
                            <div class="tab-text-1 tab-text-5">
                             <div class="tab-text-left">
@@ -259,6 +284,7 @@ if ($cStage!="Completed") {
 
                            <div class="btn-sec">
                               <button type="button"  onClick="addsubendnote('.$celnodv.','.$scelnodv.')" name=btnSaveEndNote'.$celnodv.'>save</button>
+                              <button type="button" onClick="Completesubtaskend('.$celnodv.','.$scelnodv.')" name=btnSaveEndNote'.$celnodv.'>save & complete</button>
                            </div>
                            
                         </div>
@@ -418,6 +444,7 @@ if ($cStage!="Completed") {
 
                            <div class="btn-sec">
                               <button type="button" onClick="addendnote('.$celnodv.')" name=btnSaveEndNote'.$celnodv.'>save</button>
+                              <button type="button" onClick="Completetaskend('.$celnodv.')" name=btnSaveEndNote'.$celnodv.'>save & complete</button>
                            </div>
                            
                         </div>
@@ -663,7 +690,7 @@ if ($cStage!="Completed") {
                               <button type="button" onclick="reassign('.$celnodv.')" id="btnSaveNewUser'.$celnodv.'" name="btnSaveNewUser'.$celnodv.'">save</button>
                            </div>';
                            } else {
-                                       $outall.= "<select name=selNewUser".$celnodv." style='width:300px;float:left' id=ForRefUSR".$celnodv." class='total_fields'>";
+                                       $outall.= "<select name=selNewUser".$celnodv." id=ForRefUSR".$celnodv." class='total_fields'>";
                                              $i=0;$maxassigneduser=sizeof($assigneduser);
                                              while($i<$sizeofuserarr)
                                              {   

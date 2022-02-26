@@ -13,14 +13,14 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 //echo $arrMyCo;
 
         //   echo "<script> alert ('ID=$id / NAME=$loginame / Size=$SizeOfAL / $arrMyCo');</script>";
-
+if(isset($_COOKIE["id"]))             { $id=$_COOKIE["id"]; }
 include "dbhands.php";
 
  $query15= "SELECT CliRecRef FROM `tUser`where RefUSR='$id' ";
             $sql15 = mysqli_query($mysqli, $query15);
             $row15 = mysqli_fetch_array($sql15);
             $CliRecRef = $row15["CliRecRef"]; 
-
+            
     $AllUserCodeName_arr = array();             //---------------- Get all File Codes from database table then when require only show specific codes in select statement
          $query11="SELECT `RefUSR`, `FirstName`, `LastName` FROM `tUser` WHERE `Status`='ACT' ORDER BY `FirstName`, `LastName` "; 
         $sql11 = mysqli_query($mysqli, $query11);
@@ -101,7 +101,7 @@ include "dbhands.php";
             $i++;
             }
 	$maxtaskmaingrouptitle = sizeof($AllTaskMainGroups_arr);
-        
+
                         function getTaskMainGroupTitle($cid)
                         {
                             global $AllTaskMainGroups_arr;

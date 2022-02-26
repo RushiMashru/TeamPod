@@ -208,7 +208,7 @@ if ($uUSRIDNO!='')      //----- Show detail if Edit Record
 .btn { display: inline-block; padding: 10px 20px; background-color: #4caaaf; font-size: 17px; border: none; border-radius: 5px; color: #fff; cursor: pointer;  margin-top: 30px;  width: 140px; margin-bottom: 25px; margin-left: -125px; }
 .btn:hover { background-color: #169c7b; color:white; }
 #ui-datepicker-div{ top:285px !important; }
-.row { margin-left: 220px; margin-right: 20px; margin-top: 40px;font-size:13px; }
+.row { margin-left: 275px; margin-right: 70px; margin-top: 40px;font-size:13px; }
 .column { float: left;width: 50%;padding: 5px;}
 .row::after { content: ""; clear: both; display: table;}
 table { border-collapse: collapse; border-spacing: 0; width: 100%; border: 1px solid #ddd;}
@@ -217,7 +217,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 table .header{ padding-top: 12px; padding-bottom: 12px; text-align: left; background-color: #ffe199; color: #e74c3c; }
 .form-control1 { margin-left: -174px; width: 150%; border-radius: 5px; height: 5vh; margin-top: -17px;}
 input[type=checkbox]
-{ margin-left: -177px;}
+{ margin-left: -120px;}
 @media screen and (min-width: 1300) {
   .row {
     margin-left: 290px ;
@@ -451,7 +451,7 @@ function validcheck1()
     </div>
   <br>    
   <div class="form-group">
-      <label for="lastname" class="label-title">Administrator &nbsp &nbsp</label>
+      <label for="lastname" class="label-title" style="margin-left:30px">Administrator &nbsp &nbsp</label>
       <input type=checkbox name=adminlevel value=1 <?php if ($adminlevel==1) {echo 'checked';} ?>  <?php echo $canChangeSA;?>  style="float:left" />
     </div>
   
@@ -465,7 +465,7 @@ function validcheck1()
     <h2 style="color: #6f6467;"> Users List </h2>
   <?php 
            $query6 = " 
-           SELECT * FROM `tUser` WHERE CliRecRef = '$CliRecRef'
+           SELECT * FROM `tUser` WHERE CliRecRef = '$CliRecRef' AND (myManager = '$id' OR myManager IN (SELECT RefUSR FROM `tUser` WHERE myManager = '$id'))
              ORDER BY `FirstName`;
            ";
            $sql6 = mysqli_query($mysqli, $query6);
