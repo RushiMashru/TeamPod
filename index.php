@@ -5,11 +5,11 @@
    error_reporting (E_ALL ^ E_NOTICE);
    
    include "dbhands.php";
-   //include "newheader.php";
+ //  include "newheader.php";
    
    //include "i_envirovar.php";
    
-   $RefStr = $_GET['r'];
+  $RefStr = $_GET['r'];
    
    date_default_timezone_set('Europe/London'); // CDT
    $current_date = date('Y-m-d');
@@ -19,8 +19,8 @@
 
 function getUserIP()            //------- get client Internet IP address
 {
-    $client  = $_SERVER['HTTP_CLIENT_IP'];      //---- do not use this Any one of these header values can be freely spoofed and most of the time not get IP address
-    $forward = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    //$client  = $_SERVER['HTTP_CLIENT_IP'];      //---- do not use this Any one of these header values can be freely spoofed and most of the time not get IP address
+  //  $forward = $_SERVER['HTTP_X_FORWARDED_FOR'];
     $remoteIP  = $_SERVER['REMOTE_ADDR'];                   //--- ISP IP address
     $hostname = gethostbyaddr($_SERVER['REMOTE_ADDR']);     //--- ISP IP address and Name
     $agent   = $_SERVER['HTTP_USER_AGENT'];                 //-------- best information to collect from any PC/mobile device
@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
    
                        if ( $btnSignIn!='' && $UserEmail!='')  {
                             //&& $rbtn_bus!=''
-                           $query6 = "SELECT `RefUSR`, `UserID`, `EmailID`, `CanSystemAdmin`, `Status` FROM `tUser`
+                           $query6 = "SELECT `RefUSR`, `UserID`, `EmailID`, `CanSystemAdmin`, `FirstName`, `LastName`, `AccountType`,`Company`, `Status` FROM `tUser`
                            WHERE `UserID`='$UserEmail' && `usrPass`='$pswrd'";
                             
                            $sql6 = mysqli_query($mysqli, $query6);
@@ -77,6 +77,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
                                $UserRef    =$row6["RefUSR"];
                                $UserStatus =$row6["Status"];
                                $CanSystemAdmin = $row6["CanSystemAdmin"];
+                               $FirstName = $row6["FirstName"];
+                               $LastName = $row6["LastName"];
+                               $AccountType = $row6["AccountType"];
+                               $Company = $row6["Company"];
+
+                               
                                
                                setcookie("id", $UserRef, time()+ (86400 * 30),'/');
                                setcookie("CanSystemAdmin", $CanSystemAdmin, time()+ (86400 * 30),'/');
@@ -95,10 +101,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
                                    echo '<script> document.location="index.php";    </script>';
                                }
    
-                               $query7 = "SELECT `RefUSR`, `UserID`, `EmailID`, `Status` FROM `tUser`
-                                          WHERE `UserID`='$UserEmail' && `usrPass`='$pswrd'";
-                           
-                              // echo "<script> alert ('Please update your company name');</script>";
+                           /*    $query7 = "SELECT `RefUSR`, `UserID`, `EmailID`, `FirstName`, `LastName`, `AccountType`,`Company`,`Status` FROM `tUser`
+                                          WHERE `UserID`='$UserEmail' && `usrPass`='$pswrd'";*/
+                      
+                                       if($FirstName =='' && $LastName =='' && $AccountType =='')
+                                          {
+                                            echo "<script> alert ('Please update your profile');</script>";
+                                            echo '<script> document.location="SAusermgmt.php";  </script>';
+                                          }
+
+                          //  echo "<script> alert ('Please update your profile');</script>";
                                echo '<script> document.location="ptoday.php";  </script>';
                            }
                            else
@@ -109,49 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
                            }
                        }
                        
-                       if ( $btnSignIn!='' && $UserEmail!='' && $rbtn_personal!=''){
-   
-                           $query6 = "SELECT `RefUSR`, `UserID`, `EmailID`, `CanSystemAdmin`, `Status` FROM `tUser`
-                           WHERE `UserID`='$UserEmail' && `usrPass`='$pswrd'";
-                            
-                           $sql6 = mysqli_query($mysqli, $query6);
-                           $UPCount=mysqli_num_rows($sql6);
-                           
-                           if ($UPCount>0)
-                           {
-                               $row6 = mysqli_fetch_array($sql6);
-                               $UserRef    =$row6["RefUSR"];
-                               $UserStatus =$row6["Status"];
-                               $CanSystemAdmin = $row6["CanSystemAdmin"];
-                               
-                               setcookie("id", $UserRef, time()+ (86400 * 30),'/');
-                               setcookie("CanSystemAdmin", $CanSystemAdmin, time()+ (86400 * 30),'/');
-                               
-                               $_SESSION["id"] = $UserRef;
-                               
-                                //----------------- START Activity Log ---------------------
-                                    $query12="INSERT INTO `tUserIPHostLog`(  `RefUSR`,`ActivityType`, `IPAddressHost`, `ActivityDT`)
-                                                                    VALUES ('$UserRef',  'Login',     '$loginfromip', '$currdatetime') " ;
-                                    $sql12 = mysqli_query($mysqli, $query12);
-                                //----------------- END Activity Log ---------------------
-                                       
-                               if($UserStatus!='A')
-                               {
-                                   echo '<script> alert ("Your Account is not verified/ activated, please activate and try to login");</script>';
-                                   echo '<script> document.location="index.php";    </script>';
-                               }
-   
-                               $query7 = "SELECT `RefUSR`, `UserID`, `EmailID`, `Status` FROM `tUser`
-                                          WHERE `UserID`='$UserEmail' && `usrPass`='$pswrd'";
-                           
-                               echo '<script> document.location="ptoday.php";  </script>';
-                           }
-                           else
-                           {
-                               echo "<script> alert ('Incorrect Login Details or Not Approved');</script>";
-                               echo '<script> document.location="index.php";    </script>';
-                           }
-                       }
+                   
 
            if ($btnPswdReset!='')            
            {
@@ -566,7 +536,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
         <div class=top-right style="width:30%;position: absolute; top: 50%; left: 70%; transform: translate(-20%, -50%);background-color: #FFFFFF; opacity: 0.8; ;border-radius:4px;padding: 20px 20px 20px 20px;">
           <form action="" name="UserForm" method="post" onkeypress="return event.keyCode != 13;">
             <label style="font-size:32px;color:#333333;font-nweight: 600;line-height: 44px;">
-            Sign in to <img src="../assets/img/logo.png" alt="" class="img-fluid">
+            Sign in to <img src="assets/img/logo.png" alt="" class="img-fluid">
             </label>
             <br>
             <label style="font-size:20px;color:#595959;font-weight: normal;line-height: 27px;">
@@ -587,10 +557,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
             <div style="width:100%;text-align:center">
             <a style="color:#005A9E;" class="homelink" onclick="popup('popUpDiv','resetpswd','')">Forgot your password?</a> 
             </div>
+
             <div style="width:100%;text-align:center ; margin-top:15px;">
-            <a  href="https://teampod.co.uk/"  style="color:#005A9E;" class="homelink" >
-            Back to Home
-            </a> 
+            <a  href="index.php"  class="homelink" >
+       Back to Home
+          </a> 
             </div>
             <br></br>
             </form>

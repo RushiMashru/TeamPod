@@ -1,3 +1,13 @@
+<style type="text/css">
+    .hide{
+        display: none;
+    }
+
+     .show{
+        display: block;
+    }
+
+</style>
 <?php               if ($Priority =="P1") {$taskcolor="#FA8654";}
                     if ($Priority =="P2") {$taskcolor="#FACA54";}
                     if ($Priority =="P3") {$taskcolor="#FAF054";}
@@ -25,13 +35,13 @@
                    // echo '<pre>';print_r($row21);exit;
                     $NRecRef=$row21['NRecRef'];
                     $startdisplay="inline";$clockdisplay="none"; $enddisplay="none";
-                    $taskid='';
-                    if ($NRecRef!=""){ $startdisplay="none";$clockdisplay="inline";$enddisplay="inline";$taskid=$TRecRef; }
+                    $taskid='';$bgtaskcolor='';
+                    if ($NRecRef!=""){ $bgtaskcolor='#f1f1f1';$startdisplay="none";$clockdisplay="inline";$enddisplay="inline";$taskid=$TRecRef; }
                     
                     $outall.= "<input type=hidden id=EditCalendarRef".$celnodv." name=EditCalendarRef".$celnodv." value=".$cRecRef." > ";
                     $outall.= "<input type=hidden id=EditScheduleRef".$celnodv." name=EditScheduleRef".$celnodv." value=".$sRecRef." > ";
-                    $outall.= '<div class="maintab-box '.$tasktype.'" id=dv-'.$celnodv.'>
-               <div class="tabsub-box">';
+                    $outall.= '<div class="maintab-box '.$tasktype.'" id=dv-'.$celnodv.' style="background-color:'.$bgtaskcolor.'">
+               <div class="tabsub-box" id="tabsub'.$celnodv.'">';
                if($Priority=='P1'){
                   $outall.= '<img src="images/P1.svg" class="tab-img-1">';
                }
@@ -41,26 +51,30 @@
                if($Priority=='P3'){
                    $outall.= '<img src="images/P3.svg" class="tab-img-1">';
                }
-                 
-                  $outall.= '<div class="tab-text-1">
-                     <div class="tab-text-left">
-                        <h1># '.$TRecRef.' '.$CoShortCode.'</h1>
-                        <p>';
-                        if ($PrivateTask==1) { $outall.= "<img src='images/Lock.svg'>"; }
-                        $outall.=$TaskTitle.'<p>
-                     </div>
-                     <div class="tab-text-right">
+                $outall.=  "
+                        <div class='tab-text-left'>
+                        <a  href='#' onclick=popup('popUpDiv','tasknotes','$celnodv') >  <h1># $TaskNumber $CoShortCode</h1></a> 
+                        <div class='tab-text-right' style='width:100%;padding-left: 10px;'>
+                     ";
+                        if ($PrivateTask==1) { $outall.= "<img src='images/Lock.svg'> &nbsp "; }
+                        if ($RepeatSchedule1!="") { $outall.= "<img src='images/iconcircle.svg'> &nbsp "; }
+                        $outall.= '<p id="title'.$celnodv.'">'.$TaskTitle.'</p>
+                     </div>';
+                     if ($nsubtasks == 1){
+                     $outall.=  '<div class="tab-text-right">
                         <div class="icon" onclick="changeexpend('.$celnodv.')">
                            <img src="images/Copy of Collapsed.svg">
                         </div>
-                     </div>
-                  </div>
+                     </div>';
+                     } 
+                
+                    $outall.=  ' </div>
                   <div class="tab-text-1 tab-text-2">
                      <div class="tab-text-left">
-                        <p>'.$TaskMainGroupTitle.' - '. $TaskSubGroupTitle.'</p>
+                        <p id="maintask'.$celnodv.'">'.$TaskMainGroupTitle.' - '. $TaskSubGroupTitle.'</p>
                      </div>
                      <div class="tab-text-right">
-                        <p>'.date('d-m-Y',strtotime($showdate)).'</p>
+                        <p>'.$showdate.'</p>
                      </div>
                   </div>
                   <div class="tab-text-2 tab-text-3 ">
@@ -72,37 +86,43 @@
                   <div class="tab-text-4">
                     
                         '.$initials.'
+                        <div id="tasktags'.$celnodv.'" >'.$ThisTaskTags.'</div>
                      
                      
                   </div>
+                  
                   <div class="tab-text-1 tab-text-5">
-                     <div class="tab-text-left">
-                        <h3><img src="images/Plus.svg" onclick=popup("popUpDiv","addsubtask",'.$cRecRef.')> Sub task</h3>
+                     <div class="tab-text-left"  style="cursor:pointer">
+                        <h3 onclick=popup("popUpDiv","addsubtask",'.$cRecRef.')><img src="images/Plus.svg"> Sub task</h3>
                      </div>
                      <div class="tab-text-right">
                         <div class="tab">';
 if ($cStage!="Completed") {
-                           $outall.='<button class="tablinks" type="button" id=clockstarticon1'.$celnodv.' onclick="openCity(event, \''."tab-1".$celnodv.'\')"><img src="images/Copy of Clock.svg"></button>
-                           <button class="tablinks" type="button" id=clockstarticon2'.$celnodv.' onclick="openCity(event, \''."tab-2".$celnodv.'\')"><img src="images/Hourglass Start.svg"></button>
-                           <button class="tablinks" type="button" id=clockstarticon3'.$celnodv.' onclick="openCity(event, \''."tab-3".$celnodv.'\')"><img src="images/Users.svg"></button>
-                           <button class="tablinks" type="button" id=clockstarticon4'.$celnodv.' onclick="openCity(event, \''."tab-4".$celnodv.'\')"><img src="images/Tags.svg"></button>
-                           <button class="tablinks" type="button" id=clockstarticon5'.$celnodv.' onclick="openCity(event, \''."tab-5".$celnodv.'\')"><img src="images/Copy of Cloud_Upload.svg"></button>
-                           <button class="tablinks" type="button" id=clockstarticon6'.$celnodv.' onclick="openCity(event, \''."tab-6".$celnodv.'\')"><img src="images/Notes.svg"></button>
-                           <button class="tablinks" type="button" id=clockstarticon7'.$celnodv.' onclick="openCity(event, \''."tab-7".$celnodv.'\')"><img src="images/Copy of Calendar_Default.svg"></button>
-                           <button class="tablinks" type="button" id=clockstarticon8'.$celnodv.' onclick="openCity(event, \''."tab-8".$celnodv.'\')"><img src="images/Copy of By User.svg"></button>
-                           <button class="tablinks" type="button" id=clockstarticon9'.$celnodv.' onclick="openCity(event, \''."tab-9".$celnodv.'\')"><img src="images/Task_Completed.svg"></button>';
+                           $outall.='<button class="tablinks" type="button" id=clockstarticon1'.$celnodv.' style=display:'.$clockdisplay.' ><img src="images/Copy of Clock.svg" title="Clock Started"></button>
+                           <button class="tablinks" type="button" id=clockstarticon2'.$celnodv.' style=display:'.$startdisplay.' onclick="openCity(event, \''."tab-2".$celnodv.'\',\'divstarttime\')"><img src="images/Hourglass Start.svg" title="Start Time"></button>
+                           <button class="tablinks" type="button" id=clockstarticon10'.$celnodv.' style=display:'.$enddisplay.' onclick="openCity(event, \''."tab-10".$celnodv.'\',\'divendtime\')"><img src="images/Hourglass End.svg" title="End Time"></button>
+                           <button class="tablinks" type="button" id=clockstarticon3'.$celnodv.' onclick="openCity(event, \''."tab-3".$celnodv.'\',\'diveditgroup\')"><img src="images/Users.svg" title="Re-Group"></button>
+                           <button class="tablinks" type="button" id=clockstarticon4'.$celnodv.' onclick="openCity(event, \''."tab-4".$celnodv.'\',\'divedittags\')"><img src="images/Tags.svg" title="Add Tag"></button>
+                           <button class="tablinks" type="button" id=clockstarticon5'.$celnodv.' onclick="openCity(event, \''."tab-5".$celnodv.'\',\'divaddattach\')"><img src="images/Copy of Cloud_Upload.svg" title="Add Attachment"></button>
+                           <button class="tablinks" type="button" id=clockstarticon6'.$celnodv.' onclick="openCity(event, \''."tab-6".$celnodv.'\',\'divnewnote\')"><img src="images/Notes.svg" title="Add Comments"></button>
+                           <button class="tablinks" type="button" id=clockstarticon7'.$celnodv.' onclick="openCity(event, \''."tab-7".$celnodv.'\',\'divnewdate\')"><img src="images/Copy of Calendar_Default.svg" title="Re-schedule Date"></button>
+                           <button class="tablinks" type="button" id=clockstarticon8'.$celnodv.' onclick="openCity(event, \''."tab-8".$celnodv.'\',\'divnewuser\')"><img src="images/Copy of By User.svg" title="Reassign"></button>
+                           <button class="tablinks" type="button" id=clockstarticon9'.$celnodv.' onclick="openCity(event, \''."tab-9".$celnodv.'\',\'divcomplete\')"><img src="images/Task_Completed.svg" title="Mark Complete"></button>';
 }
                         $outall.='</div>
                      </div>
                   </div>
+                  <br>
                   <div class="Collapsed tabcontent" id="expendeddiv'.$celnodv.'">';
-                        $query11="SELECT * FROM `tSubTasks` a WHERE STRecRef in (Select STRecRef from tSubTaskCal b where cRecRef in 
-                (select cRecRef from tCalendar where SRecRef in (select SRecRef from tSchedule c where TRecRef = '$TRecRef') 
-                and (`cScheduleDate`,`cDueDate`) in (select `cScheduleDate`,`cDueDate` from tCalendar where cRecRef='$cRecRef') ) AND b.cRecRef in (select cRecRef from tCalendar where cRecRef=b.cRecRef and Status='A')) ORDER BY a.STRecRef ";
-                //echo $query11;exit;
+        
+         $query11="SELECT * FROM `tSubTasks` a WHERE STRecRef in (Select STRecRef from tSubTaskCal b where cRecRef in 
+        (select cRecRef from tCalendar where SRecRef in (select SRecRef from tSchedule c where TRecRef = '$TRecRef') 
+        and (`cScheduleDate`,`cDueDate`) in (select `cScheduleDate`,`cDueDate` from tCalendar where cRecRef='$cRecRef') ) AND b.cRecRef in (select cRecRef from tCalendar where cRecRef=b.cRecRef and Status='A')) ORDER BY a.STRecRef ";
+        //echo $query11;exit;
         //$query11="SELECT * FROM `tSubTasks` a WHERE  TRecRef = '$TRecRef' ORDER BY a.STRecRef ";
         $sql11 = mysqli_query($mysqli, $query11);    
         $existCount11 = mysqli_num_rows($sql11);
+                      
         if ($existCount11>0){
         $SubUserCodeName_arr=array();
         $y=0;
@@ -151,7 +171,8 @@ if ($cStage!="Completed") {
                 if ($Prioritysub =="P1") {$subtaskcolor="#FA8654";}
                 if ($Prioritysub =="P2") {$subtaskcolor="#FACA54";}
                 if ($Prioritysub =="P3") {$subtaskcolor="#FAF054";}
-                if ($Stagesub =="Completed") {$subtaskcolor="green";}
+                $sbordercolor = "#ffd980";
+                if ($Stagesub =="Completed") {$sbordercolor="green";}
                 $subassigneduser=array();
                 $x=0;
                 $subinitials='';
@@ -188,8 +209,9 @@ if ($cStage!="Completed") {
                 $outall.="<input type='hidden' id='EditSubTaskRef-".$celnodv."-".$scelnodv."' value='$STRecRefsub'/>";
                 $outall.="<input type='hidden' id='subgroupstatus-".$celnodv."-".$scelnodv."' value='$Stagesub'/>";
                
+               $outall.='<div style="border: 2px solid;border-color:'.$sbordercolor.';padding: 5px;border-radius: 5px;border-left-width: 10px;margin-bottom:5px">';
                 
-                 $outall.=' <hr><div class="tab-text-4" id=sdv-'.$celnodv.'-'.$scelnodv.'>
+                 $outall.=' <div class="tab-text-4" id=sdv-'.$celnodv.'-'.$scelnodv.'>
                               <div class="img-box" style="background: #ffe199;    color: black;">
                                  '.substr($sFirstName,0,1).substr($sLastName,0,1).'</div>
                               <div class="name-box" >';
@@ -214,15 +236,16 @@ if ($cStage!="Completed") {
                            <div class="tab-text-right">
                         <div class="tab">';
                         if ($usertask=='Y' && $Stagesub !="Completed") {
-                           $outall.='<span id=clockstarticon".$celnodv."-".$scelnodv." style="display:$subclockdisplay"><img src="images/Copy of Clock.svg""  title="Clock Started" /></span><button class="tablinks" type="button" id=starttimeicon'.$celnodv.'-'.$scelnodv.' onclick="openCity1(event, \''."sub-tab-1".$celnodv.$scelnodv.'\','.$celnodv.','.$scelnodv.')"></button>
-                           <button class="tablinks" type="button" id=endtimeicon'.$celnodv.'-'.$scelnodv.'  onclick="openCity1(event, \''."sub-tab-2".$celnodv.$scelnodv.'\','.$celnodv.','.$scelnodv.')"><img src="images/Hourglass Start.svg"></button>                          
-                           <button class="tablinks" type="button" id=subaddattach'.$celnodv.'-'.$scelnodv.'  onclick="openCity1(event, \''."sub-tab-3".$celnodv.$scelnodv.'\','.$celnodv.','.$scelnodv.')"><img src="images/Copy of Cloud_Upload.svg"></button>
-                           <button class="tablinks" type="button" id=clockstarticon6'.$celnodv.'-'.$scelnodv.' onclick="openCity1(event, \''."sub-tab-4".$celnodv.$scelnodv.'\','.$celnodv.','.$scelnodv.')"><img src="images/Notes.svg"></button>
-                           <button class="tablinks" type="button" id=clockstarticon7'.$celnodv.' onclick="openCity1(event, \''."sub-tab-5".$celnodv.$scelnodv.'\','.$celnodv.','.$scelnodv.')"><img src="images/Copy of Calendar_Default.svg"></button>
-                           <button class="tablinks" type="button" id=clockstarticon8'.$celnodv.' onclick="openCity1(event, \''."sub-tab-6".$celnodv.$scelnodv.'\','.$celnodv.','.$scelnodv.')"><img src="images/Copy of By User.svg"></button>
-                           <button class="tablinks" type="button" id=clockstarticon9'.$celnodv.' onclick="openCity1(event, \''."sub-tab-7".$celnodv.$scelnodv.'\','.$celnodv.','.$scelnodv.')"><img src="images/Task_Completed.svg"></button>';
+                           $outall.='<button class="tablinks" type="button" id=clockstart'.$celnodv.$scelnodv.' style=display:'.$subclockdisplay.'><img src="images/Copy of Clock.svg""  title="Clock Started" /></span>
+                           <button class="tablinks" type="button" id=starttimeicon'.$celnodv.$scelnodv.' style=display:'.$substartdisplay.' onclick="openCity1(event, \''."sub-tab-1".$celnodv.$scelnodv.'\','.$celnodv.','.$scelnodv.',\'divsubstarttime\')"><img src="images/Hourglass Start.svg" title="Start Time"></button>
+                           <button class="tablinks" type="button" id=endtimeicon'.$celnodv.$scelnodv.'  style=display:'.$subenddisplay.' onclick="openCity1(event, \''."sub-tab-2".$celnodv.$scelnodv.'\','.$celnodv.','.$scelnodv.',\'divsubendtime\')"><img src="images/Hourglass End.svg" title="End Time"></button>                          
+                           <button class="tablinks" type="button" id=subaddattach'.$celnodv.$scelnodv.'  onclick="openCity1(event, \''."sub-tab-3".$celnodv.$scelnodv.'\','.$celnodv.','.$scelnodv.',\'divsubaddattach\')"><img src="images/Copy of Cloud_Upload.svg"></button>
+                           <button class="tablinks" type="button" id=clockstarticon6'.$celnodv.$scelnodv.' onclick="openCity1(event, \''."sub-tab-4".$celnodv.$scelnodv.'\','.$celnodv.','.$scelnodv.',\'divsubnewnote\')"><img src="images/Notes.svg"></button>
+                           <button class="tablinks" type="button" id=clockstarticon8'.$celnodv.$scelnodv.' onclick="openCity1(event, \''."sub-tab-6".$celnodv.$scelnodv.'\','.$celnodv.','.$scelnodv.',\'divsubnewuser\')"><img src="images/Copy of By User.svg"></button>
+                           <button class="tablinks" type="button" id=clockstarticon9'.$celnodv.$scelnodv.' onclick="openCity1(event, \''."sub-tab-7".$celnodv.$scelnodv.'\','.$celnodv.','.$scelnodv.',\'divsubcomplete\')"><img src="images/Task_Completed.svg"></button>';
                            }
                         $outall.='</div>
+                        </div>
                         </div>
                      </div>
                       <div class="tab-text-6">
@@ -271,7 +294,7 @@ if ($cStage!="Completed") {
                      <div id="sub-tab-4'.$celnodv.$scelnodv.'" class="tabcontent">
                         <div class="text-box">
                              <div class="input-box">
-                               <input type="text" name="noteupTimeTaken'.$celnodv.'-'.$scelnodv.'" id="noteupTimeTaken'.$celnodv.'-'.$scelnodv.'" placeholder="Time Taken">
+                               <input type="text" name="noteupTimeTaken'.$celnodv.'-'.$scelnodv.'" id="noteupTimeTaken'.$celnodv.'-'.$scelnodv.'" placeholder="HH:MM">
                                <img src="images/clock.png">
                             </div>
                            <textarea type="text"  id="NewNote'.$celnodv.'-'.$scelnodv.'" name="NewNote'.$celnodv.'-'.$scelnodv.'" placeholder="Complete Notes"></textarea>
@@ -363,7 +386,7 @@ if ($cStage!="Completed") {
                      <div id="sub-tab-7'.$celnodv.$scelnodv.'" class="tabcontent">
                          <div class="text-box">
                              <div class="input-box">
-                               <input type="text" placeholder="Time Taken" name="upTimeTaken'.$celnodv.'-'.$scelnodv.'" id="upTimeTaken'.$celnodv.'-'.$scelnodv.'">
+                               <input type="text" placeholder="HH:MM" name="upTimeTaken'.$celnodv.'-'.$scelnodv.'" id="upTimeTaken'.$celnodv.'-'.$scelnodv.'">
                                <img src="images/clock.png">
                             </div>
                            <textarea type="text" id="NewCompNote'.$celnodv.'-'.$scelnodv.'" name="NewCompNote'.$celnodv.'-'.$scelnodv.'"  placeholder="Complete Notes"></textarea>
@@ -384,18 +407,12 @@ if ($cStage!="Completed") {
     
                   $outall.='</div>
                   <div class="tab-text-6">
-                     <div id="tab-1'.$celnodv.'" class="tabcontent">
+                     <div id="tab-2'.$celnodv.'" class="tabcontent">
                         <input type="hidden" class="noteid" id="notid'.$celnodv.'" value="'.$NRecRef.'">
                         <input type="hidden" class="ntaskid" id="ntaskid'.$celnodv.'" value="'.$taskid.'">
-                        <div class="text-box">
-                           <textarea type="text"  id=StartNote'.$celnodv.' name=StartNote'.$celnodv.' placeholder="Start Notes*"></textarea>
-                           <div class="btn-sec">
-                              <button type="button" onClick="addstartnote('.$celnodv.')" name="btnSaveStartNote'.$celnodv.'">save</button>
-                           </div>
-                           
-                        </div>
+                      
                      </div>
-                     <div id="tab-2'.$celnodv.'" class="tabcontent">
+                     <div id="tab-10'.$celnodv.'" class="tabcontent">
                         <div class="text-box">
                            <textarea type="text" id=EndNote'.$celnodv.' name=EndNote'.$celnodv.' placeholder="End Notes*"></textarea>
 
@@ -500,7 +517,7 @@ if ($cStage!="Completed") {
                      <div id="tab-6'.$celnodv.'" class="tabcontent">
                         <div class="text-box">
                              <div class="input-box">
-                               <input type="text" name="noteupTimeTaken'.$celnodv.'" id="noteupTimeTaken'.$celnodv.'" placeholder="Time Taken">
+                               <input type="text" name="noteupTimeTaken'.$celnodv.'" id="noteupTimeTaken'.$celnodv.'" placeholder="HH:MM">
                                <img src="images/clock.png">
                             </div>
                            <textarea type="text"  id="NewNote'.$celnodv.'" name="NewNote'.$celnodv.'" placeholder="Complete Notes"></textarea>
@@ -513,12 +530,92 @@ if ($cStage!="Completed") {
                      </div>
                      <div id="tab-7'.$celnodv.'" class="tabcontent">
                          <div class="text-box">
-                           <div style="height:40px"></div>
-                           <div class="btn-sec">
-                              <button>save</button>
-                           </div>
-                          
-                           
+                           <div style="height:40px">
+                            <button type="button" onclick="showschedule('.$celnodv.',\'divreschdulecurr\')" name="btnReSchCurrD1" id="btnReSchCurrD1" style="margin-left: 22px;">Re-Schedule Current Date</button>
+                            <button type="button" onclick="showschedule('.$celnodv.',\'removecurrent\')" name="btnReSchCurrD1" id="btnReSchCurrD1">Remove Current Date</button>
+                           </div>';
+                                           if ($RepeatSchedule1!='') { 
+                        $outall.= " <button type=button name='btnReSchFullS1' id='btnReSchFullS1'  onclick=showschedule('".$celnodv."','divreschdulefuture') >Re-Schedule All Future Series</button>
+                                    <button type=button name='btnRemovFullS1' id='btnRemovFullS1'  onclick=showschedule('".$celnodv."','removefuture')    >Remove All Future Series</button><br/>";
+                                 }
+                               $outall.= "<div id=divreschdulecurr-".$celnodv." style='display: none;margin-top:20px;'>Start Date: <input type=text style='width:100px' id=NewStartDate".$celnodv." name=NewStartDate".$celnodv." class='datepicker total_fields' value=".$cScheduleDateUK.">
+                                            <br><br> Due Date: &nbsp; <input type=text style='width:100px' id=NewDueDate".$celnodv." name=NewDueDate".$celnodv." class='datepicker total_fields' value=".$cDueDateUK.">
+                                    <input type=button onclick=reschedulecurrent(".$celnodv.") name=btnSaveReSchedule".$celnodv." value='Save' title='Save' style='padding: 7px 30px;border: 1px solid #e74c3c;color: #e74c3c;background-color: transparent;font-size: 14px;margin-left: 35px;border-radius: 50px;'>
+                                    <input type=hidden style='width:100px' id=OldStartDate".$celnodv." name=OldStartDate".$celnodv." class='datepicker total_fields' value=".$csqlScheduleDate.">
+                                    <input type=hidden style='width:100px' id=OldDueDate".$celnodv." name=OldDueDate".$celnodv." class='datepicker total_fields' value=".$csqlDueDate.">
+                                    </div>
+                                    <div id=divreschdulefuture-".$celnodv." style='display: none;margin-top:20px;'>
+    <span style='float:left;width:100px;margin-top:7px;text-align:left'>Start Date:</span>
+    <input type='text' class='total_fields' style='width:120px;float:left' id=StartDate".$celnodv." name=StartDate".$celnodv." value=''>
+    
+    <script type='text/javascript'>
+            $(function(){
+            $('*[name=StartDate".$celnodv."]').datepicker({
+                     dateFormat: 'dd-mm-yy'
+                    });
+            
+    $('*[name=StartDate".$celnodv."]').datepicker('setDate', 'today');
+            });
+    </script>
+    
+    <span style='float:left;width:100px;margin-top:7px;margin-left:10px;text-align:left'>Due Date:</span>
+    <input type='text' class='total_fields' style='width:120px;float:left' id=DueDate".$celnodv." name=DueDate".$celnodv." value=''>
+   
+      <script type='text/javascript'>
+            $(function(){
+            $('*[name=DueDate".$celnodv."]').datepicker({
+                     dateFormat: 'dd-mm-yy'
+                    });
+            
+    $('*[name=DueDate".$celnodv."]').datepicker('setDate', 'today');
+            });
+    </script>
+   
+    <span style='float:left;width:100px;margin-top:15px;text-align:left'>Repeat:</span>
+    <select class='total_fields' name='RepeatSchedule' id='RepeatSchedule' style='width:120px;margin-top:7px;float:left' >";
+    $displaydays="none";
+        if ($RepeatSchedule1 == 'Daily') {  $outall.= "<option value='Daily' selected >" ; } else{  $outall.= "<option value='Daily' >"; }  $outall.= "Daily</option>";
+        if ($RepeatSchedule1 == 'Weekly') { $displaydays="block"; $outall.= "<option value='Weekly' selected >" ; } else{  $outall.= "<option value='Weekly' >"; }  $outall.= "Weekly</option>";
+        if ($RepeatSchedule1 == 'Monthly') { $outall.= "<option value='Monthly' selected >";  } else{ $outall.= "<option value='Monthly' >"; }  $outall.= "Monthly</option>";
+        if ($RepeatSchedule1 == 'Yearly') { $outall.= "<option value='Yearly' selected >" ; } else{  $outall.= "<option value='Yearly' >"; } $outall.= "Yearly</option>";
+    $outall.= "</select>
+    <br clear='all'/>
+    <br clear='all'/>
+    
+     <div id='DivSelectDay' style='display:$displaydays;float:left'>
+    &nbsp;
+        Mo <input type=checkbox id=cbxDays name=cbxDays[] value='Mon'"; if (strpos($awdays,"Mon") !== false) { $outall.= " checked";} $outall.= " > &nbsp;&nbsp;";
+        $outall.= "Tu <input type=checkbox id=cbxDays name=cbxDays[] value='Tue'"; if (strpos($awdays,"Tue") !== false) { $outall.= " checked";} $outall.= " > &nbsp;&nbsp;";
+        $outall.= "We <input type=checkbox id=cbxDays name=cbxDays[] value='Wed'"; if (strpos($awdays,"Wed") !== false) { $outall.= " checked";} $outall.= " > &nbsp;&nbsp;";
+        $outall.= "Th <input type=checkbox id=cbxDays name=cbxDays[] value='Thu'"; if (strpos($awdays,"Thu") !== false) { $outall.= " checked";} $outall.= " > &nbsp;&nbsp;";
+        $outall.= "Fr <input type=checkbox id=cbxDays name=cbxDays[] value='Fri'"; if (strpos($awdays,"Fri") !== false) { $outall.= " checked";} $outall.= " > &nbsp;&nbsp;";
+        $outall.= "Sa <input type=checkbox id=cbxDays name=cbxDays[] value='Sat'"; if (strpos($awdays,"Sat") !== false) { $outall.= " checked";} $outall.= " > &nbsp;&nbsp;";
+        $outall.= "Su <input type=checkbox id=cbxDays name=cbxDays[] value='Sun'"; if (strpos($awdays,"Sun") !== false) { $outall.= " checked";} $outall.= " > &nbsp;&nbsp;";
+
+    $outall.= "</div><br clear='all'/><br clear='all'/>
+   <div id='DivSelectRepeat' style='display:block;'>
+    <span style='float:left;width:130px;margin-top:7px;text-align:left'>Next Task After:</span>
+    <input type='text' class='total_fields' style='width:50px;float:left' name='NextAfter' id='NextAfter' value='1'/>&nbsp;&nbsp;<label id='LblTextNext'></label><br clear='all'/><br clear='all'/>
+
+    <span style='float:left;width:130px;margin-top:7px;text-align:left'><input type='radio' name='radioNoOfTimes' id='radioNoOfTimes' value='EndAfter' checked>&nbsp;&nbsp;End After </input></span><input type='text' class='total_fields' style='width:50px;float:left' name='EndAfterOccur' id='EndAfterOccur' value='10'/> <span style='float:left;margin-top:7px;text-align:right'>&nbsp;&nbsp;&nbsp;Occurrences</span><br clear='all'/>   <br clear='all'/>
+    <span style='float:left;width:130px;margin-top:7px;text-align:left'><input type='radio' name='radioNoOfTimes' id='radioNoOfTimes' value='EndBy'>&nbsp;&nbsp;End By </input></span><input type='text' class='total_fields' style='width:120px;float:left' name='EndByDate' id='EndByDate' value=''/>  <br clear='all'/>   <br clear='all'/>
+    <span style='float:left;width:170px;margin-top:7px;text-align:left'><input type='radio' name='radioNoOfTimes' id='radioNoOfTimes' value='NoEnd'>&nbsp;&nbsp;End after 10 years </input></span>
+
+   <script type='text/javascript'>
+            $(function(){
+            $('*[name=EndByDate]').datepicker({
+                     dateFormat: 'dd-mm-yy'
+                    });
+            
+    $('*[name=EndByDate]').datepicker('setDate', 'today');
+            });
+    </script>
+    
+    </div>
+ 
+    
+    </div>";
+                           $outall.= '
                         </div>
                      </div>
                      <div id="tab-8'.$celnodv.'" class="tabcontent">
@@ -585,13 +682,13 @@ if ($cStage!="Completed") {
                                     $outall.= '</select> </div><input type=hidden name="taskowner'.$celnodv.'" value="NO" />';
                                     $outall.='<div class="btn-sec"><button type="button" onclick="reassign('.$celnodv.')" id="btnSaveNewUser'.$celnodv.'" name="btnSaveNewUser'.$celnodv.'">save</button></div>';
                                     }
-                          
+                         
                         $outall.= '</div>
                      </div>
                      <div id="tab-9'.$celnodv.'" class="tabcontent">
                          <div class="text-box">
                              <div class="input-box">
-                               <input type="text" name="text" placeholder="Time Taken" name="upTimeTaken'.$celnodv.'" id="upTimeTaken'.$celnodv.'">
+                               <input type="text" name="text" placeholder="HH:MM" name="upTimeTaken'.$celnodv.'" id="upTimeTaken'.$celnodv.'">
                                <img src="images/clock.png">
                             </div>
                            <textarea type="text" id="NewCompNote'.$celnodv.'" name="NewCompNote'.$celnodv.'" placeholder="Complete Notes"></textarea>
@@ -604,10 +701,9 @@ if ($cStage!="Completed") {
                      </div>
                   </div>
 
-                  
                </div>
             ';
-                    
+  
         /*} else {
             $outall.="<input type='hidden' id='subgroupcount-".$celnodv."' value='0'/>";
         }*/

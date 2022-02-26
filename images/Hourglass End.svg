@@ -1,0 +1,11 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+	<title>New Project</title>
+	<defs>
+		<image  width="32" height="32" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgAQMAAABJtOi3AAAAAXNSR0IB2cksfwAAAANQTFRFAAAAp3o92gAAAAF0Uk5TAEDm2GYAAAAMSURBVHicY2AY3AAAAKAAAbAGYhgAAAAASUVORK5CYII="/>
+		<image width="32" height="32" id="img2" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJISURBVHgB7VZPTxNBFH8zu92gklhiSlz/hGL0TG9qaeOaGGNojf0Glk8AxA8A30A9eYR+A4yFW8OqEL2pR+RADWAJsWFNGkLS7TynS2dtarszdUk40N9l38z77Ztf5r03MwADnHeQIGclm1rjHwvCwTaL6w97OSkEw4LwsIKcMgE2hIcd5AxMQROVTHobCMa9ge6Om8ufy4H8J/fioOvbJ9GxbL7bGA/iy3YAkKDjD1w9LuO7ehsHSVnGlwrgeC8MplATGmJC2A0G32R8qQCeo2U/OMAzKZ/SGWHrQNZkfKkA3kI2/3hpQIDEz8zkbC/ufjY1A9iqF8Ty1dWPbyGsAA+MzQmTEDJ/MJVMdFJ2simLC1z4O6MtgAKkXSBQyUwu8dWf+xOISy4hBWyQqEZZjrb5kMHra6vrsypxlQV0FdENiAVzZSMPilBLQQteYMame7SXg4hz/Szet4AmeJVf5gdM9F8HOgS0Q+gT/aZgkacgH0jitcF3YRpOW8D+0/RLvsV+YUWu1D5FbjpftQv1o+Ot2P36r+Hk/4hQElCZSuaB0kXvB8qOhu/+eHNpYu97O+d4a/TGb/v2C2zQiyciaN5c+VCQxVarAU2bF6Zxq1rsXLyJoTsHu8ZYtehPEPYKFCAVsJdN58TpRiJudeTRZqkXd+TxZokM1Xdbwyh/0FgQVgABtIRtjB2WZHxjtPZF2Pwyysn4KpfRhB88VtuR8Y3rjp8encADGV9eA0jiwozEalUZnXeHz0Ha5bzowOBReuaP0gEG+ANr/MAvXS05OQAAAABJRU5ErkJggg=="/>
+	</defs>
+	<style>
+	</style>
+	<use id="Background" href="#img1" x="0" y="0" />
+	<use id="Hourglass End" href="#img2" transform="matrix(1,0,0,1,0,0)"/>
+</svg>

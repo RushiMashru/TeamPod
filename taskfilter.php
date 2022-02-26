@@ -17,7 +17,7 @@
    background-repeat:no-repeat;
    }
    .sidenav1 {   
-    width: 720px;
+    width: 720px !important;
     height: 900px;
     padding-top: 0px;
    }
@@ -609,7 +609,7 @@ button.fr.btn-save {
    <!-- <input type=button id="myQuickTask" class='btn btn-default' title="Add New Task" value="Quick Task" style="font-family:'Open Sans';width:150px;height:32px;border-radius:25px;margin:0px 16px 0px 0px;" onclick="popup('popUpDiv','addtask','')"/> -->
    <input type=button id="myQuickTask" class='btn btn-default' title="Add New Task" value="Quick Task" style="font-family:'Open Sans';width:150px;height:32px;border-radius:25px;margin:0px 16px 0px 0px;" onclick="quickboxfilter()"/>
    
-   <img style="border:none;background:#eee;float:right;cursor: pointer;margin:0px 40px 0px 0px;" alt="" src="images/Filters.svg" onclick="openfilter()" />
+   <img style="border:none;background:#fff;float:right;cursor: pointer;margin:0px 40px 0px 0px;" alt="" src="images/Filters.svg" onclick="openfilter()" />
 </div>
 <br clear='all'/>
 <div class=sidenav1 id=quickbox1 style="z-index: 2;">
@@ -752,6 +752,7 @@ button.fr.btn-save {
    <input type=submit name="btnFilter"  value="Filter" style="margin-left:20px;height:32px;width:100px" class='btn btn-default' />
    </div> --> 
  <div class=sidenav1 id=sidenav1 style="z-index: 2;">
+   <form method="post">
 <div class="row shadow p-3 bg-white rounded" style="height: 48px;">
    <div class="col-md-6" style="margin-top: 10px;">
       <a onclick="closefilter()" class="fl times_a"><i class="fas fa-times"></i></a> 
@@ -760,8 +761,9 @@ button.fr.btn-save {
       </label>
    </div>
    <div class="col-md-6" style="margin-top: 10px;">
-    <form method="post">
-          <button type="button" name="btnFilter" onclick="sendfilterdata()" class="fr btn-save">Filters</button>
+    <button type="submit" name="btnFilter"  class="fr btn-save">Filters</button>
+    <!-- <form method="post">
+          
           <input type="hidden" name="AddNewBtnClick">
           <input type="hidden" name="ViewListForFD">
           <input type="hidden" name="ForCompany">
@@ -770,11 +772,12 @@ button.fr.btn-save {
           <input type="hidden" name="ForRefUSR">
           <input type="hidden" name="ForTaskTag">
           <input type="hidden" name="CountCells" value="5">
-    </form>
+    </form> -->
      
    </div>
 </div>
 <div class="contanier_row">
+ 
     <div class="col-md-4 field_filter">
       <div class="reset_view_div" >
          <button onclick="resetbox()" type="button" class="resetview">Reset all</button>
@@ -943,13 +946,15 @@ button.fr.btn-save {
       </div>
       <div>
             <div class="form-group">
-              <input type="checkbox" class="subbox" id="ViewCompleted" name="ViewCompleted[]"  onchange="countchecked('ViewCompleted','view_li')" value="YES">
+              <input type="checkbox" class="subbox" id="ViewCompleted" name="ViewCompleted"  onchange="countchecked('ViewCompleted','view_li')" value="1">
               <label for="ViewCompleted">&nbsp;&nbsp;View Completed &nbsp;</label>
           </div>
       </div>
       </div>
       </div>
+    
       </div>
+      </form>
    </div>
 </div> 
 </div>

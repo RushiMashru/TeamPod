@@ -55,8 +55,12 @@ if ($FromDate=='' && $ToDate=='')
     //echo "<br>2 uFDate=$uFDate ---uTDate=$uTDate ----- ForRefUSR=$ForRefUSR ---FromDate=$FromDate ---sqlFromDate=$sqlFromDate ---ToDate=$ToDate ---sqlToDate=$sqlToDate ";
     }
 
+$query15= "SELECT CliRecRef FROM `tUser`where RefUSR='$id' ";
+$sql15 = mysqli_query($mysqli, $query15);
+$row15 = mysqli_fetch_array($sql15);
+$CliRecRef = $row15["CliRecRef"]; 
     
-    $query101="SELECT RefUSR, FirstName, LastName, Company, CompanyID FROM `tUser` ORDER BY FirstName, LastName,Company, CompanyID";
+    $query101="SELECT RefUSR, FirstName, LastName, Company, CompanyID FROM `tUser` where `CliRecRef`='$CliRecRef' ORDER BY FirstName, LastName,Company, CompanyID";
     $sql101 = mysqli_query($mysqli, $query101);
     $i=0;
     $UserCodeName_arr[$i][0]="";
@@ -212,7 +216,7 @@ By Company</button>
     </tr></thead>";
    
   echo "<tbody>";
-    $query11="SELECT RefUSR, FirstName, LastName FROM `tUser` WHERE Status='ACT' $CriteriaUSR ORDER BY FirstName, LastName "; 
+    $query11="SELECT RefUSR, FirstName, LastName FROM `tUser` WHERE Status='ACT' AND `CliRecRef`='$CliRecRef' $CriteriaUSR ORDER BY FirstName, LastName "; 
     //echo $query11;
     $sql11 = mysqli_query($mysqli, $query11);
     while($row11=mysqli_fetch_array($sql11))						//------------------- Store Practice ID & Full Name from database to AllPractice_arr ------
@@ -399,7 +403,7 @@ By Company</button>
     </tr></thead>";
    
   echo "<tbody>";
-    $query11="SELECT RefUSR, Company, CompanyID FROM `tUser` WHERE Status='ACT' $CriteriaUSR ORDER BY Company, CompanyID "; 
+    $query11="SELECT RefUSR, Company, CompanyID FROM `tUser` WHERE Status='ACT' AND `CliRecRef`='$CliRecRef' $CriteriaUSR ORDER BY Company, CompanyID "; 
     //echo $query11;
     $sql11 = mysqli_query($mysqli, $query11);
     while($row11=mysqli_fetch_array($sql11))						//------------------- Store Practice ID & Full Name from database to AllPractice_arr ------

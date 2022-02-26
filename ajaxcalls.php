@@ -63,8 +63,8 @@ if($_POST['cat'] =="createprof") {
 	            
 	        if ($CompanyID==null){$CompanyID=10000;}
 	        
-	        $query3="INSERT INTO `tUser`(`UserID`,`EmailID`, `UsrPass` ,`Status`,`RegistrationDate`,`SubscriptionID`) 
-	        VALUES ('$NewUserEmail', '$NewUserEmail','$Password','I', '$currdatetime','$UserSubscriptionID') " ;
+	        $query3="INSERT INTO `tUser`(`UserID`,`EmailID`, `UsrPass` ,`Status`,`RegistrationDate`,`SubscriptionID`,`CanSystemAdmin`) 
+	        VALUES ('$NewUserEmail', '$NewUserEmail','$Password','I', '$currdatetime','$UserSubscriptionID','1') " ;
        
 		
 	    	$sql3 = mysqli_query($mysqli, $query3);
@@ -112,7 +112,7 @@ if($_POST['cat'] =="createprof") {
             $headers1 = "From: $fromName"."<".$from.">";
         	mail($to,$subject1,$message2,$headers1);
         	
-        	echo 'Please check inbox for verification link';
+        	echo 'Please check inbox/spam for verification link';
         	
 }
 }
@@ -180,7 +180,7 @@ if($_POST['cat'] =="resetpswd") {
             $headers1 = "From: $fromName"."<".$from.">";
         	mail($to,$subject1,$message2,$headers1);
         	
-        	echo 'Please check inbox for Password reset link';
+        	echo 'Please check inbox/spam for Password reset link';
         	
 }
 }
@@ -229,27 +229,40 @@ if($_POST['cat'] =="sendInviteEmail") {
             
         	$NewUserEmail=$_POST['NewUserEmail'];
         	
-        	$query8 = "SELECT `UserID`, `EmailID`, `FirstName`,`LastName`, `Status` FROM `tUser` where RefUSR=$id";
+        	$query8 = "SELECT `UserID`, `EmailID`, `FirstName`,`LastName`, `Status`, `CliRecRef` FROM `tUser` where RefUSR=$id";
             $sql8 = mysqli_query($mysqli, $query8);
             $row8 = mysqli_fetch_array($sql8);
             $FName   =$row8["FirstName"];
             $LName   =$row8["LastName"];
+            $CliRecRef   =$row8["CliRecRef"];
             
-            $query9 = "SELECT `RefUSR`, `EmailID` FROM `tUser` where EmailID='$NewUserEmail'";
+            $query9 = "SELECT `RefUSR`, `EmailID`,`CliRecRef` FROM `tUser` where EmailID='$NewUserEmail'";
             $sql9 = mysqli_query($mysqli, $query9);
             $row9 = mysqli_fetch_array($sql9);
             $RefUSR   =$row9["RefUSR"];
-            
+            $NewCliRecRef   =$row9["CliRecRef"];
+
+            $CliExists = 0;
+               if (strpos($NewCliRecRef,$CliRecRef) == TRUE){
+                $CliExists = 1;
+            }
             //echo $query9;
             //echo $UserID;
             
-            if($RefUSR>0)
+            if($RefUSR>0 && $CliExists == 1 )
             {
                 
-              echo 'This User already exists in the system. Please enter another mail ID';  
+              echo 'This User already exists in the system and have access to Company. Please enter another mail ID';  
               //return false;
             }
+            elseif ($RefUSR>0 && $CliExists == 0 ){
+                
+              echo 'This User already exists in the system and access to Company is granted.';
+              $query7 = "UPDATE `tUser` set CliRecRef='$NewCliRecRef,$CliRecRef' where EmailID='$NewUserEmail'";
+               $sql7 = mysqli_query($mysqli, $query7);
             
+              //return false;
+            }
             else
             {
             
@@ -281,3 +294,4 @@ if($_POST['cat'] =="sendInviteEmail") {
 }
 
 
+?>

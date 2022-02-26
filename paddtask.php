@@ -26,7 +26,7 @@
    ?>
 <html>
    <head>
-      <title>Tasks On Cloud</title>
+      <title>Team Pod</title>
       <meta charset="UTF-8">
       <link rel="shortcut icon" type="image/png" href="../images/icontask.png"/>
       <link rel="stylesheet" type="text/css" href="../focinc/newstyle.css">
@@ -116,14 +116,14 @@
                      
                      //var my_date = "2014-06-03 07:59:48";
                      //my_date = my_date.replace(/-/g, "/"); 
-                     
-                     
-                      var ele=document.getElementsByName('cbxDays[]');  
+
+                      var ele=document.getElementsByName('cbxDays[]');
+
                          for(var i=0; i<ele.length; i++){  
                              if (i==day-1) {
                              ele[i].checked=true;  
                              }
-                             //alert (ele[i].value)
+                            // alert (ele[i].value)
                          }
                          if (day==0) {
                              ele[6].checked=true;
@@ -205,8 +205,8 @@
          }
          
          var awdays =[];
-         var checkboxes = document.querySelectorAll('#cbxDays:checked')
          
+         var checkboxes = document.querySelectorAll('[id^="cbxDays"]:checked')
          for (var i = 0; i < checkboxes.length; i++) {
            awdays.push(checkboxes[i].value)
          }
@@ -243,7 +243,8 @@
          
          
          var dataString = "ForCompany=" + ForCompany + "&sTaskName=" + sTaskName + "&sTRecRef=" + sTRecRef + "&MainGroup=" + MainGroup + "&SubGroup=" + SubGroup + "&Priority=" + Priority + "&TaskDescription=" + TaskDescription + "&ForRefUSR1=" + ForRefUSR1 + "&chkPrivateTask=" + chkPrivateTask + "&StartDate=" + StartDate + "&DueDate=" + DueDate + "&RepeatSchedule=" + RepeatSchedule + "&awdays=" + awdays + "&NextAfter=" + NextAfter + "&radioNoOfTimes=" + radioNoOfTimes + "&EndAfterOccur=" + EndAfterOccur + "&EndByDate=" + EndByDate + "&cat=createtask" ;
-         
+         //alert(dataString);
+         //exit();
          $.ajax({  
                 type: "POST",  
                 url: "ptaskload.php",  
@@ -854,7 +855,7 @@ button.btn.btn-outline-secondary.border-left-0 {
                   <div class="col-md-6 fl mb-30" style="margin-right: 30px;">
                      <div class="inp">
                         <label class="email" for="sTaskName">Task Title</label>
-                        <input type="text" name="sTaskName" id="sTaskName" value="<?php echo $sTaskName; ?>">
+                        <input type="text" name="sTaskName" id="sTaskName" value="<?php echo $sTaskName; ?>" autocomplete="off">
                         <input type=hidden name="sTRecRef" id="sTRecRef" value="<?php echo $sTRecRef; ?>" />
                      </div>
                   </div>
@@ -912,14 +913,14 @@ button.btn.btn-outline-secondary.border-left-0 {
                   <div class="col-md-6 fl mb-30">
                      <div class="inp">
                      <label class="email" for="StartDate">Start Date</label>
-                        <input type="text"  name="StartDate" id="StartDate" onChange=SetWeekdays() value="" placeholder="DD/MM/YYYY" autocomplete="off">
+                        <input type="text"  name="StartDate" id="StartDate" onChange=SetWeekdays() value="" placeholder="DD-MM-YYYY" autocomplete="off">
                       
                      </div>
                   </div>
                   <div class="col-md-5 mb-30">
                      <div class="inp">
                         <label class="email" for="DueDate">End Date</label>
-                        <input type="text" name="DueDate" id="DueDate" value="" placeholder="DD/MM/YYYY" autocomplete="off">
+                        <input type="text" name="DueDate" id="DueDate" value="" placeholder="DD-MM-YYYY" autocomplete="off">
                        
                      
                      </div>
@@ -959,37 +960,37 @@ button.btn.btn-outline-secondary.border-left-0 {
                     </li>
                     <li>
                         <div class="form-group">
-                             <input type="checkbox" class="subbox" id=cbxDays2 name=cbxDays[] value=Tue <?php if ($cbxDays[0]=="Tue") {echo 'checked';} ?>>
+                             <input type="checkbox" class="subbox" id=cbxDays2 name=cbxDays[] value=Tue <?php if ($cbxDays[1]=="Tue") {echo 'checked';} ?>>
                              <label for="cbxDays2">Tu</label>
                         </div>
                     </li>
                     <li>
                         <div class="form-group">
-                             <input type="checkbox" class="subbox" id=cbxDays3 name=cbxDays[] value=Wed <?php if ($cbxDays[0]=="Wed") {echo 'checked';} ?>>
+                             <input type="checkbox" class="subbox" id=cbxDays3 name=cbxDays[] value=Wed <?php if ($cbxDays[2]=="Wed") {echo 'checked';} ?>>
                              <label for="cbxDays3">We</label>
                         </div>
                     </li>
                     <li>
                         <div class="form-group">
-                             <input type="checkbox" class="subbox" id=cbxDays4 name=cbxDays[] value=Thu <?php if ($cbxDays[0]=="Thu") {echo 'checked';} ?>>
+                             <input type="checkbox" class="subbox" id=cbxDays4 name=cbxDays[] value=Thu <?php if ($cbxDays[3]=="Thu") {echo 'checked';} ?>>
                              <label for="cbxDays4">Th</label>
                         </div>
                     </li>
                     <li>
                         <div class="form-group">
-                             <input type="checkbox" class="subbox" id=cbxDays5 name=cbxDays[] value=Fri <?php if ($cbxDays[0]=="Fri") {echo 'checked';} ?>>
+                             <input type="checkbox" class="subbox" id=cbxDays5 name=cbxDays[] value=Fri <?php if ($cbxDays[4]=="Fri") {echo 'checked';} ?>>
                              <label for="cbxDays5">Fr</label>
                         </div>
                     </li>
                     <li>
                         <div class="form-group">
-                             <input type="checkbox" class="subbox" id=cbxDays6 name=cbxDays[] value=Sat <?php if ($cbxDays[0]=="Sat") {echo 'checked';} ?>>
+                             <input type="checkbox" class="subbox" id=cbxDays6 name=cbxDays[] value=Sat <?php if ($cbxDays[5]=="Sat") {echo 'checked';} ?>>
                              <label for="cbxDays6">Sa</label>
                         </div>
                     </li>
                     <li>
                         <div class="form-group">
-                             <input type="checkbox" class="subbox" id=cbxDays7 name=cbxDays[] value=Sun <?php if ($cbxDays[0]=="Sun") {echo 'checked';} ?>>
+                             <input type="checkbox" class="subbox" id=cbxDays7 name=cbxDays[] value=Sun <?php if ($cbxDays[6]=="Sun") {echo 'checked';} ?>>
                              <label for="cbxDays7">Su</label>
                         </div>
                     </li>
@@ -1016,12 +1017,6 @@ button.btn.btn-outline-secondary.border-left-0 {
                         <label class="email" for="EndByDate">End By:</label>
                         <input type="radio" name="radioNoOfTimes" id="radioNoOfTimes" value="EndBy">
                         <input type="text" name="EndByDate" id="EndByDate" placeholder="DD-MM-YYYY">
-                         <script type="text/javascript">                           
-                            $('#EndByDate').datepicker({
-                                uiLibrary: 'bootstrap4',
-                                dateFormat: 'dd-mm-yyyy'
-                            });    
-                        </script>
                      </div>
                   </div>
                    <div class="col-md-3" style="margin-left: 15px;">
@@ -1053,11 +1048,17 @@ $(document).ready(function(){
     var DueDate;
     //$(":input").inputmask();
     $("#StartDate").datepicker({
-                     dateFormat: 'dd/mm/yy'
+                     dateFormat: 'dd-mm-yy'
                     });
+    $('#StartDate').datepicker('setDate', 'today');
     $("#DueDate").datepicker({
-        dateFormat: 'dd/mm/yy'
+        dateFormat: 'dd-mm-yy'
     });
+    $('#DueDate').datepicker('setDate', 'today');
+     $("#EndByDate").datepicker({
+        dateFormat: 'dd-mm-yy'
+    });
+    $('#EndByDate').datepicker('setDate', 'today');
 
     $('#StartDate').change(function(){
         startDate=$(this).datepicker('getDate');

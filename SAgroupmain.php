@@ -133,7 +133,10 @@ $AllTasksTagList = array();
             );
     } 
     
-        
+ $query15= "SELECT CliRecRef FROM `tUser`where RefUSR='$id' ";
+            $sql15 = mysqli_query($mysqli, $query15);
+            $row15 = mysqli_fetch_array($sql15);
+            $CliRecRef = $row15["CliRecRef"];        
 
 
     GLOBAL $AccessLevel;
@@ -172,8 +175,9 @@ $AllTasksTagList = array();
         }
         else            //----- add new rocord
         {
-            $query2="INSERT INTO `tTaskgCode`( `gTitle`,     `gUsedFor`,         `Status`) 
-                                    VALUES ( '$NewTitle', 'TASKMAINGROUP', '$selAccountStatus') " ;
+            
+           $query2="INSERT INTO `tTaskgCode`( `gTitle`,     `gUsedFor`,         `Status`, `CliRecRef`) 
+                                    VALUES ( '$NewTitle', 'TASKMAINGROUP', '$selAccountStatus','$CliRecRef') " ;
             $sql2 = mysqli_query($mysqli, $query2);
             //$uUSRIDNO=$mysqli->insert_id;
     
@@ -231,6 +235,11 @@ $AllTasksTagList = array();
   color: white;
 }
 
+@media screen and (min-width: 1668px) {
+  #customers {
+       margin-left: 400px;
+    }
+}
 </style>
 <style>
 #customers {
@@ -243,6 +252,7 @@ $AllTasksTagList = array();
 #customers td, #customers th {
   border: 1px solid #ddd;
   padding: 8px;
+  text-align: left;
 }
 
 
@@ -287,7 +297,7 @@ select:focus{
   background-color: lightblue;
 }
 .button{
-    background-color: #e74c3c;
+    background-color: #4caaaf;
     border: none;
     color: white;
     padding: 10px 35px;
@@ -344,7 +354,7 @@ function validcheck1()
   <a class="btn1 active" href="SAgroupmain.php">Main Groups</a>
   <a class="btn1 " href="SAgroupsub.php">Sub Groups</a>
   <a class="btn1" href="SAcompanyacc.php">Company Account</a>
-  <a class="btn1" href="">User Management</a>
+  <a class="btn1" href="Umanagement.php">User Management</a>
  
 </div>
 
@@ -357,22 +367,18 @@ function validcheck1()
   <input type="text" id="NewTitle" name="NewTitle" placeholder="Task Main Group Title"  value="<?php echo $gTitle; ?>" required>
   
   <select name="selAccountStatus" id="selAccountStatus" required>
-    <option>Status</option>
   <option value="ACT" <?php if($selAccountStatus=='ACT') { ?> selected="selected" <?php } ?> >Active</option>
                         <option value="INA" <?php if($selAccountStatus=='INA') { ?> selected="selected" <?php } ?> >In-Active</option>
   </select>
   
   <button class="button"  name="btnSave" value="SaveGroup" onclick="validcheck1()">Save Group</button>
-  <p>&nbsp;</p>
-                     
-                     <?php if ($SuccessMessage!='') echo $SuccessMessage; ?>
 
 </div>
-<div class=hbox> <h3 style="color: #43BFC7;">Main Group List</h3> </div>
+<div class=hbox> <h3 style="color: #6f6467;">Main Group List</h3> </div>
   <div style="margin-top:5px;">
   <?php 
 
-$query6 = "SELECT * FROM `tTaskgCode` WHERE gUsedFor='TASKMAINGROUP' ORDER BY `gTitle` ";
+$query6 = "SELECT * FROM `tTaskgCode` WHERE gUsedFor='TASKMAINGROUP' AND CliRecRef = '$CliRecRef' ORDER BY `gTitle` ";
 $sql6 = mysqli_query($mysqli, $query6);
 $TACount=mysqli_num_rows($sql6);
     //    printf("Result = %d , %d rows.\n",$id ,$TSCount);
@@ -383,7 +389,7 @@ if ($TACount>0)
 
 
   <tr>
-    <th>Code</th>
+    <!-- <th>Code</th> -->
     <th>Group Title</th>
     <th>Used For</th>
     <th>Status</th>
@@ -398,11 +404,11 @@ if ($TACount>0)
                              $Status = $row6["Status"];
                              ?> 
   <tr>
-    <td><?php echo $gRecRef?></td>
+    <!-- <td><?php //echo $gRecRef?></td> -->
     <td><?php echo $gTitle?></td>
     <td><?php echo $gUsedFor?></td>
     <td><?php echo $Status?></td>
-    <td>
+    <td style="text-align: center";>
     <a target="_self" title="  Edit Group  " href="SAgroupmain.php?RIDNO=<?php echo $gRecRef?>&ToAct=EDIT" >
                                        <img src="images/iconedit.png" alt="EDIT" height="20" width="20" border=0></a>  
     </td>

@@ -81,11 +81,21 @@
                <span style="vertical-align: middle;"><label class="lbl"><?php echo $loginame; ?></label>&nbsp;&nbsp;</span>
                <a class="topicons" href='SAusermgmt.php' target='_self' title="Personal Profile"><img src="images/Profile.svg" height="40" style="vertical-align:middle;margin:10px 16px 0px 0px;" />  </a>
                <a class="topicons" onclick="popup('popUpDiv','invite_friends','')" title="Invite Friends"><img src="images/Email.svg" height="40" style="vertical-align:middle;margin:10px 16px 0px 0px;" />  </a>
+             
                <a class="topicons" href='SAgroupmain.php' target='_self' title="Configuration"><img src="images/setting.png" height="40" style="vertical-align:middle;margin:10px 16px 0px 0px;" />  </a>
+            
                <a class="topicons" href='https://teampod.co.uk/TeamPod/index.php'  title="Signout"><img src="images/Logout.svg" height="40" style="vertical-align:middle;margin:10px 40px 0px 0px;" /></a>  
             </div>
          </div>
       </form>
+      <style type="text/css">
+           .hide1{
+              display: none;
+           }
+            .show1{
+              /*display: block;*/
+           }
+      </style>
       <div class="sidenav">
          <a href="#" title="Today"  onclick="window.location.href='ptoday.php';" <?php echo $divmenuMTODAY; ?> ><img class="webicon" width="20px" <?php echo $divmenuMTODAYimg ?> /> <span class="navlabel">&nbsp Today</span> <img class="mobicon" width="50px" <?php echo $divmenuMTODAYimg ?> /> </a>
          <a href="#" title="All Items" onclick="window.location.href='pallitems.php'" <?php echo $divmenuMALLITEMS; ?> ><img class="webicon" width="20px" <?php echo $divmenuMALLITEMSimg ?> /><span class="navlabel"> &nbsp All Items</span> <img class="mobicon" width="50px" <?php echo $divmenuMALLITEMSimg ?> /></a>
@@ -245,9 +255,7 @@
              if (r == true) {
              fortid = "EditTaskRef"+rowid;
              taskid = document.getElementById(fortid).value; 
-             
              var dataString = "ForTaskid=" + taskid + "&tagid=" + id + "&row=" + rowid + "&cat=removetag" ;
-         
              $.ajax({  
          		type: "POST",  
          		url: "ptaskload.php",  
@@ -469,7 +477,8 @@
          
          function loadsubgrp1(rowid) {
              group = document.getElementById('eMainGroup'+rowid).value;
-             var dataString = "group=" + group + "&cat=loadsubgrp" ;
+             var dataString = "group=" + group + "&cat=loadsubgrp1" ;
+             alert(dataString);
              $.ajax({  
          		type: "POST",  
          		url: "ptaskload.php",  
@@ -639,10 +648,16 @@
          		success: function(response)
          		{   
          		    document.getElementById(forid).value ="";
-         		    var fordiv='tab-2'+rowid;
+         		    var fordiv='tab-10'+rowid;
                      document.getElementById(fordiv).style.display = "none";
                      document.getElementById("ntaskid"+rowid).value ="";
                      document.getElementById("notid"+rowid).value ="";
+                     var fordiv='clockstarticon1'+rowid;
+                    document.getElementById(fordiv).style.display = "none";
+                    var fordiv='clockstarticon10'+rowid;
+                    document.getElementById(fordiv).style.display = "none";
+                    var fordiv='clockstarticon2'+rowid;
+                    document.getElementById(fordiv).style.display = "inline";
                      var activeclass = 'clockstarticon2'+rowid;
                      $('#'+activeclass).removeClass('active');   
                      $(".successmsg").html('Note added Successfully!').fadeIn(500);
@@ -1646,32 +1661,92 @@
          //clock();
          
            function fnTypeFilterRow() {
-           var input, filter, table, tr, td, i, txtValue;
-           input = document.getElementById("myInput");
-           filter = input.value.toUpperCase();
-         for (const element of document.getElementsByClassName("myTable")){
-           //table = document.getElementById("myTable");
-           tr = element.getElementsByTagName("tr");
-           for (i = 0; i < tr.length; i++) {
-              if (tr[i].id!=""){
-             td = tr[i].getElementsByTagName("td")[1];
-         
-             if (td) {
-               txtValue = td.textContent || td.innerText;
-               //alert(txtValue);
-               if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                 x="dv-"+tr[i].id;
-                 //alert(txtValue);
-                 document.getElementById(x).style.display = "";
-               } else {
-                   //alert(tr[i].id);
-                 x="dv-"+tr[i].id;
-                 document.getElementById(x).style.display = "none";
+            var input, filter, table, tr, td, i, txtValue;
+               input = document.getElementById("myInput");
+               var countcell = $("#CountCells").val();
+
+               filter = input.value.toUpperCase();
+               var a = 0;
+               var b = 0;
+               var c = 0;
+               var d = 0;
+               if(filter!=""){
+                    for (var i=0;i<countcell;i++){                           
+                        var text = $("#title"+i).html();
+                        var main = $("#maintask"+i).html();
+                        var result = text.toLowerCase();
+                        var result1 = main.toLowerCase();
+                        var input1 = filter.toLowerCase();
+                        var  position1 = result.search(input1);
+                        var  position2 = result1.search(input1);
+                        if(parseInt(position1)+parseInt(position2) >= 0 ){
+                            $("#dv-"+i).addClass("show1");
+                            $("#dv-"+i).css("display","block");
+                            $("#dv-"+i).show();
+                            if($("#dv-"+i).attr('class')=="maintab-box t1 show1"||$("#dv-"+i).attr('class')=="maintab-box show1"){
+                                a++;
+                            }
+                            if($("#dv-"+i).attr('class')=="maintab-box t2 show1"){
+                                b++;
+                            }
+                            if($("#dv-"+i).attr('class')=="maintab-box t3 show1"){
+                                c++;
+                            }
+
+                        }else if(position1==0||position2==0){
+                            $("#dv-"+i).addClass("show1");
+                            $("#dv-"+i).css("display","block");
+                            $("#dv-"+i).show();
+                             if($("#dv-"+i).attr('class')=="maintab-box t1 show1" ||$("#dv-"+i).attr('class')=="maintab-box show1"){
+                                a++;
+                            }
+                            if($("#dv-"+i).attr('class')=="maintab-box t2 show1"){
+                               b++;
+                            }
+                            if($("#dv-"+i).attr('class')=="maintab-box t3 show1"){
+                                c = parseInt(c)+1;
+                            }
+                        }else{
+                           $("#dv-"+i).removeClass("show1");
+                            $("#dv-"+i).hide();
+                            $("#dv-"+i).css("display","none");
+                            $(".maintab-box").css("display","none");
+                        }
+                   }
+                            $(".show1").show();
+                            var items25 = $(".show1");
+                            var numItems25 = items25.length;
+                            var perPage25 = 20;
+                            items25.slice(perPage25).hide();
+
+                            $('#pagination-container2').pagination({
+                                items: numItems25,
+                                itemsOnPage: perPage25,
+                                prevText: "&laquo;",
+                                nextText: "&raquo;",
+                                onPageClick: function (pageNumber25) {
+                                    var showFrom25 = perPage25 * (pageNumber25 - 1);
+                                    var showTo25 = showFrom25 + perPage25;
+                                    items25.hide().slice(showFrom25, showTo25).show();
+                                }
+                            });
+
+                            
+
+
+                            $("#odcount").html(a);
+                            $("#tdcount").html(b);
+                            $("#tmcount").html(c);
+
+                            $("#allitemsacount").html(numItems25);
+                        
+               }else{
+                  console.log("f");
+                  for (var i=0;i<countcell;i++){  
+                     $("#dv-"+i).css("display","block");
+                  }
+                   $("#allitemsacount").html(countcell);
                }
-             }       
-           }
-           }
-         }
          }
       </script>
    </body>
@@ -1679,7 +1754,7 @@
       <!--css popup window 1-->
       <div style="display: none;" id="blanket"></div>
       <div style="display: none;" id="popUpDiv">
-         <a onclick="popup('popUpDiv')"><img style="border:none;background:#eee;float:right" alt="" src="images/Close.svg" /></a><br /><br />
+         <a href="" ><img style="float:right" alt="" src="images/Close.svg" /></a><br /><br />
          <div class="popup"></div>
       </div>
       <!--css popup window 1 close-->

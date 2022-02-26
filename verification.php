@@ -20,7 +20,7 @@ $NewUserReff=$_GET["rstr"];
                     $row1=mysqli_fetch_array($sql1);
                     //$existCount=mysqli_num_rows($sql1);
                          //   echo "<script> alert ('User Count = $existCount ');</script>";
-                    if ($row1[Status]!='A')
+                    if ($row1[Status]!='ACT')
                     {  
                         $query3="update `tUser` set `Status`='ACT' where `RefUSR`='$NewUserID' " ;
        
