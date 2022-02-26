@@ -249,7 +249,7 @@ if ($cStage!="Completed") {
                }
                if($Prioritysub=='P3'){
                    $outall.= '<img src="images/P3.svg" class="tab-img-1">';
-               }$outall.='<p onclick=popup("popUpDiv","subtasknotes",'.$celnodv.','.$scelnodv.')>'.$TaskTitlesub.'</p>
+               }$outall.='<a onclick=popup("popUpDiv","subtasknotes",'.$celnodv.','.$scelnodv.')>'.$TaskTitlesub.'</a>
                               </div>
                            </div>
                      <p> Description - '.$Descrsub.'

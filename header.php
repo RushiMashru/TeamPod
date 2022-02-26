@@ -1533,8 +1533,7 @@
             }
             
             if (page == 'calendar') {
-             //fortid = "EditTaskRef"+rowid;
-             //taskid = document.getElementById(fortid).value; 
+            
              
              var dataString = "ForTaskid=" + rowid + "&cat=tasknotes";
          	$.ajax({  
@@ -1671,7 +1670,7 @@
          //clock();
          
            function fnTypeFilterRow() {
-            var input, filter, table, tr, td, i, txtValue;
+           var input, filter, table, tr, td, i, txtValue;
                input = document.getElementById("myInput");
                var countcell = $("#CountCells").val();
 
@@ -1720,8 +1719,8 @@
                             $("#dv-"+i).addClass("hide1");
                         }
 
-                       
-                            var items = $(".show1");
+                         
+                            var items = $(".t1 show1");
                             var numItems = items.length;
                             var perPage = 20;
 
@@ -1738,10 +1737,48 @@
                                     items.hide().slice(showFrom, showTo).show();
                                 }
                             });
+
+                            var items2 = $(".t3 show1");
+    var numItems2 = items2.length;
+    var perPage2 = 20;
+
+    items2.slice(perPage2).hide();
+
+    $('#pagination-container3').pagination({
+        items: numItems2,
+        itemsOnPage: perPage2,
+        prevText: "&laquo;",
+        nextText: "&raquo;",
+        onPageClick: function (pageNumber2) {
+            var showFrom2 = perPage2 * (pageNumber2 - 1);
+            var showTo2 = showFrom2 + perPage2;
+            items2.hide().slice(showFrom2, showTo2).show();
+        }
+    });
+
+     var items1 = $(".t2 show1");
+    var numItems1 = items1.length;
+    var perPage1 = 20;
+
+    items1.slice(perPage1).hide();
+
+    $('#pagination-container1').pagination({
+        items: numItems1,
+        itemsOnPage: perPage1,
+        prevText: "&laquo;",
+        nextText: "&raquo;",
+        onPageClick: function (pageNumber1) {
+            var showFrom1 = perPage1 * (pageNumber1 - 1);
+            var showTo1 = showFrom1 + perPage1;
+            items1.hide().slice(showFrom1, showTo1).show();
+        }
+    });
+
+
                             $("#odcount").html(a);
                             $("#tdcount").html(b);
                             $("#tmcount").html(c);
-                   }
+
                         
                }else{
                   for (var i=0;i<countcell;i++){  
